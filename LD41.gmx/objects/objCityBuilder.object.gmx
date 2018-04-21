@@ -111,6 +111,12 @@ with ghost {
         or instance_place(other.hoverX, other.hoverY+other.cellHeight, objCityCellRoad)
         or instance_place(other.hoverX, other.hoverY-other.cellHeight, objCityCellRoad))
         and other.money &gt;= other.buildingCost
+    
+    if other.buildingIndex == 0 {
+        scrRoadUpdateSprite()
+    } else {
+        image_index = 0
+    }
 }
     
 // Place buildings

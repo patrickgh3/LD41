@@ -22,12 +22,14 @@
     <sprite>sprites\sprBasePersonWalk</sprite>
     <sprite>sprites\sprBasePersonIdle</sprite>
     <sprite>sprites\sprEnemyPlaceholder</sprite>
+    <sprite>sprites\sprGun</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
   <scripts name="scripts">
     <script>scripts\scrMouseInWindow.gml</script>
     <script>scripts\scrDrawTextOutline.gml</script>
+    <script>scripts\scrRoadUpdateSprite.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\fontBuild</font>

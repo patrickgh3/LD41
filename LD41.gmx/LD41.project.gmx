@@ -24,7 +24,11 @@
   <scripts name="scripts">
     <script>scripts\scrMouseInWindow.gml</script>
     <script>scripts\scrRoadAtPosition.gml</script>
+    <script>scripts\scrDrawTextOutline.gml</script>
   </scripts>
+  <fonts name="fonts">
+    <font>fonts\fontBuild</font>
+  </fonts>
   <objects name="objects">
     <object>objects\objShootPlayer</object>
     <object>objects\objWall</object>

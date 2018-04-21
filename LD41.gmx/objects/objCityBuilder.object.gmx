@@ -41,8 +41,11 @@ lastPlacedY = 0
 suppressIndicatorLastPlaced = false
 
 buildingIndex = 0
+buildingCost = 0
 ghost = instance_create(0, 0, objGhostCityCell)
 ghost.image_alpha = 0.5
+
+money = 450
 </string>
           </argument>
         </arguments>
@@ -89,10 +92,13 @@ if keyboard_check_pressed(ord('3')) {
 
 if buildingIndex == 0 {
     ghost.sprite_index = sprRoad
+    buildingCost = 20
 } else if buildingIndex == 1 {
     ghost.sprite_index = sprHouse
+    buildingCost = 50
 } else if buildingIndex == 2 {
     ghost.sprite_index = sprTestWeirdShape
+    buildingCost = 300
 }
 
 // Do collisions checks to see if it's ok to place here
@@ -104,6 +110,7 @@ with ghost {
         or instance_place(other.hoverX-other.cellWidth, other.hoverY, objCityCellRoad)
         or instance_place(other.hoverX, other.hoverY+other.cellHeight, objCityCellRoad)
         or instance_place(other.hoverX, other.hoverY-other.cellHeight, objCityCellRoad))
+        and other.money &gt;= other.buildingCost
 }
     
 // Place buildings
@@ -132,6 +139,8 @@ if mouse_check_button_pressed(mb_left) and okToPlace {
     suppressIndicatorLastPlaced = true
     lastPlacedX = hoverX
     lastPlacedY = hoverY
+    
+    money -= buildingCost
 }
 
 // Stop suppressing indicator when we move our mouse away from the cell
@@ -202,21 +211,37 @@ if scrMouseInWindow() {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if not enabled or not readyToDraw or suppressIndicatorLastPlaced {
+            <string>if not enabled or not readyToDraw {
     exit
 }
 
-var flash = floor(animT/10) mod 2 == 0
+if not suppressIndicatorLastPlaced {
+    var flash = floor(animT/10) mod 2 == 0
+    
+    //if okToPlace {
+    //    draw_sprite_ext(sprHouse, 0, hoverX, hoverY, 1, 1, 0, c_white, 0.5)
+    //}
+    
+    var xAlpha = 0.5
+    if flash and okToPlace xAlpha = 1
+    ghost.image_alpha = xAlpha
+    
+    draw_sprite_ext(sprCityCellNoPlace, okToPlace, hoverX, hoverY, 1, 1, 0, c_white, 1)
+}
 
-//if okToPlace {
-//    draw_sprite_ext(sprHouse, 0, hoverX, hoverY, 1, 1, 0, c_white, 0.5)
-//}
+draw_set_font(fontBuild)
 
-var xAlpha = 0.5
-if flash and okToPlace xAlpha = 1
-ghost.image_alpha = xAlpha
+// Not enough money text
+if (money &lt; buildingCost) {
+    draw_set_halign(fa_center)
+    draw_set_valign(fa_top)
+    scrDrawTextOutline(mouse_x, mouse_y-25, "Not enough cash...", c_red, c_black)
+}
 
-draw_sprite_ext(sprCityCellNoPlace, okToPlace, hoverX, hoverY, 1, 1, 0, c_white, 1)
+// Money text
+draw_set_halign(fa_left)
+draw_set_valign(fa_top)
+scrDrawTextOutline(view_xview+5, view_yview+view_hview-15, '$'+string(money), c_lime, c_black)
 </string>
           </argument>
         </arguments>

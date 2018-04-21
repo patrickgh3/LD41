@@ -74,6 +74,11 @@ sprite_index = -1
         
         with objCityCell {
             t = 0
+            citizenOut = false
+        }
+        
+        with objCitizen {
+            instance_destroy()
         }
         
     } else if (state == GAME_STATE.SHOOT) {

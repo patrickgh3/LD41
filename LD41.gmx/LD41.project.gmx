@@ -36,8 +36,16 @@
       <sprite>sprites\sprFactory</sprite>
       <sprite>sprites\sprFactory2</sprite>
     </sprites>
-    <sprite>sprites\sprBasePersonWalk</sprite>
-    <sprite>sprites\sprBasePersonIdle</sprite>
+    <sprites name="Citizens">
+      <sprite>sprites\sprBakerIdle</sprite>
+      <sprite>sprites\sprBakerWalk</sprite>
+      <sprite>sprites\sprHatGuyIdle</sprite>
+      <sprite>sprites\sprHatGuyWalk</sprite>
+      <sprite>sprites\sprPoliceIdle</sprite>
+      <sprite>sprites\sprPoliceWalk</sprite>
+      <sprite>sprites\sprBasePersonIdle</sprite>
+      <sprite>sprites\sprBasePersonWalk</sprite>
+    </sprites>
     <sprite>sprites\sprEnemyPlaceholder</sprite>
     <sprite>sprites\sprDustParticle</sprite>
   </sprites>
@@ -67,6 +75,7 @@
     <object>objects\objText</object>
     <object>objects\objParticle</object>
     <object>objects\objEnemy</object>
+    <object>objects\objCitizen</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>

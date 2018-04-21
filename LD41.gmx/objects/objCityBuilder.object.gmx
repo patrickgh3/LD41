@@ -25,8 +25,8 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>cellWidth = 128
-cellHeight = 128
+            <string>cellWidth = 32
+cellHeight = 32
 
 hoverX = 0
 hoverY = 0
@@ -35,6 +35,10 @@ animT = 0
 readyToDraw = false
 
 enabled = false
+
+lastPlacedX = 0
+lastPlacedY = 0
+suppressIndicatorLastPlaced = false
 </string>
           </argument>
         </arguments>
@@ -69,19 +73,54 @@ hoverX = floor(mouse_x/cellWidth)*cellWidth
 hoverY = floor(mouse_y/cellHeight)*cellHeight
 
 okToPlace = not instance_position(hoverX, hoverY, objCityCell)
+    and (scrRoadAtPosition(hoverX+cellWidth, hoverY)
+    or scrRoadAtPosition(hoverX-cellWidth, hoverY)
+    or scrRoadAtPosition(hoverX, hoverY+cellHeight)
+    or scrRoadAtPosition(hoverX, hoverY-cellHeight))
 
 // Place buildings
 if mouse_check_button_pressed(mb_left) and okToPlace {
-    instance_create(hoverX, hoverY, objCityCell)
+    with instance_create(hoverX, hoverY, objCityCell) {
+        sprite_index = sprHouse
+        with instance_create(x, y, objWall) {
+            image_xscale = 0.5
+            image_yscale = 0.5
+            x += 8
+            y += 8
+        }
+    }
+    
     okToPlace = false
+    suppressIndicatorLastPlaced = true
+    lastPlacedX = hoverX
+    lastPlacedY = hoverY
+}
+
+if mouse_check_button_pressed(mb_right) and okToPlace {
+    with instance_create(hoverX, hoverY, objCityCell) {
+        sprite_index = sprRoad
+        isRoad = true
+    }
+    
+    okToPlace = false
+    suppressIndicatorLastPlaced = true
+    lastPlacedX = hoverX
+    lastPlacedY = hoverY
+}
+
+// Stop suppressing indicator when we move our mouse away from the cell
+// we just built on.
+if suppressIndicatorLastPlaced and
+    (hoverX != lastPlacedX or hoverY != lastPlacedY) {
+    suppressIndicatorLastPlaced = false
 }
 
 // Scroll the camera when you move your mouse to the edges
 if scrMouseInWindow() {
-    var scrollSpeed = 10
+    var scrollSpeed = 2
     var edgeDist = 50 // How close to the edge the mouse must be to scroll
     
-    if mouse_x &lt; view_xview+edgeDist {
+    /*if mouse_x &lt; view_xview+edgeDist {
         view_xview -= scrollSpeed
     }
     if mouse_x &gt; view_xview+view_wview-edgeDist {
@@ -92,12 +131,25 @@ if scrMouseInWindow() {
     }
     if mouse_y &gt; view_yview+view_hview-edgeDist {
         view_yview += scrollSpeed
+    }*/
+    
+    if keyboard_check(ord('A')) {
+        view_xview -= scrollSpeed
+    }
+    if keyboard_check(ord('D')) {
+        view_xview += scrollSpeed
+    }
+    if keyboard_check(ord('W')) {
+        view_yview -= scrollSpeed
+    }
+    if keyboard_check(ord('S')) {
+        view_yview += scrollSpeed
     }
     
-    var minCameraX = -1000
-    var maxCameraX = 1000
-    var minCameraY = -1000
-    var maxCameraY = 1000
+    var minCameraX = -200
+    var maxCameraX = 200
+    var minCameraY = -200
+    var maxCameraY = 200
     
     view_xview = clamp(view_xview, minCameraX, maxCameraY)
     view_yview = clamp(view_yview, minCameraY, maxCameraY)
@@ -124,14 +176,14 @@ if scrMouseInWindow() {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if not enabled or not readyToDraw {
+            <string>if not enabled or not readyToDraw or suppressIndicatorLastPlaced {
     exit
 }
 
 var flash = floor(animT/10) mod 2 == 0
 
 if okToPlace {
-    draw_sprite_ext(sprCityCellTemp, 0, hoverX, hoverY, 1, 1, 0, c_white, 0.5)
+    draw_sprite_ext(sprHouse, 0, hoverX, hoverY, 1, 1, 0, c_white, 0.5)
 }
 
 var xAlpha = 0.5

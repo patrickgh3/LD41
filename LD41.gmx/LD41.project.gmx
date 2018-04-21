@@ -6,16 +6,23 @@
   <NewExtensions/>
   <sounds name="sound"/>
   <sprites name="sprites">
-    <sprite>sprites\sprShootPlayerTemp</sprite>
-    <sprite>sprites\sprWall</sprite>
-    <sprite>sprites\sprBulletTemp</sprite>
-    <sprite>sprites\sprCityCellTemp</sprite>
-    <sprite>sprites\sprCityCellNoPlace</sprite>
+    <sprites name="Placeholders / Masks">
+      <sprite>sprites\sprShootPlayerTemp</sprite>
+      <sprite>sprites\sprWall</sprite>
+      <sprite>sprites\sprBulletTemp</sprite>
+      <sprite>sprites\sprCityCell</sprite>
+      <sprite>sprites\sprCityCellNoPlace</sprite>
+    </sprites>
+    <sprite>sprites\sprPlayerCheeze</sprite>
+    <sprite>sprites\sprPlayerMask</sprite>
+    <sprite>sprites\sprHouse</sprite>
+    <sprite>sprites\sprRoad</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
   <scripts name="scripts">
     <script>scripts\scrMouseInWindow.gml</script>
+    <script>scripts\scrRoadAtPosition.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\objShootPlayer</object>

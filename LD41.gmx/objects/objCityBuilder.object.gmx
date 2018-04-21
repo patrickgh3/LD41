@@ -141,6 +141,14 @@ if mouse_check_button_pressed(mb_left) and okToPlace {
     lastPlacedY = hoverY
     
     money -= buildingCost
+    
+    with instance_create(hoverX+cellWidth/2, hoverY+cellHeight/2, objText) {
+        text = '-$'+string(other.buildingCost)
+        color = c_red
+        vspeed = -0.5
+        destroyT = 30
+        halign = fa_center
+    }
 }
 
 // Stop suppressing indicator when we move our mouse away from the cell
@@ -216,32 +224,69 @@ if scrMouseInWindow() {
 }
 
 if not suppressIndicatorLastPlaced {
-    var flash = floor(animT/10) mod 2 == 0
+    // Flashing ghost
+    ghost.image_alpha = 0.5
+    if floor(animT/10) mod 2 == 0 and okToPlace {
+        ghost.image_alpha = 1
+    }
+    with ghost {
+        draw_self()
+    }
     
-    //if okToPlace {
-    //    draw_sprite_ext(sprHouse, 0, hoverX, hoverY, 1, 1, 0, c_white, 0.5)
-    //}
+    // Red or green squares
+    for (var i=0; i&lt;2; i++) {
+        var xx = hoverX+i*cellWidth
+        for (var j=0; j&lt;2; j++) {
+            var yy = hoverY+j*cellHeight
+            
+            if instance_position(xx, yy, objGhostCityCell) {
+                draw_sprite_ext(sprCityCellNoPlace, okToPlace, xx, yy, 1, 1, 0, c_white, 1)
+            }
+        }
+    }
     
-    var xAlpha = 0.5
-    if flash and okToPlace xAlpha = 1
-    ghost.image_alpha = xAlpha
-    
-    draw_sprite_ext(sprCityCellNoPlace, okToPlace, hoverX, hoverY, 1, 1, 0, c_white, 1)
+    // Cost text
+    draw_set_font(fontBuild)
+    draw_set_halign(fa_center)
+    draw_set_valign(fa_top)
+    var textColor = c_lime
+    if money &lt; buildingCost {
+        textColor = c_red
+    }
+    scrDrawTextOutline(hoverX+cellWidth/2, hoverY+cellHeight/2, '$'+string(buildingCost), textColor, c_black)
 }
 
-draw_set_font(fontBuild)
+// Scroll screen arrows
+var arrowD = 12+3*sin(animT/60*pi*2)
+var alpha = 1
+if floor(animT/30) mod 2 == 0 {
+    //alpha = 0
+}
+draw_sprite_ext(sprScrollArrow, 0, view_xview+view_wview-arrowD, view_yview+view_hview/2, 1, 1, 0, c_white, alpha)
+draw_sprite_ext(sprScrollArrow, 0, view_xview+arrowD, view_yview+view_hview/2, 1, 1, 180, c_white, alpha)
+draw_sprite_ext(sprScrollArrow, 0, view_xview+view_wview/2, view_yview+view_hview-arrowD, 1, 1, 270, c_white, alpha)
+draw_sprite_ext(sprScrollArrow, 0, view_xview+view_wview/2, view_yview+arrowD, 1, 1, 90, c_white, alpha)
 
 // Not enough money text
-if (money &lt; buildingCost) {
+/*if (money &lt; buildingCost) and not suppressIndicatorLastPlaced {
+    draw_set_font(fontBuild)
     draw_set_halign(fa_center)
     draw_set_valign(fa_top)
     scrDrawTextOutline(mouse_x, mouse_y-25, "Not enough cash...", c_red, c_black)
-}
+}*/
 
 // Money text
+draw_set_font(fontBuild)
 draw_set_halign(fa_left)
 draw_set_valign(fa_top)
 scrDrawTextOutline(view_xview+5, view_yview+view_hview-15, '$'+string(money), c_lime, c_black)
+
+// Cost text
+//draw_set_font(fontBuild)
+//draw_set_halign(fa_left)
+//draw_set_valign(fa_top)
+//scrDrawTextOutline(view_xview+160, view_yview+view_hview-15, 'Cost: $'+string(buildingCost), c_white, c_black)
+
 </string>
           </argument>
         </arguments>

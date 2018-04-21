@@ -18,12 +18,15 @@
     <sprite>sprites\sprPlayerMask</sprite>
     <sprite>sprites\sprHouse</sprite>
     <sprite>sprites\sprRoad</sprite>
+    <sprite>sprites\sprScrollArrow</sprite>
+    <sprite>sprites\sprBasePersonWalk</sprite>
+    <sprite>sprites\sprBasePersonIdle</sprite>
+    <sprite>sprites\sprEnemyPlaceholder</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
   <scripts name="scripts">
     <script>scripts\scrMouseInWindow.gml</script>
-    <script>scripts\scrRoadAtPosition.gml</script>
     <script>scripts\scrDrawTextOutline.gml</script>
   </scripts>
   <fonts name="fonts">
@@ -38,6 +41,7 @@
     <object>objects\objCityCellRoad</object>
     <object>objects\objGhostCityCell</object>
     <object>objects\objGameController</object>
+    <object>objects\objText</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>

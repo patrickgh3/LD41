@@ -28,6 +28,7 @@
             <string>image_speed = 1/15
 drawXScale = 1
 aimDir = 0
+t = 0
 </string>
           </argument>
         </arguments>
@@ -104,8 +105,12 @@ if mouse_check_button(mb_left) {
         image_angle = direction
         speed = 10
     }
+    
+    t++
+    if (t mod 4 == 0) {
+        audio_play_sound(sndGunshot, 0, false)
+    }
 }
-
 // Move the camera
 
 view_xview += (x-view_wview/2 - view_xview) * 0.2

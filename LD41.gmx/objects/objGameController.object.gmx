@@ -36,6 +36,8 @@ debugMode = true
 debugWallsVisible = false
 
 sprite_index = -1
+
+global.font10 = font_add('Pixel_Emulator.otf', 10, false, false, -1, -1)
 </string>
           </argument>
         </arguments>

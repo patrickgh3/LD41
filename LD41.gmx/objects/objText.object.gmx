@@ -31,7 +31,7 @@ color = c_white
 outlineColor = c_black
 halign = fa_left
 valign = fa_top
-font = fontBuild
+font = global.font10
 
 t = 0
 </string>

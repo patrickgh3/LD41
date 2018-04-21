@@ -31,6 +31,7 @@ t = 0
 spawnT = irandom_range(150, 200)
 
 citizenOut = false
+citizenSpawnT = irandom_range(1, 200)
 </string>
           </argument>
         </arguments>
@@ -54,11 +55,17 @@ citizenOut = false
           <argument>
             <kind>1</kind>
             <string>if objGameController.state == GAME_STATE.BUILD {
+    t++
+    
     if (structureType == STRUCTURE.HOUSE
     or structureType == STRUCTURE.FACTORY)
-    and not citizenOut {
+    and not citizenOut
+    and t &gt;= citizenSpawnT {
         citizenOut = true
-        instance_create(x, y, objCitizen)
+        instance_create(
+            x+objCityBuilder.cellWidth/2,
+            y+objCityBuilder.cellHeight/2,
+            objCitizen)
     }
 }
 

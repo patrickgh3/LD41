@@ -9,13 +9,21 @@
     <sprite>sprites\sprShootPlayerTemp</sprite>
     <sprite>sprites\sprWall</sprite>
     <sprite>sprites\sprBulletTemp</sprite>
+    <sprite>sprites\sprCityCellTemp</sprite>
+    <sprite>sprites\sprCityCellNoPlace</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
+  <scripts name="scripts">
+    <script>scripts\scrMouseInWindow.gml</script>
+  </scripts>
   <objects name="objects">
     <object>objects\objShootPlayer</object>
     <object>objects\objWall</object>
     <object>objects\objPlayerBullet</object>
+    <object>objects\objCityBuilder</object>
+    <object>objects\objCityCell</object>
+    <object>objects\objGameController</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>

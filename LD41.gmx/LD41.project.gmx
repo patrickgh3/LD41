@@ -11,6 +11,7 @@
       <sprite>sprites\sprWall</sprite>
       <sprite>sprites\sprBulletTemp</sprite>
       <sprite>sprites\sprCityCell</sprite>
+      <sprite>sprites\sprTestWeirdShape</sprite>
       <sprite>sprites\sprCityCellNoPlace</sprite>
     </sprites>
     <sprite>sprites\sprPlayerCheeze</sprite>
@@ -30,6 +31,8 @@
     <object>objects\objPlayerBullet</object>
     <object>objects\objCityBuilder</object>
     <object>objects\objCityCell</object>
+    <object>objects\objCityCellRoad</object>
+    <object>objects\objGhostCityCell</object>
     <object>objects\objGameController</object>
   </objects>
   <rooms name="rooms">

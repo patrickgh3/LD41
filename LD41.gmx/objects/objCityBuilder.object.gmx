@@ -39,6 +39,10 @@ enabled = false
 lastPlacedX = 0
 lastPlacedY = 0
 suppressIndicatorLastPlaced = false
+
+buildingIndex = 0
+ghost = instance_create(0, 0, objGhostCityCell)
+ghost.image_alpha = 0.5
 </string>
           </argument>
         </arguments>
@@ -72,34 +76,56 @@ animT ++
 hoverX = floor(mouse_x/cellWidth)*cellWidth
 hoverY = floor(mouse_y/cellHeight)*cellHeight
 
-okToPlace = not instance_position(hoverX, hoverY, objCityCell)
-    and (scrRoadAtPosition(hoverX+cellWidth, hoverY)
-    or scrRoadAtPosition(hoverX-cellWidth, hoverY)
-    or scrRoadAtPosition(hoverX, hoverY+cellHeight)
-    or scrRoadAtPosition(hoverX, hoverY-cellHeight))
-
-// Place buildings
-if mouse_check_button_pressed(mb_left) and okToPlace {
-    with instance_create(hoverX, hoverY, objCityCell) {
-        sprite_index = sprHouse
-        with instance_create(x, y, objWall) {
-            image_xscale = 0.5
-            image_yscale = 0.5
-            x += 8
-            y += 8
-        }
-    }
-    
-    okToPlace = false
-    suppressIndicatorLastPlaced = true
-    lastPlacedX = hoverX
-    lastPlacedY = hoverY
+// Temp select which building to place
+if keyboard_check_pressed(ord('1')) {
+    buildingIndex = 0
+}
+if keyboard_check_pressed(ord('2')) {
+    buildingIndex = 1
+}
+if keyboard_check_pressed(ord('3')) {
+    buildingIndex = 2
 }
 
-if mouse_check_button_pressed(mb_right) and okToPlace {
-    with instance_create(hoverX, hoverY, objCityCell) {
-        sprite_index = sprRoad
-        isRoad = true
+if buildingIndex == 0 {
+    ghost.sprite_index = sprRoad
+} else if buildingIndex == 1 {
+    ghost.sprite_index = sprHouse
+} else if buildingIndex == 2 {
+    ghost.sprite_index = sprTestWeirdShape
+}
+
+// Do collisions checks to see if it's ok to place here
+with ghost {
+    x = other.hoverX
+    y = other.hoverY
+    other.okToPlace = not instance_place(other.hoverX, other.hoverY, objCityCell)
+        and (instance_place(other.hoverX+other.cellWidth, other.hoverY, objCityCellRoad)
+        or instance_place(other.hoverX-other.cellWidth, other.hoverY, objCityCellRoad)
+        or instance_place(other.hoverX, other.hoverY+other.cellHeight, objCityCellRoad)
+        or instance_place(other.hoverX, other.hoverY-other.cellHeight, objCityCellRoad))
+}
+    
+// Place buildings
+if mouse_check_button_pressed(mb_left) and okToPlace {
+    var cellObj = objCityCell
+    if buildingIndex == 0 {
+        cellObj = objCityCellRoad
+    }
+    
+    with instance_create(hoverX, hoverY, cellObj) {
+        sprite_index = other.ghost.sprite_index
+        
+        if other.buildingIndex == 1 {
+            with instance_create(x, y, objWall) {
+                image_xscale = 0.5
+                image_yscale = 0.5
+                x += 8
+                y += 8
+            }
+        } else if other.buildingIndex == 2 {
+            mask_index = sprite_index
+        }
     }
     
     okToPlace = false
@@ -182,13 +208,15 @@ if scrMouseInWindow() {
 
 var flash = floor(animT/10) mod 2 == 0
 
-if okToPlace {
-    draw_sprite_ext(sprHouse, 0, hoverX, hoverY, 1, 1, 0, c_white, 0.5)
-}
+//if okToPlace {
+//    draw_sprite_ext(sprHouse, 0, hoverX, hoverY, 1, 1, 0, c_white, 0.5)
+//}
 
 var xAlpha = 0.5
-if flash xAlpha = 1
-draw_sprite_ext(sprCityCellNoPlace, okToPlace, hoverX, hoverY, 1, 1, 0, c_white, xAlpha)
+if flash and okToPlace xAlpha = 1
+ghost.image_alpha = xAlpha
+
+draw_sprite_ext(sprCityCellNoPlace, okToPlace, hoverX, hoverY, 1, 1, 0, c_white, 1)
 </string>
           </argument>
         </arguments>

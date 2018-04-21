@@ -23,6 +23,8 @@
     <sprite>sprites\sprBasePersonIdle</sprite>
     <sprite>sprites\sprEnemyPlaceholder</sprite>
     <sprite>sprites\sprGun</sprite>
+    <sprite>sprites\sprPlayerIdle</sprite>
+    <sprite>sprites\sprPlayerWalk</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>

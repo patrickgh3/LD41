@@ -31,6 +31,7 @@ cellHeight = 32
 hoverX = 0
 hoverY = 0
 okToPlace = false
+okToPlacePhysical = false
 animT = 0
 readyToDraw = false
 
@@ -45,7 +46,7 @@ buildingCost = 0
 ghost = instance_create(0, 0, objGhostCityCell)
 ghost.image_alpha = 0.5
 
-money = 450
+money = 350
 </string>
           </argument>
         </arguments>
@@ -69,6 +70,8 @@ money = 450
           <argument>
             <kind>1</kind>
             <string>if not enabled {
+    readyToDraw = false
+    suppressIndicatorLastPlaced = false
     exit
 }
 
@@ -92,10 +95,10 @@ if keyboard_check_pressed(ord('3')) {
 
 if buildingIndex == 0 {
     ghost.sprite_index = sprRoad
-    buildingCost = 20
+    buildingCost = 30
 } else if buildingIndex == 1 {
     ghost.sprite_index = sprHouse
-    buildingCost = 50
+    buildingCost = 60
 } else if buildingIndex == 2 {
     ghost.sprite_index = sprTestWeirdShape
     buildingCost = 300
@@ -105,12 +108,12 @@ if buildingIndex == 0 {
 with ghost {
     x = other.hoverX
     y = other.hoverY
-    other.okToPlace = not instance_place(other.hoverX, other.hoverY, objCityCell)
+    other.okToPlacePhysical = not instance_place(other.hoverX, other.hoverY, objCityCell)
         and (instance_place(other.hoverX+other.cellWidth, other.hoverY, objCityCellRoad)
         or instance_place(other.hoverX-other.cellWidth, other.hoverY, objCityCellRoad)
         or instance_place(other.hoverX, other.hoverY+other.cellHeight, objCityCellRoad)
         or instance_place(other.hoverX, other.hoverY-other.cellHeight, objCityCellRoad))
-        and other.money &gt;= other.buildingCost
+    other.okToPlace = other.okToPlacePhysical and other.money &gt;= other.buildingCost
     
     if other.buildingIndex == 0 {
         scrRoadUpdateSprite()
@@ -129,18 +132,35 @@ if mouse_check_button_pressed(mb_left) and okToPlace {
     with instance_create(hoverX, hoverY, cellObj) {
         sprite_index = other.ghost.sprite_index
         
-        if other.buildingIndex == 1 {
+        if other.buildingIndex == 0 {
+            scrRoadUpdateSprite()
+            with instance_place(x-other.cellWidth, y, objCityCellRoad) {
+                scrRoadUpdateSprite()
+            }
+            with instance_place(x+other.cellWidth, y, objCityCellRoad) {
+                scrRoadUpdateSprite()
+            }
+            with instance_place(x, y-other.cellHeight, objCityCellRoad) {
+                scrRoadUpdateSprite()
+            }
+            with instance_place(x, y+other.cellHeight, objCityCellRoad) {
+                scrRoadUpdateSprite()
+            }
+            
+        } else if other.buildingIndex == 1 {
             with instance_create(x, y, objWall) {
                 image_xscale = 0.5
                 image_yscale = 0.5
                 x += 8
                 y += 8
             }
+            
         } else if other.buildingIndex == 2 {
             mask_index = sprite_index
         }
     }
     
+    // Hide the X/check indicator until we move our cursor to a different cell
     okToPlace = false
     suppressIndicatorLastPlaced = true
     lastPlacedX = hoverX
@@ -148,8 +168,18 @@ if mouse_check_button_pressed(mb_left) and okToPlace {
     
     money -= buildingCost
     
+    // Money spent floating text
     with instance_create(hoverX+cellWidth/2, hoverY+cellHeight/2, objText) {
         text = '-$'+string(other.buildingCost)
+        color = c_red
+        vspeed = -0.5
+        destroyT = 30
+        halign = fa_center
+    }
+} else if mouse_check_button_pressed(mb_left) and okToPlacePhysical and money &lt; buildingCost {
+    // Not enough money floating text
+    with instance_create(hoverX+cellWidth/2, hoverY+cellHeight/2, objText) {
+        text = 'not enough $'
         color = c_red
         vspeed = -0.5
         destroyT = 30
@@ -165,11 +195,11 @@ if suppressIndicatorLastPlaced and
 }
 
 // Scroll the camera when you move your mouse to the edges
-if scrMouseInWindow() {
-    var scrollSpeed = 2
-    var edgeDist = 50 // How close to the edge the mouse must be to scroll
-    
-    /*if mouse_x &lt; view_xview+edgeDist {
+var scrollSpeed = 2
+var edgeDist = 50 // How close to the edge the mouse must be to scroll
+
+/*if scrMouseInWindow() {
+    if mouse_x &lt; view_xview+edgeDist {
         view_xview -= scrollSpeed
     }
     if mouse_x &gt; view_xview+view_wview-edgeDist {
@@ -180,29 +210,29 @@ if scrMouseInWindow() {
     }
     if mouse_y &gt; view_yview+view_hview-edgeDist {
         view_yview += scrollSpeed
-    }*/
+    }
+}*/
     
-    if keyboard_check(ord('A')) {
-        view_xview -= scrollSpeed
-    }
-    if keyboard_check(ord('D')) {
-        view_xview += scrollSpeed
-    }
-    if keyboard_check(ord('W')) {
-        view_yview -= scrollSpeed
-    }
-    if keyboard_check(ord('S')) {
-        view_yview += scrollSpeed
-    }
-    
-    var minCameraX = -200
-    var maxCameraX = 200
-    var minCameraY = -200
-    var maxCameraY = 200
-    
-    view_xview = clamp(view_xview, minCameraX, maxCameraY)
-    view_yview = clamp(view_yview, minCameraY, maxCameraY)
+if keyboard_check(ord('A')) {
+    view_xview -= scrollSpeed
 }
+if keyboard_check(ord('D')) {
+    view_xview += scrollSpeed
+}
+if keyboard_check(ord('W')) {
+    view_yview -= scrollSpeed
+}
+if keyboard_check(ord('S')) {
+    view_yview += scrollSpeed
+}
+
+var minCameraX = -200
+var maxCameraX = 200
+var minCameraY = -200
+var maxCameraY = 200
+
+view_xview = clamp(view_xview, minCameraX, maxCameraY)
+view_yview = clamp(view_yview, minCameraY, maxCameraY)
 </string>
           </argument>
         </arguments>

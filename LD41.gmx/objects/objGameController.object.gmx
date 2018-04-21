@@ -68,7 +68,7 @@ debugWallsVisible = false
             instance_destroy()
         }
         objCityBuilder.enabled = true
-        objCityBuilder.money = 450
+        objCityBuilder.money = 350
         objCityBuilder.bulidingIndex = 0
     }
 }

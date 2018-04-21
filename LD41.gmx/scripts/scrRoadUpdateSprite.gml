@@ -38,5 +38,5 @@ if left and right and !up and !down {
 } else if !left and right and !up and !down {
     image_index = 15
 } else {
-    image_index = 0
+    image_index = 3
 }

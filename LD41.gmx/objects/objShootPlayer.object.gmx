@@ -50,7 +50,12 @@ aimDir = 0
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>// Walk around
+            <string>// Debug create enemies
+/*if mouse_check_button_pressed(mb_right) {
+    instance_create(mouse_x, mouse_y, objEnemy)
+}*/
+
+// Walk around
 
 var walkSpeed = 2
 
@@ -84,40 +89,9 @@ if h != 0 or v != 0 {
 }
 
 // Move
-
-var xprev = x;
-var yprev = y;
-
-x += h
-y += v
-
-// Wall and city border collisions -
-// If we just walked into a wall, move back, and then rub up against walls
-// in the x direction and the y direction. Same with moving outside the city.
-
-if place_meeting(x, y, objWall) or not place_meeting(x, y, objCityCell) {
-    x = xprev
-    y = yprev
-    
-    for (var i=0; i&lt;abs(h); i++) {
-        x += sign(h)
-        if place_meeting(x, y, objWall) or not place_meeting(x, y, objCityCell) {
-            x -= sign(h)
-            break
-        }
-    }
-    
-    for (var i=0; i&lt;abs(v); i++) {
-        y += sign(v)
-        if place_meeting(x, y, objWall) or not place_meeting(x, y, objCityCell) {
-            y -= sign(v)
-            break
-        }
-    }
-}
+scrMoveContactWallsAndCityBorder(h, v)
 
 // Shoot bullets
-
 aimDir = point_direction(x, y, mouse_x, mouse_y)
 if mouse_check_button(mb_left) {
     var d = 13

@@ -138,6 +138,13 @@ if mouse_check_button_pressed(mb_left) and okToPlace {
     var cellObj = objCityCell
     if structure == STRUCTURE.ROAD {
         cellObj = objCityCellRoad
+        audio_play_sound(sndBuildRoad, 0, false)
+    } else if structure == STRUCTURE.HOUSE {
+        cellObj = objCityCellHouse
+        audio_play_sound(sndBuildFactory, 0, false)
+    } else if structure == STRUCTURE.FACTORY {
+        cellObj = objCityCellFactory
+        audio_play_sound(sndBuildFactory, 0, false)
     }
     
     with instance_create(hoverX, hoverY, cellObj) {
@@ -176,8 +183,6 @@ if mouse_check_button_pressed(mb_left) and okToPlace {
     suppressIndicatorLastPlaced = true
     lastPlacedX = hoverX
     lastPlacedY = hoverY
-    
-    audio_play_sound(sndBuild, 0, false)
     
     money -= structureCost
     
@@ -317,26 +322,18 @@ draw_sprite_ext(sprScrollArrow, 0, view_xview+arrowD, view_yview+view_hview/2, 1
 draw_sprite_ext(sprScrollArrow, 0, view_xview+view_wview/2, view_yview+view_hview-arrowD, 1, 1, 270, c_white, alpha)
 draw_sprite_ext(sprScrollArrow, 0, view_xview+view_wview/2, view_yview+arrowD, 1, 1, 90, c_white, alpha)
 
-// Not enough money text
-/*if (money &lt; structureCost) and not suppressIndicatorLastPlaced {
-    draw_set_font(global.font10)
-    draw_set_halign(fa_center)
-    draw_set_valign(fa_top)
-    scrDrawTextOutline(mouse_x, mouse_y-25, "Not enough cash...", c_red, c_black)
-}*/
-
 // Money text
+draw_set_font(global.font10)
+draw_set_halign(fa_right)
+draw_set_valign(fa_top)
+scrDrawTextOutline(view_xview+view_wview-5, view_yview+view_hview-15, '$'+string(money), c_lime, c_black)
+
+// Size of city
+var citySize = instance_number(objCityCellHouse) + instance_number(objCityCellFactory)
 draw_set_font(global.font10)
 draw_set_halign(fa_left)
 draw_set_valign(fa_top)
-scrDrawTextOutline(view_xview+5, view_yview+view_hview-15, '$'+string(money), c_lime, c_black)
-
-// Cost text
-//draw_set_font(global.font10)
-//draw_set_halign(fa_left)
-//draw_set_valign(fa_top)
-//scrDrawTextOutline(view_xview+160, view_yview+view_hview-15, 'Cost: $'+string(structureCost), c_white, c_black)
-
+scrDrawTextOutline(view_xview+view_wview-100, view_yview+5, 'City size: '+string(citySize), c_white, c_black)
 </string>
           </argument>
         </arguments>

@@ -24,7 +24,8 @@
   </datafiles>
   <NewExtensions/>
   <sounds name="sound">
-    <sound>sound\sndBuild</sound>
+    <sound>sound\sndBuildFactory</sound>
+    <sound>sound\sndBuildRoad</sound>
     <sound>sound\sndGunshot</sound>
   </sounds>
   <sprites name="sprites">
@@ -41,6 +42,13 @@
     <sprites name="UI">
       <sprite>sprites\sprScrollArrow</sprite>
       <sprite>sprites\sprCrosshairs</sprite>
+      <sprite>sprites\sprBlankButton</sprite>
+      <sprite>sprites\sprCommercialButton</sprite>
+      <sprite>sprites\sprFactoryButton</sprite>
+      <sprite>sprites\sprHouseButton</sprite>
+      <sprite>sprites\sprRoadButton</sprite>
+      <sprite>sprites\sprEndButton</sprite>
+      <sprite>sprites\sprCounters</sprite>
     </sprites>
     <sprites name="Player">
       <sprite>sprites\sprPlayerMask</sprite>
@@ -96,11 +104,15 @@
     <object>objects\objPlayerBullet</object>
     <object>objects\objCityCell</object>
     <object>objects\objCityCellRoad</object>
+    <object>objects\objCityCellBuilding</object>
+    <object>objects\objCityCellHouse</object>
+    <object>objects\objCityCellFactory</object>
     <object>objects\objGhostCityCell</object>
     <object>objects\objText</object>
     <object>objects\objParticle</object>
     <object>objects\objEnemy</object>
     <object>objects\objCitizen</object>
+    <object>objects\objShadow</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>

@@ -27,6 +27,7 @@
             <kind>1</kind>
             <string>image_speed = 1/15
 drawXScale = 1
+aimDir = 0
 </string>
           </argument>
         </arguments>
@@ -66,19 +67,23 @@ if keyboard_check(ord('W')) {
     v = walkSpeed
 }
 
-if h &lt; 0 {
+// Animate the player sprite
+
+if mouse_x &lt; x {
     drawXScale = -1
 }
-if h &gt; 0 {
+if mouse_x &gt; x {
     drawXScale = 1
 }
 
-if h != 0 {
+if h != 0 or v != 0 {
     sprite_index = sprPlayerWalk
     image_speed = 1/5
 } else {
     sprite_index = sprPlayerIdle
 }
+
+// Move
 
 var xprev = x;
 var yprev = y;
@@ -86,9 +91,9 @@ var yprev = y;
 x += h
 y += v
 
+// Wall and city border collisions -
 // If we just walked into a wall, move back, and then rub up against walls
-// in the x direction and the y direction.
-// Same with moving outside the city.
+// in the x direction and the y direction. Same with moving outside the city.
 
 if place_meeting(x, y, objWall) or not place_meeting(x, y, objCityCell) {
     x = xprev
@@ -113,10 +118,16 @@ if place_meeting(x, y, objWall) or not place_meeting(x, y, objCityCell) {
 
 // Shoot bullets
 
+aimDir = point_direction(x, y, mouse_x, mouse_y)
 if mouse_check_button(mb_left) {
-    var shootDir = point_direction(x, y, mouse_x, mouse_y)
-    with instance_create(x, y, objPlayerBullet) {
-        direction = shootDir
+    var d = 13
+    var dir = aimDir + random_range(-3, 3)
+    with instance_create(
+        x+lengthdir_x(d, other.aimDir),
+        y+lengthdir_y(d, other.aimDir)+1,
+        objPlayerBullet) {
+        direction = dir
+        image_angle = direction
         speed = 10
     }
 }
@@ -147,7 +158,33 @@ view_yview += (y-view_hview/2 - view_yview) * 0.2
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_sprite_ext(sprite_index, image_index, x, y, drawXScale*image_xscale, image_yscale, image_angle, image_blend, image_alpha)
+            <string>// Shadow
+draw_sprite_ext(sprPlayerShadow, 0, x, y+8, drawXScale, 1, 0, c_white, 1)
+
+// Gun
+var gunInBack = abs(angle_difference(aimDir, 90)) &lt; 60
+var gunYScale = 1
+if drawXScale &lt; 0 {
+    gunYScale = -1
+}
+var gunDrawX = x//-3*drawXScale
+var gunDrawY = y+1
+
+// Gun (if in back)
+if gunInBack {
+    draw_sprite_ext(sprPlayerGun, 0, gunDrawX, gunDrawY, 1, gunYScale, aimDir, c_white, 1)
+}
+
+// Player sprite
+draw_sprite_ext(sprite_index, image_index, x, y, drawXScale*image_xscale, image_yscale, image_angle, image_blend, image_alpha)
+
+// Gun (if in front)
+if not gunInBack {
+    draw_sprite_ext(sprPlayerGun, 0, gunDrawX, gunDrawY, 1, gunYScale, aimDir, c_white, 1)
+}
+
+// Crosshairs
+draw_sprite(sprCrosshairs, 0, mouse_x, mouse_y)
 </string>
           </argument>
         </arguments>

@@ -13,18 +13,33 @@
       <sprite>sprites\sprCityCell</sprite>
       <sprite>sprites\sprTestWeirdShape</sprite>
       <sprite>sprites\sprCityCellNoPlace</sprite>
+      <sprite>sprites\sprPlayerCheeze</sprite>
     </sprites>
-    <sprite>sprites\sprPlayerCheeze</sprite>
-    <sprite>sprites\sprPlayerMask</sprite>
-    <sprite>sprites\sprHouse</sprite>
-    <sprite>sprites\sprRoad</sprite>
-    <sprite>sprites\sprScrollArrow</sprite>
+    <sprites name="UI">
+      <sprite>sprites\sprScrollArrow</sprite>
+      <sprite>sprites\sprCrosshairs</sprite>
+    </sprites>
+    <sprites name="Player">
+      <sprite>sprites\sprPlayerMask</sprite>
+      <sprite>sprites\sprPlayerIdle</sprite>
+      <sprite>sprites\sprPlayerWalk</sprite>
+      <sprite>sprites\sprPlayerGun</sprite>
+      <sprite>sprites\sprPlayerShadow</sprite>
+      <sprite>sprites\sprPlayerBullet</sprite>
+    </sprites>
+    <sprites name="Structures">
+      <sprite>sprites\sprRoad</sprite>
+      <sprite>sprites\sprHousePlaceholder</sprite>
+      <sprite>sprites\sprHouse</sprite>
+      <sprite>sprites\sprHouse2</sprite>
+      <sprite>sprites\sprLongHouse</sprite>
+      <sprite>sprites\sprFactory</sprite>
+      <sprite>sprites\sprFactory2</sprite>
+    </sprites>
     <sprite>sprites\sprBasePersonWalk</sprite>
     <sprite>sprites\sprBasePersonIdle</sprite>
     <sprite>sprites\sprEnemyPlaceholder</sprite>
-    <sprite>sprites\sprGun</sprite>
-    <sprite>sprites\sprPlayerIdle</sprite>
-    <sprite>sprites\sprPlayerWalk</sprite>
+    <sprite>sprites\sprDustParticle</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -46,6 +61,7 @@
     <object>objects\objGhostCityCell</object>
     <object>objects\objGameController</object>
     <object>objects\objText</object>
+    <object>objects\objParticle</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>

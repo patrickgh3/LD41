@@ -100,8 +100,8 @@ if buildingIndex == 0 {
     ghost.sprite_index = sprHouse
     buildingCost = 60
 } else if buildingIndex == 2 {
-    ghost.sprite_index = sprTestWeirdShape
-    buildingCost = 300
+    ghost.sprite_index = sprFactory
+    buildingCost = 150
 }
 
 // Do collisions checks to see if it's ok to place here
@@ -147,7 +147,7 @@ if mouse_check_button_pressed(mb_left) and okToPlace {
                 scrRoadUpdateSprite()
             }
             
-        } else if other.buildingIndex == 1 {
+        } else if other.buildingIndex == 1 or other.buildingIndex == 2 {
             with instance_create(x, y, objWall) {
                 image_xscale = 0.5
                 image_yscale = 0.5
@@ -155,8 +155,6 @@ if mouse_check_button_pressed(mb_left) and okToPlace {
                 y += 8
             }
             
-        } else if other.buildingIndex == 2 {
-            mask_index = sprite_index
         }
     }
     

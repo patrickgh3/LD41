@@ -86,7 +86,7 @@ if cheeseT &gt;= cheeseSpawnT {
 // Spawn debuilder
 if t == 1 {
     var dir = random(360)
-    var len = 150 // todo: determine close point inside fog
+    var len = 220 // todo: determine close point inside fog
     
     var xx = 0+lengthdir_x(len+random(30), dir+random_range(-30, 30))
     var yy = 0+lengthdir_y(len+random(30), dir+random_range(-30, 30))

@@ -121,6 +121,7 @@
       <object>objects\objGameController</object>
       <object>objects\objCityBuilder</object>
       <object>objects\objShootController</object>
+      <object>objects\objGameOverController</object>
     </objects>
     <objects name="Structures">
       <object>objects\objCityCell</object>

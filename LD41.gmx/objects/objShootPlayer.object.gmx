@@ -29,6 +29,12 @@
 drawXScale = 1
 aimDir = 0
 shootT = 0
+
+maxhp = 100
+hp = maxhp
+
+iframes = 0
+maxIframes = 20
 </string>
           </argument>
         </arguments>
@@ -120,9 +126,48 @@ if mouse_check_button(mb_left) {
 }
 
 // Move the camera
-
 view_xview += (x-view_wview/2 - view_xview) * 0.2
 view_yview += (y-view_hview/2 - view_yview) * 0.2
+
+// Count down iframes
+if iframes &gt; 0 {
+    iframes --
+}
+
+// Die
+if hp &lt;= 0 {
+    instance_destroy()
+    objShootController.enabled = false
+    objGameController.state = GAME_STATE.GAMEOVER
+    instance_create(0, 0, objGameOverController)
+    objGameOverController.numBuildings = objCityBuilder.numBuildings
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="4" ename="objDebuilderEnemy">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if iframes == 0 {
+    hp -= 20
+    iframes = maxIframes
+}
 </string>
           </argument>
         </arguments>
@@ -147,6 +192,67 @@ view_yview += (y-view_hview/2 - view_yview) * 0.2
             <kind>1</kind>
             <string>with other {
     instance_destroy()
+}
+
+if iframes == 0 {
+    hp -= 20
+    iframes = maxIframes
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="4" ename="objCitizenEnemy">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if iframes == 0 {
+    hp -= 20
+    iframes = maxIframes
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="4" ename="objCheeseEnemy">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>with other {
+    instance_destroy()
+}
+
+if iframes == 0 {
+    hp -= 20
+    iframes = maxIframes
 }
 </string>
           </argument>
@@ -185,19 +291,32 @@ var gunInBack = false//abs(angle_difference(aimDir, 90)) &lt; 60
 
 // Gun (if in back)
 if gunInBack {
-    draw_sprite_ext(sprPlayerGun, 0, gunDrawX, gunDrawY, 1, gunYScale, aimDir, c_white, 1)
+    draw_sprite_ext(sprPlayerGun, 0, gunDrawX, gunDrawY, 1, gunYScale, aimDir, c_white, image_alpha)
 }
 
 // Player sprite
+if iframes != 0 {
+    image_alpha = 0.5
+} else {
+    image_alpha = 1
+}
 draw_sprite_ext(sprite_index, image_index, x, y, drawXScale*image_xscale, image_yscale, image_angle, image_blend, image_alpha)
 
 // Gun (if in front)
 if not gunInBack {
-    draw_sprite_ext(sprPlayerGun, 0, gunDrawX, gunDrawY, 1, gunYScale, aimDir, c_white, 1)
+    draw_sprite_ext(sprPlayerGun, 0, gunDrawX, gunDrawY, 1, gunYScale, aimDir, c_white, image_alpha)
 }
 
 // Crosshairs
 draw_sprite(sprCrosshairs, 0, mouse_x, mouse_y)
+
+// Health bar
+draw_set_color(c_red)
+var xx = view_xview+10
+var yy = view_yview+view_hview-20
+var w = view_wview-20
+var h = 10
+draw_rectangle(xx, yy, xx+w*(hp/maxhp), yy+h, false)
 </string>
           </argument>
         </arguments>

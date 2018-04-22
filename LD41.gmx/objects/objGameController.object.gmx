@@ -28,6 +28,7 @@
             <string>enum GAME_STATE {
     BUILD,
     SHOOT,
+    GAMEOVER,
 }
 
 state = GAME_STATE.BUILD

@@ -84,9 +84,9 @@ if cheeseT &gt;= cheeseSpawnT {
 }
 
 // Spawn debuilder
-if t == 1 {
+if t == 1 and instance_number(objCityCellBuilding) &gt;= 8 {
     var dir = random(360)
-    var len = 220 // todo: determine close point inside fog
+    var len = 275 // todo: determine close point inside fog
     
     var xx = 0+lengthdir_x(len+random(30), dir+random_range(-30, 30))
     var yy = 0+lengthdir_y(len+random(30), dir+random_range(-30, 30))
@@ -101,7 +101,7 @@ if t &gt;= surviveT {
     enabled = false
     objGameController.state = GAME_STATE.BUILD
     
-    with objShootPlayer {
+    with objShootPlayer {s
         instance_destroy()
     }
     with objPlayerBullet {
@@ -119,11 +119,22 @@ if t &gt;= surviveT {
     }
     
     with objCityBuilder {
-        objCityBuilder.enabled = true
-        objCityBuilder.money = 350
-        objCityBuilder.structure = 0
+        enabled = true
+        money += moneyPerRound
+        structure = STRUCTURE.ROAD
         marioExists = false
         luigiExists = false
+        alarm[0] = 70 // Ka-ching for factories earning money
+    }
+    
+    // Show that you gain some money for free
+    with instance_create(view_xview+view_wview-6, view_yview+view_hview-33, objText) {
+        text = '+$'+string(objCityBuilder.moneyPerRound)
+        color = c_lime
+        vspeed = -0.5
+        destroyT = 60
+        halign = fa_right
+        followView = true
     }
     
     audio_play_sound(sndBuildPhase, 0, false)

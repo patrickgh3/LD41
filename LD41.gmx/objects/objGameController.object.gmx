@@ -100,6 +100,16 @@ randomize()
         
         audio_play_sound(sndDefendPhase, 0, false)
         
+        // Show that you lose all your money
+        with instance_create(view_xview+view_wview-6, view_yview+view_hview-33, objText) {
+            text = '-$'+string(objCityBuilder.money)
+            color = c_red
+            vspeed = -0.5
+            destroyT = 60
+            halign = fa_right
+            followView = true
+        }
+        objCityBuilder.money = 0
     }
 }
 

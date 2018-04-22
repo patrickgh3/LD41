@@ -53,7 +53,8 @@ structureCost = 0
 ghost = instance_create(0, 0, objGhostCityCell)
 ghost.image_alpha = 0.5
 
-money = 1350
+money = 200
+moneyPerRound = 100
 numBuildings = 0
 population = 0
 numIndustryAndCommercial = 0
@@ -62,6 +63,46 @@ sprite_index = -1
 
 marioExists = false
 luigiExists = false
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Factories earn money
+
+// TODO: don't earn revenue from factories we just placed real quick!!!
+var revenue = 100
+with objCityCellFactory {
+    objCityBuilder.money += revenue
+
+    with instance_create(
+    x+objCityBuilder.cellWidth/2,
+    y+objCityBuilder.cellHeight/2,
+    objText) {
+        text = '+$'+string(revenue)
+        color = c_lime
+        vspeed = -0.5
+        destroyT = 30
+        halign = fa_center
+    }
+}
 </string>
           </argument>
         </arguments>
@@ -116,16 +157,16 @@ if keyboard_check_pressed(ord('5')) {
 
 if structure == STRUCTURE.ROAD {
     ghost.sprite_index = sprRoad
-    structureCost = 30
+    structureCost = 20
 } else if structure == STRUCTURE.HOUSE {
     ghost.sprite_index = sprHouse
-    structureCost = 60
+    structureCost = 50
 } else if structure == STRUCTURE.FACTORY {
     ghost.sprite_index = sprFactory
-    structureCost = 150
+    structureCost = 50
 } else if structure == STRUCTURE.STORE {
     ghost.sprite_index = sprStore
-    structureCost = 150
+    structureCost = 50
 } else if structure == STRUCTURE.DESTROY {
     ghost.sprite_index = sprCityCellNoPlace
     structureCost = 0

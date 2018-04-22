@@ -32,8 +32,11 @@ outlineColor = c_black
 halign = fa_left
 valign = fa_top
 font = scrGetFont(10)
+followView = false
 
 t = 0
+viewXLast = view_xview
+viewYLast = view_yview
 </string>
           </argument>
         </arguments>
@@ -82,7 +85,14 @@ if t &gt;= destroyT {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_set_font(font)
+            <string>if followView {
+    x += view_xview - viewXLast
+    y += view_yview - viewYLast
+    viewXLast = view_xview
+    viewYLast = view_yview
+}
+
+draw_set_font(font)
 draw_set_halign(halign)
 draw_set_valign(valign)
 scrDrawTextOutline(x, y, text, color, outlineColor)

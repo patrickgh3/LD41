@@ -74,20 +74,30 @@ randomize()
         with objShootController {
             enabled = true
             t = 0
+            cheeseT = irandom_range(1, cheeseSpawnT)
         }
         
         with objCityCell {
             t = 0
+            spawnT = irandom_range(1, maxSpawnT)
             citizenOut = false
         }
         
+        // Citizens run to the nearest house
         with objCitizen {
-            instance_destroy()
+            state = 1
+            
+            var nearestHouse = instance_nearest(x, y, objCityCellHouse)
+            var dir = point_direction(x, y,
+                nearestHouse.x+objCityBuilder.cellWidth/2,
+                nearestHouse.y+objCityBuilder.cellHeight/2)
+            var spd = 2
+            
+            hSpeed = lengthdir_x(spd, dir)
+            vSpeed = lengthdir_y(spd, dir)
         }
         
         audio_play_sound(sndDefendPhase, 0, false)
-        
-    } else if (state == GAME_STATE.SHOOT) {
         
     }
 }

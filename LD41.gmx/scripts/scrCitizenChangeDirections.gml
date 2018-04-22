@@ -23,10 +23,15 @@ if instance_exists(r) {
     ds_list_add(roads, r)
 }
 
+// No neighbors (we're on a one-cell island) -
+// Set an alarm to check for neighbors again
 if ds_list_size(roads) == 0 {
-    // This should never happen...
-    image_xscale = 3
-    exit
+    hSpeed = 0
+    vSpeed = 0
+    alarm[0] = 50
+    xTarget = 10000
+    yTarget = 10000
+    return 0
 }
 
 // If this isn't a dead-end road tile, remove the road tile
@@ -57,6 +62,7 @@ hSpeed = lengthdir_x(walkSpeed, dir)
 vSpeed = lengthdir_y(walkSpeed, dir)
 
 // Choose the point at which we'll stop and consider changing directions.
+// Add some variation so that people walk on all parts of the road.
 var v = 8
 if hSpeed != 0 {
     xTarget = targetRoad.x+cellWidth/2 + irandom_range(-v, v)

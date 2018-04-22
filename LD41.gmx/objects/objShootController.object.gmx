@@ -30,6 +30,8 @@
 enabled = false
 t = 0
 surviveT = 60*20
+cheeseT = 0
+cheeseSpawnT = 300
 </string>
           </argument>
         </arguments>
@@ -58,20 +60,25 @@ surviveT = 60*20
 
 t++
 
-// Spawn enemies from the fog
-
-if t mod 200 == 0 {
-    // Spawn a group of cheese people
+// Spawn a group of cheese people from the fog
+cheeseT ++
+if cheeseT &gt;= cheeseSpawnT {
+    cheeseT = 0
+    
     var numCheese = choose(5, 6, 7)
     var dir = random(360)
     var len = 300 // todo: determine close point inside fog
     
-    repeat numCheese {
-        var xx = 0+lengthdir_x(len+random(30), dir+random_range(-30, 30))
-        var yy = 0+lengthdir_y(len+random(30), dir+random_range(-30, 30))
+    for (var i=0; i&lt;numCheese; i++) {
+        var len2 = len+random(70)
+        var dir2 = random_range(-20, 20)
+        var xx = 0+lengthdir_x(len2, dir2)
+        var yy = 0+lengthdir_y(len2, dir2)
         
         with instance_create(xx, yy, objCheeseEnemy) {
-            
+            if i == 0 {
+                sprite_index = sprCheeseLeader
+            }
         }
     }
 }
@@ -101,6 +108,9 @@ if t &gt;= surviveT {
         instance_destroy()
     }
     with objEnemy {
+        instance_destroy()
+    }
+    with objEnemyBullet {
         instance_destroy()
     }
     with objCityCell {

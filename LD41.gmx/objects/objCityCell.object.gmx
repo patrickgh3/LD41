@@ -28,7 +28,9 @@
             <string>image_speed = 0
 structureType = STRUCTURE.ROAD
 t = 0
-spawnT = irandom_range(300, 400)
+minSpawnT = 800
+maxSpawnT = 1200
+spawnT = irandom_range(minSpawnT, maxSpawnT)
 
 citizenOut = false
 citizenSpawnT = irandom_range(1, 200)
@@ -55,11 +57,9 @@ citizenSpawnT = irandom_range(1, 200)
           <argument>
             <kind>1</kind>
             <string>if objGameController.state == GAME_STATE.BUILD {
-    t++
-    
     // Spawn citizen
-    if (structureType == STRUCTURE.HOUSE
-    or structureType == STRUCTURE.FACTORY)
+    t++
+    if structureType == STRUCTURE.HOUSE
     and not citizenOut
     and t &gt;= citizenSpawnT {
         citizenOut = true
@@ -72,17 +72,25 @@ citizenSpawnT = irandom_range(1, 200)
 
 if objGameController.state == GAME_STATE.SHOOT {
     // Periodically spawn monsters
-    if structureType == STRUCTURE.HOUSE
-    or structureType == STRUCTURE.FACTORY {
-        t++
-        if t &gt;= spawnT {
-            t = 0
-            spawnT = irandom_range(300, 400)
+    t++
+    if (structureType == STRUCTURE.HOUSE
+    or structureType == STRUCTURE.FACTORY
+    or structureType == STRUCTURE.STORE)
+    and t &gt;= spawnT {
+        t = 0
+        spawnT = irandom_range(minSpawnT, maxSpawnT)
+        
+        var c = instance_create(
+            x+objCityBuilder.cellWidth/2,
+            y+objCityBuilder.cellHeight/2,
+            objCitizenEnemy)
             
-            instance_create(
-                x+objCityBuilder.cellWidth/2,
-                y+objCityBuilder.cellHeight/2,
-                objCitizenEnemy)
+        if structureType == STRUCTURE.HOUSE {
+            c.sprite_index = sprEvilPoliceWalk
+        } else if structureType == STRUCTURE.FACTORY {
+            c.sprite_index = choose(sprEvilHatGuyWalk, sprEvilHatGuy2Walk)
+        } else if structureType == STRUCTURE.STORE {
+            c.sprite_index = sprEvilBakerWalk
         }
     }
 }

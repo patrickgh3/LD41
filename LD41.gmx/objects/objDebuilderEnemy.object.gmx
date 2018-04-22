@@ -29,9 +29,10 @@
 
 image_speed = 1/20
 walkSpeed = 0.2
-maxhp = 300
+maxhp = 250
 hp = maxhp
 knockback = 0.1
+image_index = irandom(image_number-1)
 </string>
           </argument>
         </arguments>
@@ -64,6 +65,13 @@ knockback = 0.1
     
     x += h
     y += v
+    
+    if h &lt; 0 {
+        image_xscale = -1
+    }
+    if h &gt; 0 {
+        image_xscale = 1
+    }
 }
 </string>
           </argument>
@@ -92,6 +100,7 @@ knockback = 0.1
     with parent {
         instance_destroy()
     }
+    audio_play_sound(sndBuildFactory, 0, false)
 }
 </string>
           </argument>

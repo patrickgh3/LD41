@@ -29,6 +29,8 @@
     ROAD,
     HOUSE,
     FACTORY,
+    STORE,
+    DESTROY,
 }
 
 cellWidth = 32
@@ -37,7 +39,6 @@ cellHeight = 32
 hoverX = 0
 hoverY = 0
 okToPlace = false
-okToPlacePhysical = false
 animT = 0
 readyToDraw = false
 
@@ -53,6 +54,9 @@ ghost = instance_create(0, 0, objGhostCityCell)
 ghost.image_alpha = 0.5
 
 money = 1350
+numBuildings = 0
+population = 0
+numIndustryAndCommercial = 0
 
 sprite_index = -1
 
@@ -103,6 +107,12 @@ if keyboard_check_pressed(ord('2')) {
 if keyboard_check_pressed(ord('3')) {
     structure = STRUCTURE.FACTORY
 }
+if keyboard_check_pressed(ord('4')) {
+    structure = STRUCTURE.STORE
+}
+if keyboard_check_pressed(ord('5')) {
+    structure = STRUCTURE.DESTROY
+}
 
 if structure == STRUCTURE.ROAD {
     ghost.sprite_index = sprRoad
@@ -113,25 +123,48 @@ if structure == STRUCTURE.ROAD {
 } else if structure == STRUCTURE.FACTORY {
     ghost.sprite_index = sprFactory
     structureCost = 150
+} else if structure == STRUCTURE.STORE {
+    ghost.sprite_index = sprStore
+    structureCost = 150
+} else if structure == STRUCTURE.DESTROY {
+    ghost.sprite_index = sprCityCellNoPlace
+    structureCost = 0
 }
 
-// Do collisions checks to see if it's ok to place here
+var okToPlacePhysical = false
+
 with ghost {
+    // Position ghost
     x = other.hoverX
     y = other.hoverY
-    other.okToPlacePhysical = not instance_place(other.hoverX, other.hoverY, objCityCell)
-        and (instance_place(other.hoverX+other.cellWidth, other.hoverY, objCityCellRoad)
-        or instance_place(other.hoverX-other.cellWidth, other.hoverY, objCityCellRoad)
-        or instance_place(other.hoverX, other.hoverY+other.cellHeight, objCityCellRoad)
-        or instance_place(other.hoverX, other.hoverY-other.cellHeight, objCityCellRoad))
-    other.okToPlace = other.okToPlacePhysical and other.money &gt;= other.structureCost
     
+    // Do collisions checks to see if it's ok to place here
+    okToPlacePhysical = not instance_place(x, y, objCityCell)
+        and (instance_place(x+other.cellWidth, y, objCityCellRoad)
+        or instance_place(x-other.cellWidth, y, objCityCellRoad)
+        or instance_place(x, y+other.cellHeight, objCityCellRoad)
+        or instance_place(x, y-other.cellHeight, objCityCellRoad))
+    
+    // Update road ghost sprite
+    image_index = 0
     if other.structure == STRUCTURE.ROAD {
         scrRoadUpdateSprite()
-    } else {
-        image_index = 0
     }
 }
+
+// Compute number of buildings and population
+numBuildings = instance_number(objCityCellBuilding)
+population = instance_number(objCityCellHouse)
+numIndustryAndCommercial =
+    instance_number(objCityCellFactory)
+    + instance_number(objCityCellStore)
+
+// Cost and population check
+var enoughMoney = other.money &gt;= other.structureCost
+var populationOk = numIndustryAndCommercial &lt; population
+    or !(structure == STRUCTURE.FACTORY or structure == STRUCTURE.STORE)
+okToPlace = okToPlacePhysical and enoughMoney and populationOk
+    and structure != STRUCTURE.DESTROY
     
 // Place buildings
 if mouse_check_button_pressed(mb_left) and okToPlace {
@@ -145,8 +178,13 @@ if mouse_check_button_pressed(mb_left) and okToPlace {
     } else if structure == STRUCTURE.FACTORY {
         cellObj = objCityCellFactory
         audio_play_sound(sndBuildFactory, 0, false)
+    } else if structure == STRUCTURE.STORE {
+        cellObj = objCityCellStore
+        audio_play_sound(sndBuildFactory, 0, false)
     }
     
+    // Create the structure, and do special logic depending on what
+    // type it is.
     with instance_create(hoverX, hoverY, cellObj) {
         structureType = other.structure
         sprite_index = other.ghost.sprite_index
@@ -167,7 +205,8 @@ if mouse_check_button_pressed(mb_left) and okToPlace {
             }
             
         } else if other.structure == STRUCTURE.HOUSE
-        or other.structure == STRUCTURE.FACTORY {
+        or other.structure == STRUCTURE.FACTORY
+        or other.structure == STRUCTURE.STORE {
             var s = id
             with instance_create(x, y, objWall) {
                 image_xscale = 0.5
@@ -195,8 +234,9 @@ if mouse_check_button_pressed(mb_left) and okToPlace {
         destroyT = 30
         halign = fa_center
     }
+    
 // Create "not enough money" floating text
-} else if mouse_check_button_pressed(mb_left) and okToPlacePhysical and money &lt; structureCost {
+} else if mouse_check_button_pressed(mb_left) and okToPlacePhysical and not enoughMoney {
     
     with instance_create(hoverX+cellWidth/2, hoverY+cellHeight/2, objText) {
         text = 'not enough $'
@@ -204,6 +244,37 @@ if mouse_check_button_pressed(mb_left) and okToPlace {
         vspeed = -0.5
         destroyT = 30
         halign = fa_center
+    }
+    
+// Create "not enough population" floating text
+} else if mouse_check_button_pressed(mb_left) and okToPlacePhysical and not populationOk {
+    
+    with instance_create(hoverX+cellWidth/2, hoverY+cellHeight/2, objText) {
+        text = 'not enough people'
+        color = c_red
+        vspeed = -0.5
+        destroyT = 30
+        halign = fa_center
+    }
+
+// Destroy buildings
+} else if mouse_check_button_pressed(mb_left) and structure == STRUCTURE.DESTROY {
+    var toDestroy = instance_position(hoverX, hoverY, objCityCell)
+    if toDestroy != noone {
+        if toDestroy.object_index == objCityCellRoad {
+            with instance_create(hoverX+cellWidth/2, hoverY+cellHeight/2, objText) {
+                text = "can't destroy roads"
+                color = c_red
+                vspeed = -0.5
+                destroyT = 30
+                halign = fa_center
+            }
+        } else {
+            with toDestroy {
+                instance_destroy()
+            }
+            audio_play_sound(sndBuildFactory, 0, false)
+        }
     }
 }
 
@@ -232,7 +303,8 @@ var edgeDist = 50 // How close to the edge the mouse must be to scroll
         view_yview += scrollSpeed
     }
 }*/
-    
+
+// Scroll the camera with WASD
 if keyboard_check(ord('A')) {
     view_xview -= scrollSpeed
 }
@@ -246,6 +318,7 @@ if keyboard_check(ord('S')) {
     view_yview += scrollSpeed
 }
 
+// Clamp the camera scroll so you can't scroll way for out man
 var minCameraX = -200
 var maxCameraX = 200
 var minCameraY = -200
@@ -302,14 +375,16 @@ if not suppressIndicatorLastPlaced {
     }
     
     // Cost text
-    draw_set_font(scrGetFont(10))
-    draw_set_halign(fa_center)
-    draw_set_valign(fa_top)
-    var textColor = c_lime
-    if money &lt; structureCost {
-        textColor = c_red
+    if structure != STRUCTURE.DESTROY {
+        draw_set_font(scrGetFont(10))
+        draw_set_halign(fa_center)
+        draw_set_valign(fa_top)
+        var textColor = c_lime
+        if money &lt; structureCost {
+            textColor = c_red
+        }
+        scrDrawTextOutline(hoverX+cellWidth/2, hoverY+cellHeight/2, '$'+string(structureCost), textColor, c_black)
     }
-    scrDrawTextOutline(hoverX+cellWidth/2, hoverY+cellHeight/2, '$'+string(structureCost), textColor, c_black)
 }
 
 // Scroll screen arrows
@@ -323,18 +398,17 @@ draw_sprite_ext(sprScrollArrow, 0, view_xview+arrowD, view_yview+view_hview/2, 1
 draw_sprite_ext(sprScrollArrow, 0, view_xview+view_wview/2, view_yview+view_hview-arrowD, 1, 1, 270, c_white, alpha)
 draw_sprite_ext(sprScrollArrow, 0, view_xview+view_wview/2, view_yview+arrowD, 1, 1, 90, c_white, alpha)
 
-// Money text
+// Counters
+var xx = view_xview+view_wview-80
+var yy = view_yview+view_hview-48
+draw_sprite(sprCountersBox, 0, xx, yy)
+
 draw_set_font(scrGetFont(10))
 draw_set_halign(fa_right)
 draw_set_valign(fa_top)
-scrDrawTextOutline(view_xview+view_wview-5, view_yview+view_hview-15, '$'+string(money), c_lime, c_black)
-
-// Size of city
-var citySize = instance_number(objCityCellHouse) + instance_number(objCityCellFactory)
-draw_set_font(scrGetFont(10))
-draw_set_halign(fa_left)
-draw_set_valign(fa_top)
-scrDrawTextOutline(view_xview+view_wview-100, view_yview+5, 'City size: '+string(citySize), c_white, c_black)
+draw_set_color(c_white)
+draw_text(xx+74, yy+15, string(money))
+draw_text(xx+74, yy+32, string(numIndustryAndCommercial)+'/'+string(population))
 </string>
           </argument>
         </arguments>

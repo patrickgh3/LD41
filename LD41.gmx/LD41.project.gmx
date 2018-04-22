@@ -42,6 +42,7 @@
       <sprite>sprites\sprPlayerCheeze</sprite>
       <sprite>sprites\sprHousePlaceholder</sprite>
       <sprite>sprites\sprDebuilderPlaceholder</sprite>
+      <sprite>sprites\sprEnemyPlaceholder</sprite>
     </sprites>
     <sprites name="UI">
       <sprite>sprites\sprScrollArrow</sprite>
@@ -52,7 +53,7 @@
       <sprite>sprites\sprHouseButton</sprite>
       <sprite>sprites\sprRoadButton</sprite>
       <sprite>sprites\sprEndButton</sprite>
-      <sprite>sprites\sprCounters</sprite>
+      <sprite>sprites\sprCountersBox</sprite>
     </sprites>
     <sprites name="Player">
       <sprite>sprites\sprPlayerMask</sprite>
@@ -65,7 +66,7 @@
     <sprites name="Structures">
       <sprite>sprites\sprRoad</sprite>
       <sprite>sprites\sprHouse</sprite>
-      <sprite>sprites\sprHouse2</sprite>
+      <sprite>sprites\sprStore</sprite>
       <sprite>sprites\sprLongHouse</sprite>
       <sprite>sprites\sprFactory</sprite>
       <sprite>sprites\sprFactory2</sprite>
@@ -84,7 +85,21 @@
       <sprite>sprites\sprGeenJumpManIdle</sprite>
       <sprite>sprites\sprGreenJumpManWalk</sprite>
     </sprites>
-    <sprite>sprites\sprEnemyPlaceholder</sprite>
+    <sprites name="Enemies">
+      <sprite>sprites\sprCheese1</sprite>
+      <sprite>sprites\sprCheese2</sprite>
+      <sprite>sprites\sprCheese3</sprite>
+      <sprite>sprites\sprCheeseLeader</sprite>
+      <sprite>sprites\sprEvilBakerIdle</sprite>
+      <sprite>sprites\sprEvilBakerWalk</sprite>
+      <sprite>sprites\sprEvilHatGuyIdle</sprite>
+      <sprite>sprites\sprEvilHatGuyWalk</sprite>
+      <sprite>sprites\sprEvilHatGuy2Idle</sprite>
+      <sprite>sprites\sprEvilHatGuy2Walk</sprite>
+      <sprite>sprites\sprEvilPoliceIdle</sprite>
+      <sprite>sprites\sprEvilPoliceWalk</sprite>
+      <sprite>sprites\sprEvilCitizenGun</sprite>
+    </sprites>
     <sprite>sprites\sprDustParticle</sprite>
   </sprites>
   <backgrounds name="background"/>
@@ -92,10 +107,10 @@
   <scripts name="scripts">
     <script>scripts\scrMouseInWindow.gml</script>
     <script>scripts\scrDrawTextOutline.gml</script>
+    <script>scripts\scrGetFont.gml</script>
     <script>scripts\scrRoadUpdateSprite.gml</script>
     <script>scripts\scrMoveContactWallsAndCityBorder.gml</script>
     <script>scripts\scrCitizenChangeDirections.gml</script>
-    <script>scripts\scrGetFont.gml</script>
     <script>scripts\scrPlayerBulletCheckCollisions.gml</script>
   </scripts>
   <fonts name="fonts">
@@ -113,6 +128,7 @@
       <object>objects\objCityCellBuilding</object>
       <object>objects\objCityCellHouse</object>
       <object>objects\objCityCellFactory</object>
+      <object>objects\objCityCellStore</object>
     </objects>
     <objects name="Enemies">
       <object>objects\objEnemy</object>

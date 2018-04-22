@@ -134,7 +134,7 @@ if state == 0 {
     
     var xPrev = x
     var yPrev = y
-    scrMoveContactWallsAndCityBorder(hSpeed, vSpeed)
+    scrMoveContactWalls(hSpeed, vSpeed)
     
     // When we reach an intersection, choose a random adjacent road
     // and walk in that direction.

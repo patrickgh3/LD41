@@ -36,6 +36,7 @@
     </sounds>
     <sounds name="Shoot phase">
       <sound>sound\sndGunshot</sound>
+      <sound>sound\sndCitizenDeath</sound>
     </sounds>
     <sounds name="Music">
       <sound>sound\sndDefendPhase</sound>
@@ -55,6 +56,7 @@
       <sprite>sprites\sprHousePlaceholder</sprite>
       <sprite>sprites\sprDebuilderPlaceholder</sprite>
       <sprite>sprites\sprEnemyPlaceholder</sprite>
+      <sprite>sprites\sprFogBlockMask</sprite>
     </sprites>
     <sprites name="UI">
       <sprite>sprites\sprScrollArrow</sprite>
@@ -126,7 +128,13 @@
       <sprite>sprites\sprCheeseDisposeParticle</sprite>
       <sprite>sprites\sprCheeseDropParticle</sprite>
       <sprite>sprites\sprCitizenDisposeParticle</sprite>
+      <sprite>sprites\sprPoof1</sprite>
+      <sprite>sprites\sprPoof2</sprite>
+      <sprite>sprites\sprPoof3</sprite>
+      <sprite>sprites\sprPoof4</sprite>
+      <sprite>sprites\sprPoof5</sprite>
     </sprites>
+    <sprite>sprites\sprFog</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -140,11 +148,12 @@
       <script>scripts\scrRoadUpdateSprite.gml</script>
       <script>scripts\scrCitizenChangeDirections.gml</script>
       <script>scripts\scrPlayerBulletCheckCollisions.gml</script>
+      <script>scripts\scrCreatePoof.gml</script>
     </scripts>
     <script>scripts\scrMouseInWindow.gml</script>
     <script>scripts\scrDrawTextOutline.gml</script>
     <script>scripts\scrGetFont.gml</script>
-    <script>scripts\scrMoveContactWallsAndCityBorder.gml</script>
+    <script>scripts\scrMoveContactWalls.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\font1</font>
@@ -156,6 +165,7 @@
       <object>objects\objShootController</object>
       <object>objects\objGameOverController</object>
       <object>objects\objInit</object>
+      <object>objects\objPersistent</object>
     </objects>
     <objects name="Structures">
       <object>objects\objCityCell</object>
@@ -179,11 +189,13 @@
       <object>objects\objText</object>
     </objects>
     <object>objects\objShootPlayer</object>
-    <object>objects\objWall</object>
     <object>objects\objPlayerBullet</object>
-    <object>objects\objParticle</object>
+    <object>objects\objWall</object>
+    <object>objects\objFogBlocker</object>
+    <object>objects\objDrawFog</object>
     <object>objects\objCitizen</object>
     <object>objects\objShadow</object>
+    <object>objects\objParticle</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\roomInit</room>

@@ -77,7 +77,7 @@
 draw_set_halign(fa_center)
 draw_set_valign(fa_center)
 scrDrawTextOutline(view_xview+view_wview/2, view_yview+view_hview/2,
-    'GAME OVER##Score: '+string(numBuildings)+' bulidings##Space to play again',
+    'GAME OVER##Score: '+string(numBuildings)+' buildings##Space to play again',
     c_white, c_black)
 </string>
           </argument>

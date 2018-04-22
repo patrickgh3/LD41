@@ -71,6 +71,38 @@ luigiExists = false
         </arguments>
       </action>
     </event>
+    <event eventtype="2" enumb="1">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>// Enable self
+enabled = true
+
+// Buttons visible
+with objBuildButton {
+    visible = true
+}
+with objButtonBacking {
+    visible = true
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="2" enumb="0">
       <action>
         <libid>1</libid>
@@ -101,7 +133,7 @@ with objCityCellFactory {
         objText) {
             text = '+$'+string(revenue)
             color = c_lime
-            vspeed = -0.5
+            vspeed = -0.25
             destroyT = 60
             halign = fa_center
         }
@@ -185,6 +217,7 @@ hoverX = floor(mouse_x/cellWidth)*cellWidth
 hoverY = floor(mouse_y/cellHeight)*cellHeight
 
 var okToPlacePhysical = false
+var inFog = false
 
 with ghost {
     // Position ghost
@@ -192,7 +225,9 @@ with ghost {
     y = other.hoverY
     
     // Do collisions checks to see if it's ok to place here
+    inFog = not instance_place(x, y, objFogBlocker)
     okToPlacePhysical = not instance_place(x, y, objCityCell)
+        and not inFog
         and (instance_place(x+other.cellWidth, y, objCityCellRoad)
         or instance_place(x-other.cellWidth, y, objCityCellRoad)
         or instance_place(x, y+other.cellHeight, objCityCellRoad)
@@ -249,6 +284,7 @@ if not backingHover {
             structureType = other.structure
             sprite_index = other.ghost.sprite_index
             
+            // Update road sprite
             if other.structure == STRUCTURE.ROAD {
                 scrRoadUpdateSprite()
                 with instance_place(x-other.cellWidth, y, objCityCellRoad) {
@@ -263,18 +299,27 @@ if not backingHover {
                 with instance_place(x, y+other.cellHeight, objCityCellRoad) {
                     scrRoadUpdateSprite()
                 }
-                
+            
             } else if other.structure == STRUCTURE.HOUSE
             or other.structure == STRUCTURE.FACTORY
             or other.structure == STRUCTURE.STORE {
-                var s = id
-                with instance_create(x, y, objWall) {
+            
+                // Create wall
+                wallObj = instance_create(x, y, objWall);
+                wallObj.parent = id
+                with wallObj {
                     image_xscale = 0.5
                     image_yscale = 0.5
                     x += 8
                     y += 8
                     parent = other.id
                 }
+                
+                // Create fog blocker
+                fogBlockerObj = instance_create(
+                    x+other.cellWidth/2,
+                    y+other.cellHeight/2,
+                    objFogBlocker)
             }
         }
         
@@ -287,13 +332,21 @@ if not backingHover {
         money -= structureCost
         
         // Money spent floating text
-        with instance_create(hoverX+cellWidth/2, hoverY+cellHeight/2, objText) {
+        /*with instance_create(hoverX+cellWidth/2, hoverY+cellHeight/2, objText) {
             text = '-$'+string(other.structureCost)
             color = c_red
             vspeed = -0.25
             destroyT = 30
             halign = fa_center
-        }
+        }*/
+        
+        // Dust particles
+        scrCreatePoof(0, 0)
+        var d = 8
+        scrCreatePoof(-d, -d)
+        scrCreatePoof(-d, d)
+        scrCreatePoof(d, -d)
+        scrCreatePoof(d, d)
         
     // Create "not enough money" floating text
     } else if mouse_check_button_pressed(mb_left) and okToPlacePhysical and not enoughMoney {
@@ -339,7 +392,11 @@ if not backingHover {
         }
     } else if mouse_check_button_pressed(mb_left) and not okToPlacePhysical {
         with instance_create(hoverX+cellWidth/2, hoverY+cellHeight/2, objText) {
-            text = "must touch road"
+            if inFog {
+                text = 'in fog'
+            } else {
+                text = "must touch road"
+            }
             color = c_red
             vspeed = -0.25
             destroyT = 60
@@ -397,14 +454,24 @@ if keyboard_check(ord('S')) {
     view_yview += scrollSpeed
 }
 
-// Clamp the camera scroll so you can't scroll way for out man
-var minCameraX = -200
-var maxCameraX = 200
-var minCameraY = -200
-var maxCameraY = 200
+// Prevent scrolling way out into the abyss
+var xMin = 10000
+var yMin = 10000
+var xMax = -10000
+var yMax = -10000
+with objFogBlocker {
+    xMin = min(xMin, x)
+    yMin = min(yMin, y)
+    xMax = max(xMax, x)
+    yMax = max(yMax, y)
+}
 
-view_xview = clamp(view_xview, minCameraX, maxCameraY)
-view_yview = clamp(view_yview, minCameraY, maxCameraY)
+var w = view_wview/2
+var h = view_hview/2
+var leeway = 128
+
+view_xview = clamp(view_xview+w, xMin-leeway, yMax+leeway)-w
+view_yview = clamp(view_yview+h, yMin-leeway, yMax+leeway)-h
 </string>
           </argument>
         </arguments>
@@ -433,7 +500,7 @@ view_yview = clamp(view_yview, minCameraY, maxCameraY)
 
 if (buttonHover != noone) {
     // Button hover highlight
-    draw_set_alpha(0.5)
+    draw_set_alpha(0.25)
     draw_set_color(c_white)
     var y2 = 30
     if (buttonHover.endButton) {
@@ -495,10 +562,10 @@ with buttonSelected {
 }
 
 // Draw square outlines on available building tiles
-for (var xx = view_xview; xx &lt; view_wview+cellWidth; xx += cellWidth) {
-    for (var yy = view_yview; yy &lt; view_hview+cellHeight; yy += cellHeight) {
-        cellX = floor(xx/cellWidth)*cellWidth
-        cellY = floor(yy/cellHeight)*cellHeight
+for (var xx = view_xview; xx &lt; view_xview + view_wview + cellWidth; xx += cellWidth/2) {
+    for (var yy = view_yview; yy &lt; view_yview + view_hview + cellHeight; yy += cellHeight/2) {
+        var cellX = floor(xx/cellWidth)*cellWidth
+        var cellY = floor(yy/cellHeight)*cellHeight
         
         var cellNextToRoad = not instance_position(cellX, cellY, objCityCell)
             and (instance_position(cellX+cellWidth, cellY, objCityCellRoad)
@@ -594,6 +661,12 @@ draw_set_valign(fa_top)
 draw_set_color(c_white)
 draw_text(xx+74, yy+15, string(money))
 draw_text(xx+74, yy+32, string(numIndustryAndCommercial)+'/'+string(population))
+
+// WASD to move text
+draw_set_font(scrGetFont(10))
+draw_set_halign(fa_left)
+draw_set_valign(fa_top)
+scrDrawTextOutline(view_xview+8, view_yview+view_hview-20, 'WASD - camera', c_white, c_black)
 </string>
           </argument>
         </arguments>

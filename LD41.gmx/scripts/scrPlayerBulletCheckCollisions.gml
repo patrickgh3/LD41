@@ -17,7 +17,7 @@ with enemy {
         // Knockback
         var h = lengthdir_x(knockback, other.direction)
         var v = lengthdir_y(knockback, other.direction)
-        scrMoveContactWallsAndCityBorder(h, v)
+        scrMoveContactWalls(h, v)
         
         // Hurt particles
         if random(1) < 0.5 {
@@ -45,7 +45,8 @@ with enemy {
     // Kill the enemy
     } else {
         instance_destroy()
-        audio_play_sound(sndSwapStructures, 0, false)
+        audio_stop_sound(sndCitizenDeath)
+        audio_play_sound(sndCitizenDeath, 0, false)
         
         // Death particles
         if object_index == objCheeseEnemy {

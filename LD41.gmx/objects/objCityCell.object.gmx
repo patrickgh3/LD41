@@ -35,6 +35,57 @@ spawnT = irandom_range(minSpawnT, maxSpawnT)
 citizenOut = false
 citizenSpawnT = irandom_range(1, 100)
 builtThisPhase = true
+
+wallObj = noone
+fogBlockerObj = noone
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="1" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>with wallObj {
+    instance_destroy()
+}
+with fogBlockerObj {
+    instance_destroy()
+}
+
+// If the player is now in the fog because this building was destroyed,
+// push them back toward the center of the city
+with objShootPlayer {
+    var n = 0
+    var len = 16
+    var dir = point_direction(x, y, 0, 0)
+    var dx = lengthdir_x(len, dir)
+    var dy = lengthdir_y(len, dir)
+    while not place_meeting(x, y, objFogBlocker) {
+        x += dx
+        y += dy
+    
+        // Don't get caught in an infinite loop
+        n++
+        if n &gt;= 10 {
+            break
+        }
+    }
+}
 </string>
           </argument>
         </arguments>

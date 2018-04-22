@@ -58,22 +58,40 @@ cheeseSpawnT = 300
     exit
 }
 
+// enabled should be false, but just in case...
+if not instance_exists(objShootPlayer) {
+    exit
+}
+
+// Spawn based around the player
+var centerX = objShootPlayer.x
+var centerY = objShootPlayer.y
+
 t++
+
+
 
 // Spawn a group of cheese people from the fog
 cheeseT ++
 if cheeseT &gt;= cheeseSpawnT {
     cheeseT = 0
     
-    var numCheese = choose(4, 5, 6, 7)
     var dir = random(360)
-    var len = 300 // todo: determine close point inside fog
     
+    // Determine the closest point in that direction that's inside the fog.
+    var len = 32
+    while instance_position(
+    centerX+lengthdir_x(len, dir), centerY+lengthdir_y(len, dir), objFogBlocker) != noone {
+        len += 32
+    }
+    
+    // Spawn cheese people
+    var numCheese = choose(4, 5, 6, 7)
     for (var i=0; i&lt;numCheese; i++) {
         var len2 = len+random(70)
-        var dir2 = random_range(-10, 10)
-        var xx = 0+lengthdir_x(len2, dir2)
-        var yy = 0+lengthdir_y(len2, dir2)
+        var dir2 = dir + random_range(-13, 13)
+        var xx = centerX+lengthdir_x(len2, dir2)
+        var yy = centerY+lengthdir_y(len2, dir2)
         
         with instance_create(xx, yy, objCheeseEnemy) {
             if i == 0 {
@@ -83,18 +101,31 @@ if cheeseT &gt;= cheeseSpawnT {
     }
 }
 
-// Spawn debuilder
+
+
+// Spawn debuilder from the fog
 if t == 1 and instance_number(objCityCellBuilding) &gt;= 8 {
     var dir = random(360)
-    var len = 275 // todo: determine close point inside fog
     
-    var xx = 0+lengthdir_x(len+random(30), dir+random_range(-30, 30))
-    var yy = 0+lengthdir_y(len+random(30), dir+random_range(-30, 30))
+    // Determine the closest point in that direction that's inside the fog.
+    var len = 32
+    while instance_position(
+    centerX+lengthdir_x(len, dir), centerY+lengthdir_y(len, dir), objFogBlocker) != noone {
+        len += 32
+    }
     
+    var len2 = len+random(30)
+    var dir2 = dir+random_range(-30, 30)
+    var xx = centerX+lengthdir_x(len2, dir2)
+    var yy = centerY+lengthdir_y(len2, dir2)
+    
+    // Spawn debuilder
     with instance_create(xx, yy, objDebuilderEnemy) {
         
     }
 }
+
+
 
 // Round end
 if t &gt;= surviveT {

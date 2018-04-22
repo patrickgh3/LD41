@@ -62,7 +62,7 @@ drawXScale = 1
     var h = lengthdir_x(walkSpeed, dir)
     var v = lengthdir_y(walkSpeed, dir)
     
-    scrMoveContactWallsAndCityBorder(h, v)
+    scrMoveContactWalls(h, v)
     
     if objShootPlayer.x &lt; x {
         drawXScale = -1

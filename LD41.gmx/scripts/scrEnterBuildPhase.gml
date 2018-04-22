@@ -10,8 +10,7 @@ with objShootController {
 }
 
 with objCityBuilder {
-    enabled = true
-    money += moneyPerRound
+    alarm[1] = 80 // Enable self after delay
     
     structure = STRUCTURE.ROAD
     with objBuildButton {
@@ -20,6 +19,7 @@ with objCityBuilder {
         }
     }
     
+    money += moneyPerRound
     marioExists = false
     luigiExists = false
     alarm[0] = 50 // Ka-ching for factories earning money
@@ -42,14 +42,6 @@ with objEnemyBullet {
 with objCityCell {
     t = 0
     citizenSpawnT = irandom_range(1, 100)
-}
-
-// Buttons visible
-with objBuildButton {
-    visible = true
-}
-with objButtonBacking {
-    visible = true
 }
 
 // Create text to show that you gain some money for free

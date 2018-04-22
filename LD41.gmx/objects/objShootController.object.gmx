@@ -65,13 +65,13 @@ cheeseT ++
 if cheeseT &gt;= cheeseSpawnT {
     cheeseT = 0
     
-    var numCheese = choose(5, 6, 7)
+    var numCheese = choose(4, 5, 6, 7)
     var dir = random(360)
     var len = 300 // todo: determine close point inside fog
     
     for (var i=0; i&lt;numCheese; i++) {
         var len2 = len+random(70)
-        var dir2 = random_range(-20, 20)
+        var dir2 = random_range(-10, 10)
         var xx = 0+lengthdir_x(len2, dir2)
         var yy = 0+lengthdir_y(len2, dir2)
         

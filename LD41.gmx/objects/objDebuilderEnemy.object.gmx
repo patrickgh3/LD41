@@ -95,7 +95,8 @@ image_index = irandom(image_number-1)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>with other {
+            <string>// Destroy buildings when we collide with their Wall objects
+with other {
     instance_destroy()
     with parent {
         instance_destroy()

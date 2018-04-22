@@ -24,16 +24,24 @@
   </datafiles>
   <NewExtensions/>
   <sounds name="sound">
-    <sound>sound\sndBuildFactory</sound>
-    <sound>sound\sndBuildRoad</sound>
-    <sound>sound\sndBuildHouse</sound>
-    <sound>sound\sndBuildFarm</sound>
-    <sound>sound\sndDefendPhase</sound>
-    <sound>sound\sndDefendPhaseBass</sound>
-    <sound>sound\sndBuildPhase</sound>
-    <sound>sound\sndGunshot</sound>
-    <sound>sound\sndSwapStructures</sound>
-    <sound>sound\sndError</sound>
+    <sounds name="Build phase">
+      <sound>sound\sndBuildRoad</sound>
+      <sound>sound\sndBuildHouse</sound>
+      <sound>sound\sndBuildFactory</sound>
+      <sound>sound\sndBuildFarm</sound>
+      <sound>sound\sndError</sound>
+      <sound>sound\sndSwapStructures</sound>
+      <sound>sound\sndMenuClick</sound>
+      <sound>sound\sndMenuClickHover</sound>
+    </sounds>
+    <sounds name="Shoot phase">
+      <sound>sound\sndGunshot</sound>
+    </sounds>
+    <sounds name="Music">
+      <sound>sound\sndDefendPhase</sound>
+      <sound>sound\sndBuildPhase</sound>
+      <sound>sound\sndBuildMusic</sound>
+    </sounds>
   </sounds>
   <sprites name="sprites">
     <sprites name="Placeholders / Masks">
@@ -77,6 +85,7 @@
       <sprite>sprites\sprLongHouse</sprite>
       <sprite>sprites\sprFactory</sprite>
       <sprite>sprites\sprFactory2</sprite>
+      <sprite>sprites\sprCellOutline</sprite>
     </sprites>
     <sprites name="Citizens">
       <sprite>sprites\sprBakerIdle</sprite>
@@ -107,21 +116,35 @@
       <sprite>sprites\sprEvilPoliceWalk</sprite>
       <sprite>sprites\sprEvilCitizenGun</sprite>
     </sprites>
-    <sprite>sprites\sprDustParticle</sprite>
+    <sprites name="Particles">
+      <sprite>sprites\sprDustParticle</sprite>
+      <sprite>sprites\sprDroppedGun</sprite>
+      <sprite>sprites\sprPoliceHat</sprite>
+      <sprite>sprites\sprHat</sprite>
+      <sprite>sprites\sprBone</sprite>
+      <sprite>sprites\sprBakerHat</sprite>
+      <sprite>sprites\sprCheeseDisposeParticle</sprite>
+      <sprite>sprites\sprCheeseDropParticle</sprite>
+      <sprite>sprites\sprCitizenDisposeParticle</sprite>
+    </sprites>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
   <scripts name="scripts">
+    <scripts name="Change game state">
+      <script>scripts\scrEnterShootPhase.gml</script>
+      <script>scripts\scrEnterBuildPhase.gml</script>
+      <script>scripts\scrStartNewGame.gml</script>
+    </scripts>
+    <scripts name="Object-specific">
+      <script>scripts\scrRoadUpdateSprite.gml</script>
+      <script>scripts\scrCitizenChangeDirections.gml</script>
+      <script>scripts\scrPlayerBulletCheckCollisions.gml</script>
+    </scripts>
     <script>scripts\scrMouseInWindow.gml</script>
     <script>scripts\scrDrawTextOutline.gml</script>
     <script>scripts\scrGetFont.gml</script>
-    <script>scripts\scrRoadUpdateSprite.gml</script>
     <script>scripts\scrMoveContactWallsAndCityBorder.gml</script>
-    <script>scripts\scrCitizenChangeDirections.gml</script>
-    <script>scripts\scrPlayerBulletCheckCollisions.gml</script>
-    <script>scripts\scrEnterShootPhase.gml</script>
-    <script>scripts\scrEnterBuildPhase.gml</script>
-    <script>scripts\scrTextPushOnscreen.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\font1</font>
@@ -132,6 +155,7 @@
       <object>objects\objCityBuilder</object>
       <object>objects\objShootController</object>
       <object>objects\objGameOverController</object>
+      <object>objects\objInit</object>
     </objects>
     <objects name="Structures">
       <object>objects\objCityCell</object>
@@ -140,6 +164,7 @@
       <object>objects\objCityCellHouse</object>
       <object>objects\objCityCellFactory</object>
       <object>objects\objCityCellStore</object>
+      <object>objects\objGhostCityCell</object>
     </objects>
     <objects name="Enemies">
       <object>objects\objEnemy</object>
@@ -148,19 +173,21 @@
       <object>objects\objEnemyBullet</object>
       <object>objects\objDebuilderEnemy</object>
     </objects>
+    <objects name="UI">
+      <object>objects\objBuildButton</object>
+      <object>objects\objButtonBacking</object>
+      <object>objects\objText</object>
+    </objects>
     <object>objects\objShootPlayer</object>
     <object>objects\objWall</object>
     <object>objects\objPlayerBullet</object>
-    <object>objects\objGhostCityCell</object>
-    <object>objects\objText</object>
     <object>objects\objParticle</object>
     <object>objects\objCitizen</object>
     <object>objects\objShadow</object>
-    <object>objects\objBuildButton</object>
-    <object>objects\objButtonBacking</object>
   </objects>
   <rooms name="rooms">
-    <room>rooms\room0</room>
+    <room>rooms\roomInit</room>
+    <room>rooms\roomGame</room>
   </rooms>
   <help>
     <rtf>help.rtf</rtf>

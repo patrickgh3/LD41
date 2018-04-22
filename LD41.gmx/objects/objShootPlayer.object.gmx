@@ -62,15 +62,15 @@ maxIframes = 20
 var walkSpeed = 2
 
 var h = 0
-if keyboard_check(ord('A')) {
+if keyboard_check_direct(ord('A')) {
     h = -walkSpeed
-} else if keyboard_check(ord('D')) {
+} else if keyboard_check_direct(ord('D')) {
     h = walkSpeed
 }
 var v = 0
-if keyboard_check(ord('W')) {
+if keyboard_check_direct(ord('W')) {
     v = -walkSpeed
-} else if keyboard_check(ord('S')) {
+} else if keyboard_check_direct(ord('S')) {
     v = walkSpeed
 }
 

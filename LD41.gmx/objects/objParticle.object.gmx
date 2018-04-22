@@ -26,8 +26,10 @@
           <argument>
             <kind>1</kind>
             <string>image_speed = 1/5
+dAngle = 0
 dAlpha = 0
 destroyOnAnimEnd = true
+destroyFallBelowStartPos = false
 </string>
           </argument>
         </arguments>
@@ -50,8 +52,14 @@ destroyOnAnimEnd = true
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>image_alpha += dAlpha
+            <string>image_angle += dAngle
+
+image_alpha += dAlpha
 if image_alpha &lt;= 0 {
+    instance_destroy()
+}
+
+if destroyFallBelowStartPos and y &gt; ystart {
     instance_destroy()
 }
 </string>

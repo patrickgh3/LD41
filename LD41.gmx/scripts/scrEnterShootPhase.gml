@@ -2,6 +2,10 @@ objGameController.state = GAME_STATE.SHOOT
 
 audio_play_sound(sndDefendPhase, 0, false)
 
+// Fade out and pause build phase music
+audio_sound_gain(global.buildMusic, 0, 500)
+objGameController.alarm[0] = 60
+
 var unspentMoney
 with objCityBuilder {
     enabled = false

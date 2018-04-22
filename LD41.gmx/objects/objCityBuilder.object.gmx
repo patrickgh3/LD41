@@ -141,6 +141,8 @@ animT ++
 // Detect hovering over backing
 backingHover = instance_position(mouse_x, mouse_y, objButtonBacking)
 
+var buttonHoverLast = buttonHover
+
 // Click buttons to select structures
 buttonHover = instance_position(mouse_x, mouse_y, objBuildButton)
 if (buttonHover != noone) {
@@ -151,25 +153,14 @@ if (buttonHover != noone) {
         } else {
             structure = buttonHover.structure
             buttonSelected = buttonHover
+            audio_play_sound(sndMenuClick, 0, false)
         }
     }
 }
 
-// Temp select which building to place
-if keyboard_check_pressed(ord('1')) {
-    structure = STRUCTURE.ROAD
-}
-if keyboard_check_pressed(ord('2')) {
-    structure = STRUCTURE.HOUSE
-}
-if keyboard_check_pressed(ord('3')) {
-    structure = STRUCTURE.FACTORY
-}
-if keyboard_check_pressed(ord('4')) {
-    structure = STRUCTURE.STORE
-}
-if keyboard_check_pressed(ord('5')) {
-    structure = STRUCTURE.DESTROY
+// Play sound when hovering over a new button
+if buttonHover != buttonHoverLast and buttonHover != noone {
+    //audio_play_sound(sndMenuClickHover, 0, false)
 }
 
 if structure == STRUCTURE.ROAD {
@@ -476,6 +467,49 @@ if (buttonHover != noone) {
 // Selected button
 with buttonSelected {
     draw_sprite(sprSelectedButton, 0, x, y)
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="72">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if not enabled or not readyToDraw {
+    exit
+}
+
+// Draw square outlines on available building tiles
+for (var xx = view_xview; xx &lt; view_wview+cellWidth; xx += cellWidth) {
+    for (var yy = view_yview; yy &lt; view_hview+cellHeight; yy += cellHeight) {
+        cellX = floor(xx/cellWidth)*cellWidth
+        cellY = floor(yy/cellHeight)*cellHeight
+        
+        var cellNextToRoad = not instance_position(cellX, cellY, objCityCell)
+            and (instance_position(cellX+cellWidth, cellY, objCityCellRoad)
+            or instance_position(cellX-cellWidth, cellY, objCityCellRoad)
+            or instance_position(cellX, cellY+cellHeight, objCityCellRoad)
+            or instance_position(cellX, cellY-cellHeight, objCityCellRoad))
+        
+        if cellNextToRoad {
+            draw_sprite_ext(sprCellOutline, 0, cellX, cellY, 1, 1, 0, c_white, 0.25)
+        }
+    }
 }
 </string>
           </argument>

@@ -2,6 +2,9 @@ objGameController.state = GAME_STATE.BUILD
 
 audio_play_sound(sndBuildPhase, 0, false)
 
+// Unpause and fade in build phase music
+objGameController.alarm[1] = 60
+
 with objShootController {
     enabled = false
 }
@@ -38,7 +41,7 @@ with objEnemyBullet {
 // Start citizen spawn timers
 with objCityCell {
     t = 0
-    citizenSpawnT = irandom_range(1, 200)
+    citizenSpawnT = irandom_range(1, 100)
 }
 
 // Buttons visible

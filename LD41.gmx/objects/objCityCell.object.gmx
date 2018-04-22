@@ -33,7 +33,7 @@ maxSpawnT = 1200
 spawnT = irandom_range(minSpawnT, maxSpawnT)
 
 citizenOut = false
-citizenSpawnT = irandom_range(1, 200)
+citizenSpawnT = irandom_range(1, 100)
 builtThisPhase = true
 </string>
           </argument>

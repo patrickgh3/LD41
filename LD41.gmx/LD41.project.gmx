@@ -26,10 +26,14 @@
   <sounds name="sound">
     <sound>sound\sndBuildFactory</sound>
     <sound>sound\sndBuildRoad</sound>
-    <sound>sound\sndGunshot</sound>
+    <sound>sound\sndBuildHouse</sound>
+    <sound>sound\sndBuildFarm</sound>
     <sound>sound\sndDefendPhase</sound>
     <sound>sound\sndDefendPhaseBass</sound>
     <sound>sound\sndBuildPhase</sound>
+    <sound>sound\sndGunshot</sound>
+    <sound>sound\sndSwapStructures</sound>
+    <sound>sound\sndError</sound>
   </sounds>
   <sprites name="sprites">
     <sprites name="Placeholders / Masks">
@@ -52,8 +56,11 @@
       <sprite>sprites\sprFactoryButton</sprite>
       <sprite>sprites\sprHouseButton</sprite>
       <sprite>sprites\sprRoadButton</sprite>
+      <sprite>sprites\sprDeleteButton</sprite>
+      <sprite>sprites\sprSelectedButton</sprite>
       <sprite>sprites\sprEndButton</sprite>
       <sprite>sprites\sprCountersBox</sprite>
+      <sprite>sprites\sprButtonBacking</sprite>
     </sprites>
     <sprites name="Player">
       <sprite>sprites\sprPlayerMask</sprite>
@@ -112,6 +119,9 @@
     <script>scripts\scrMoveContactWallsAndCityBorder.gml</script>
     <script>scripts\scrCitizenChangeDirections.gml</script>
     <script>scripts\scrPlayerBulletCheckCollisions.gml</script>
+    <script>scripts\scrEnterShootPhase.gml</script>
+    <script>scripts\scrEnterBuildPhase.gml</script>
+    <script>scripts\scrTextPushOnscreen.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\font1</font>
@@ -146,6 +156,8 @@
     <object>objects\objParticle</object>
     <object>objects\objCitizen</object>
     <object>objects\objShadow</object>
+    <object>objects\objBuildButton</object>
+    <object>objects\objButtonBacking</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>

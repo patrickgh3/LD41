@@ -3,7 +3,7 @@
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>-50</depth>
+  <depth>-350</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -37,6 +37,13 @@ followView = false
 t = 0
 viewXLast = view_xview
 viewYLast = view_yview
+
+// Newly created texts are in front, not in back
+with objText {
+    if id != other.id {
+        depth ++
+    }
+}
 </string>
           </argument>
         </arguments>
@@ -68,7 +75,7 @@ if t &gt;= destroyT {
         </arguments>
       </action>
     </event>
-    <event eventtype="8" enumb="0">
+    <event eventtype="8" enumb="73">
       <action>
         <libid>1</libid>
         <id>603</id>

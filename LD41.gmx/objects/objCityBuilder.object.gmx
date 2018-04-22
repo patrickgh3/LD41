@@ -47,6 +47,9 @@ enabled = false
 lastPlacedX = 0
 lastPlacedY = 0
 suppressIndicatorLastPlaced = false
+buttonHover = false
+backingHover = false
+buttonSelected = noone
 
 structure = STRUCTURE.ROAD
 structureCost = 0
@@ -87,20 +90,21 @@ luigiExists = false
             <kind>1</kind>
             <string>/// Factories earn money
 
-// TODO: don't earn revenue from factories we just placed real quick!!!
 var revenue = 100
 with objCityCellFactory {
-    objCityBuilder.money += revenue
-
-    with instance_create(
-    x+objCityBuilder.cellWidth/2,
-    y+objCityBuilder.cellHeight/2,
-    objText) {
-        text = '+$'+string(revenue)
-        color = c_lime
-        vspeed = -0.5
-        destroyT = 30
-        halign = fa_center
+    if not builtThisPhase {
+        objCityBuilder.money += revenue
+    
+        with instance_create(
+        x+objCityBuilder.cellWidth/2,
+        y+objCityBuilder.cellHeight/2,
+        objText) {
+            text = '+$'+string(revenue)
+            color = c_lime
+            vspeed = -0.5
+            destroyT = 60
+            halign = fa_center
+        }
     }
 }
 </string>
@@ -134,9 +138,22 @@ with objCityCellFactory {
 readyToDraw = true
 animT ++
 
-// Compute which cell we're hovering over
-hoverX = floor(mouse_x/cellWidth)*cellWidth
-hoverY = floor(mouse_y/cellHeight)*cellHeight
+// Detect hovering over backing
+backingHover = instance_position(mouse_x, mouse_y, objButtonBacking)
+
+// Click buttons to select structures
+buttonHover = instance_position(mouse_x, mouse_y, objBuildButton)
+if (buttonHover != noone) {
+    if mouse_check_button_pressed(mb_left) {
+        if buttonHover.endButton {
+            scrEnterShootPhase()
+            exit
+        } else {
+            structure = buttonHover.structure
+            buttonSelected = buttonHover
+        }
+    }
+}
 
 // Temp select which building to place
 if keyboard_check_pressed(ord('1')) {
@@ -172,6 +189,10 @@ if structure == STRUCTURE.ROAD {
     structureCost = 0
 }
 
+// Compute which cell we're hovering over
+hoverX = floor(mouse_x/cellWidth)*cellWidth
+hoverY = floor(mouse_y/cellHeight)*cellHeight
+
 var okToPlacePhysical = false
 
 with ghost {
@@ -206,116 +227,138 @@ var populationOk = numIndustryAndCommercial &lt; population
     or !(structure == STRUCTURE.FACTORY or structure == STRUCTURE.STORE)
 okToPlace = okToPlacePhysical and enoughMoney and populationOk
     and structure != STRUCTURE.DESTROY
-    
-// Place buildings
-if mouse_check_button_pressed(mb_left) and okToPlace {
-    var cellObj = objCityCell
-    if structure == STRUCTURE.ROAD {
-        cellObj = objCityCellRoad
-        audio_play_sound(sndBuildRoad, 0, false)
-    } else if structure == STRUCTURE.HOUSE {
-        cellObj = objCityCellHouse
-        audio_play_sound(sndBuildFactory, 0, false)
-    } else if structure == STRUCTURE.FACTORY {
-        cellObj = objCityCellFactory
-        audio_play_sound(sndBuildFactory, 0, false)
-    } else if structure == STRUCTURE.STORE {
-        cellObj = objCityCellStore
-        audio_play_sound(sndBuildFactory, 0, false)
-    }
-    
-    // Create the structure, and do special logic depending on what
-    // type it is.
-    with instance_create(hoverX, hoverY, cellObj) {
-        structureType = other.structure
-        sprite_index = other.ghost.sprite_index
-        
-        if other.structure == STRUCTURE.ROAD {
-            scrRoadUpdateSprite()
-            with instance_place(x-other.cellWidth, y, objCityCellRoad) {
-                scrRoadUpdateSprite()
-            }
-            with instance_place(x+other.cellWidth, y, objCityCellRoad) {
-                scrRoadUpdateSprite()
-            }
-            with instance_place(x, y-other.cellHeight, objCityCellRoad) {
-                scrRoadUpdateSprite()
-            }
-            with instance_place(x, y+other.cellHeight, objCityCellRoad) {
-                scrRoadUpdateSprite()
-            }
-            
-        } else if other.structure == STRUCTURE.HOUSE
-        or other.structure == STRUCTURE.FACTORY
-        or other.structure == STRUCTURE.STORE {
-            var s = id
-            with instance_create(x, y, objWall) {
-                image_xscale = 0.5
-                image_yscale = 0.5
-                x += 8
-                y += 8
-                parent = other.id
-            }
-        }
-    }
-    
-    // Hide the X/check indicator until we move our cursor to a different cell
-    okToPlace = false
-    suppressIndicatorLastPlaced = true
-    lastPlacedX = hoverX
-    lastPlacedY = hoverY
-    
-    money -= structureCost
-    
-    // Money spent floating text
-    with instance_create(hoverX+cellWidth/2, hoverY+cellHeight/2, objText) {
-        text = '-$'+string(other.structureCost)
-        color = c_red
-        vspeed = -0.5
-        destroyT = 30
-        halign = fa_center
-    }
-    
-// Create "not enough money" floating text
-} else if mouse_check_button_pressed(mb_left) and okToPlacePhysical and not enoughMoney {
-    
-    with instance_create(hoverX+cellWidth/2, hoverY+cellHeight/2, objText) {
-        text = 'not enough $'
-        color = c_red
-        vspeed = -0.5
-        destroyT = 30
-        halign = fa_center
-    }
-    
-// Create "not enough population" floating text
-} else if mouse_check_button_pressed(mb_left) and okToPlacePhysical and not populationOk {
-    
-    with instance_create(hoverX+cellWidth/2, hoverY+cellHeight/2, objText) {
-        text = 'not enough people'
-        color = c_red
-        vspeed = -0.5
-        destroyT = 30
-        halign = fa_center
-    }
 
-// Destroy buildings
-} else if mouse_check_button_pressed(mb_left) and structure == STRUCTURE.DESTROY {
-    var toDestroy = instance_position(hoverX, hoverY, objCityCell)
-    if toDestroy != noone {
-        if toDestroy.object_index == objCityCellRoad {
-            with instance_create(hoverX+cellWidth/2, hoverY+cellHeight/2, objText) {
-                text = "can't destroy roads"
-                color = c_red
-                vspeed = -0.5
-                destroyT = 30
-                halign = fa_center
-            }
-        } else {
-            with toDestroy {
-                instance_destroy()
-            }
+
+
+// Create and destroy buildlings
+if not backingHover {
+    var success = false
+    
+    if mouse_check_button_pressed(mb_left) and okToPlace {
+        success = true
+        
+        var cellObj = objCityCell
+        if structure == STRUCTURE.ROAD {
+            cellObj = objCityCellRoad
+            audio_play_sound(sndBuildRoad, 0, false)
+        } else if structure == STRUCTURE.HOUSE {
+            cellObj = objCityCellHouse
+            audio_play_sound(sndBuildHouse, 0, false)
+        } else if structure == STRUCTURE.FACTORY {
+            cellObj = objCityCellFactory
+            audio_play_sound(sndBuildFactory, 0, false)
+        } else if structure == STRUCTURE.STORE {
+            cellObj = objCityCellStore
             audio_play_sound(sndBuildFactory, 0, false)
         }
+        
+        // Create the structure, and do special logic depending on what
+        // type it is.
+        with instance_create(hoverX, hoverY, cellObj) {
+            structureType = other.structure
+            sprite_index = other.ghost.sprite_index
+            
+            if other.structure == STRUCTURE.ROAD {
+                scrRoadUpdateSprite()
+                with instance_place(x-other.cellWidth, y, objCityCellRoad) {
+                    scrRoadUpdateSprite()
+                }
+                with instance_place(x+other.cellWidth, y, objCityCellRoad) {
+                    scrRoadUpdateSprite()
+                }
+                with instance_place(x, y-other.cellHeight, objCityCellRoad) {
+                    scrRoadUpdateSprite()
+                }
+                with instance_place(x, y+other.cellHeight, objCityCellRoad) {
+                    scrRoadUpdateSprite()
+                }
+                
+            } else if other.structure == STRUCTURE.HOUSE
+            or other.structure == STRUCTURE.FACTORY
+            or other.structure == STRUCTURE.STORE {
+                var s = id
+                with instance_create(x, y, objWall) {
+                    image_xscale = 0.5
+                    image_yscale = 0.5
+                    x += 8
+                    y += 8
+                    parent = other.id
+                }
+            }
+        }
+        
+        // Hide the X/check indicator until we move our cursor to a different cell
+        okToPlace = false
+        suppressIndicatorLastPlaced = true
+        lastPlacedX = hoverX
+        lastPlacedY = hoverY
+        
+        money -= structureCost
+        
+        // Money spent floating text
+        with instance_create(hoverX+cellWidth/2, hoverY+cellHeight/2, objText) {
+            text = '-$'+string(other.structureCost)
+            color = c_red
+            vspeed = -0.25
+            destroyT = 30
+            halign = fa_center
+        }
+        
+    // Create "not enough money" floating text
+    } else if mouse_check_button_pressed(mb_left) and okToPlacePhysical and not enoughMoney {
+        
+        with instance_create(hoverX+cellWidth/2, hoverY+cellHeight/2, objText) {
+            text = 'not enough $'
+            color = c_red
+            vspeed = -0.25
+            destroyT = 60
+            halign = fa_center
+        }
+        
+    // Create "not enough population" floating text
+    } else if mouse_check_button_pressed(mb_left) and okToPlacePhysical and not populationOk {
+        
+        with instance_create(hoverX+cellWidth/2, hoverY+cellHeight/2, objText) {
+            text = 'not enough people'
+            color = c_red
+            vspeed = -0.25
+            destroyT = 60
+            halign = fa_center
+        }
+    
+    // Destroy buildings
+    } else if mouse_check_button_pressed(mb_left) and structure == STRUCTURE.DESTROY {
+        var toDestroy = instance_position(hoverX, hoverY, objCityCell)
+        if toDestroy != noone {
+            if toDestroy.object_index == objCityCellRoad {
+                with instance_create(hoverX+cellWidth/2, hoverY+cellHeight/2, objText) {
+                    text = "can't destroy roads"
+                    color = c_red
+                    vspeed = -0.25
+                    destroyT = 60
+                    halign = fa_center
+                }
+            } else {
+                with toDestroy {
+                    instance_destroy()
+                }
+                audio_play_sound(sndBuildFactory, 0, false)
+                success = true
+            }
+        }
+    } else if mouse_check_button_pressed(mb_left) and not okToPlacePhysical {
+        with instance_create(hoverX+cellWidth/2, hoverY+cellHeight/2, objText) {
+            text = "must touch road"
+            color = c_red
+            vspeed = -0.25
+            destroyT = 60
+            halign = fa_center
+        }
+    }
+    
+    // Play error sound
+    if mouse_check_button_pressed(mb_left) and not success {
+        audio_play_sound(sndError, 0, false)
     }
 }
 
@@ -326,10 +369,14 @@ if suppressIndicatorLastPlaced and
     suppressIndicatorLastPlaced = false
 }
 
-// Scroll the camera when you move your mouse to the edges
+
+
+// Scroll the camera
+
 var scrollSpeed = 2
 var edgeDist = 50 // How close to the edge the mouse must be to scroll
 
+// Scroll the camera when you move your mouse to the edges
 /*if scrMouseInWindow() {
     if mouse_x &lt; view_xview+edgeDist {
         view_xview -= scrollSpeed
@@ -372,6 +419,69 @@ view_yview = clamp(view_yview, minCameraY, maxCameraY)
         </arguments>
       </action>
     </event>
+    <event eventtype="8" enumb="73">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if not enabled or not readyToDraw {
+    exit
+}
+
+if (buttonHover != noone) {
+    // Button hover highlight
+    draw_set_alpha(0.5)
+    draw_set_color(c_white)
+    var y2 = 30
+    if (buttonHover.endButton) {
+        y2 = 14
+    }
+    draw_rectangle(buttonHover.x+1, buttonHover.y+1, buttonHover.x+30, buttonHover.y+y2, false)
+    draw_set_alpha(1)
+    
+    // Button tooltip
+    if buttonHover.tooltip != '' {
+        var xx = buttonHover.x+48
+        var yy = buttonHover.y
+    
+        // Backing
+        draw_set_color(c_black)
+        draw_set_alpha(0.5)
+        draw_rectangle(xx-8, yy-5, xx+188, yy+30, false)
+        draw_set_alpha(1)
+        draw_set_color(c_white)
+        //draw_rectangle(xx-8, yy-5, xx+188, yy+30, true)
+        
+        // Text
+        draw_set_font(scrGetFont(10))
+        draw_set_halign(fa_left)
+        draw_set_valign(fa_top)
+        draw_set_color(c_white)
+        draw_text(xx, yy, buttonHover.tooltip)
+    }
+}
+
+// Selected button
+with buttonSelected {
+    draw_sprite(sprSelectedButton, 0, x, y)
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="8" enumb="0">
       <action>
         <libid>1</libid>
@@ -393,7 +503,7 @@ view_yview = clamp(view_yview, minCameraY, maxCameraY)
     exit
 }
 
-if not suppressIndicatorLastPlaced {
+if not suppressIndicatorLastPlaced and not backingHover {
     // Flashing ghost
     ghost.image_alpha = 0.5
     if floor(animT/10) mod 2 == 0 and okToPlace {
@@ -429,7 +539,7 @@ if not suppressIndicatorLastPlaced {
 }
 
 // Scroll screen arrows
-var arrowD = 12+3*sin(animT/60*pi*2)
+/*var arrowD = 12+3*sin(animT/60*pi*2)
 var alpha = 1
 if floor(animT/30) mod 2 == 0 {
     //alpha = 0
@@ -437,7 +547,7 @@ if floor(animT/30) mod 2 == 0 {
 draw_sprite_ext(sprScrollArrow, 0, view_xview+view_wview-arrowD, view_yview+view_hview/2, 1, 1, 0, c_white, alpha)
 draw_sprite_ext(sprScrollArrow, 0, view_xview+arrowD, view_yview+view_hview/2, 1, 1, 180, c_white, alpha)
 draw_sprite_ext(sprScrollArrow, 0, view_xview+view_wview/2, view_yview+view_hview-arrowD, 1, 1, 270, c_white, alpha)
-draw_sprite_ext(sprScrollArrow, 0, view_xview+view_wview/2, view_yview+arrowD, 1, 1, 90, c_white, alpha)
+draw_sprite_ext(sprScrollArrow, 0, view_xview+view_wview/2, view_yview+arrowD, 1, 1, 90, c_white, alpha)*/
 
 // Counters
 var xx = view_xview+view_wview-80

@@ -168,13 +168,14 @@ if mouse_check_button_pressed(mb_left) and okToPlace {
             
         } else if other.structure == STRUCTURE.HOUSE
         or other.structure == STRUCTURE.FACTORY {
+            var s = id
             with instance_create(x, y, objWall) {
                 image_xscale = 0.5
                 image_yscale = 0.5
                 x += 8
                 y += 8
+                parent = other.id
             }
-            
         }
     }
     
@@ -301,7 +302,7 @@ if not suppressIndicatorLastPlaced {
     }
     
     // Cost text
-    draw_set_font(global.font10)
+    draw_set_font(scrGetFont(10))
     draw_set_halign(fa_center)
     draw_set_valign(fa_top)
     var textColor = c_lime
@@ -323,14 +324,14 @@ draw_sprite_ext(sprScrollArrow, 0, view_xview+view_wview/2, view_yview+view_hvie
 draw_sprite_ext(sprScrollArrow, 0, view_xview+view_wview/2, view_yview+arrowD, 1, 1, 90, c_white, alpha)
 
 // Money text
-draw_set_font(global.font10)
+draw_set_font(scrGetFont(10))
 draw_set_halign(fa_right)
 draw_set_valign(fa_top)
 scrDrawTextOutline(view_xview+view_wview-5, view_yview+view_hview-15, '$'+string(money), c_lime, c_black)
 
 // Size of city
 var citySize = instance_number(objCityCellHouse) + instance_number(objCityCellFactory)
-draw_set_font(global.font10)
+draw_set_font(scrGetFont(10))
 draw_set_halign(fa_left)
 draw_set_valign(fa_top)
 scrDrawTextOutline(view_xview+view_wview-100, view_yview+5, 'City size: '+string(citySize), c_white, c_black)

@@ -28,7 +28,7 @@
             <string>image_speed = 0
 structureType = STRUCTURE.ROAD
 t = 0
-spawnT = irandom_range(150, 200)
+spawnT = irandom_range(300, 400)
 
 citizenOut = false
 citizenSpawnT = irandom_range(1, 200)
@@ -57,6 +57,7 @@ citizenSpawnT = irandom_range(1, 200)
             <string>if objGameController.state == GAME_STATE.BUILD {
     t++
     
+    // Spawn citizen
     if (structureType == STRUCTURE.HOUSE
     or structureType == STRUCTURE.FACTORY)
     and not citizenOut
@@ -70,18 +71,18 @@ citizenSpawnT = irandom_range(1, 200)
 }
 
 if objGameController.state == GAME_STATE.SHOOT {
+    // Periodically spawn monsters
     if structureType == STRUCTURE.HOUSE
     or structureType == STRUCTURE.FACTORY {
-        // Periodically spawn monsters
         t++
         if t &gt;= spawnT {
             t = 0
-            spawnT = irandom_range(150, 200)
+            spawnT = irandom_range(300, 400)
             
             instance_create(
                 x+objCityBuilder.cellWidth/2,
                 y+objCityBuilder.cellHeight/2,
-                objEnemy)
+                objCitizenEnemy)
         }
     }
 }

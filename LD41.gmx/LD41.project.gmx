@@ -27,6 +27,9 @@
     <sound>sound\sndBuildFactory</sound>
     <sound>sound\sndBuildRoad</sound>
     <sound>sound\sndGunshot</sound>
+    <sound>sound\sndDefendPhase</sound>
+    <sound>sound\sndDefendPhaseBass</sound>
+    <sound>sound\sndBuildPhase</sound>
   </sounds>
   <sprites name="sprites">
     <sprites name="Placeholders / Masks">
@@ -38,6 +41,7 @@
       <sprite>sprites\sprCityCellNoPlace</sprite>
       <sprite>sprites\sprPlayerCheeze</sprite>
       <sprite>sprites\sprHousePlaceholder</sprite>
+      <sprite>sprites\sprDebuilderPlaceholder</sprite>
     </sprites>
     <sprites name="UI">
       <sprite>sprites\sprScrollArrow</sprite>
@@ -91,26 +95,38 @@
     <script>scripts\scrRoadUpdateSprite.gml</script>
     <script>scripts\scrMoveContactWallsAndCityBorder.gml</script>
     <script>scripts\scrCitizenChangeDirections.gml</script>
+    <script>scripts\scrGetFont.gml</script>
+    <script>scripts\scrPlayerBulletCheckCollisions.gml</script>
   </scripts>
-  <fonts name="fonts"/>
+  <fonts name="fonts">
+    <font>fonts\font1</font>
+  </fonts>
   <objects name="objects">
     <objects name="Controllers">
       <object>objects\objGameController</object>
       <object>objects\objCityBuilder</object>
       <object>objects\objShootController</object>
     </objects>
+    <objects name="Structures">
+      <object>objects\objCityCell</object>
+      <object>objects\objCityCellRoad</object>
+      <object>objects\objCityCellBuilding</object>
+      <object>objects\objCityCellHouse</object>
+      <object>objects\objCityCellFactory</object>
+    </objects>
+    <objects name="Enemies">
+      <object>objects\objEnemy</object>
+      <object>objects\objCheeseEnemy</object>
+      <object>objects\objCitizenEnemy</object>
+      <object>objects\objEnemyBullet</object>
+      <object>objects\objDebuilderEnemy</object>
+    </objects>
     <object>objects\objShootPlayer</object>
     <object>objects\objWall</object>
     <object>objects\objPlayerBullet</object>
-    <object>objects\objCityCell</object>
-    <object>objects\objCityCellRoad</object>
-    <object>objects\objCityCellBuilding</object>
-    <object>objects\objCityCellHouse</object>
-    <object>objects\objCityCellFactory</object>
     <object>objects\objGhostCityCell</object>
     <object>objects\objText</object>
     <object>objects\objParticle</object>
-    <object>objects\objEnemy</object>
     <object>objects\objCitizen</object>
     <object>objects\objShadow</object>
   </objects>

@@ -38,6 +38,8 @@ debugWallsVisible = false
 sprite_index = -1
 
 global.font10 = font_add('Pixel_Emulator.otf', 10, false, false, -1, -1)
+
+randomize()
 </string>
           </argument>
         </arguments>
@@ -82,6 +84,8 @@ global.font10 = font_add('Pixel_Emulator.otf', 10, false, false, -1, -1)
         with objCitizen {
             instance_destroy()
         }
+        
+        audio_play_sound(sndDefendPhase, 0, false)
         
     } else if (state == GAME_STATE.SHOOT) {
         

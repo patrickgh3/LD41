@@ -97,13 +97,22 @@ aimDir = point_direction(x, y, mouse_x, mouse_y)
 if mouse_check_button(mb_left) {
     var d = 13
     var dir = aimDir + random_range(-3, 3)
-    with instance_create(
-        x+lengthdir_x(d, other.aimDir),
-        y+lengthdir_y(d, other.aimDir)+1,
-        objPlayerBullet) {
+    
+    var xx = x+lengthdir_x(d, other.aimDir)
+    var yy = y+lengthdir_y(d, other.aimDir)+1
+    
+    with instance_create(x, y, objPlayerBullet) {
         direction = dir
         image_angle = direction
         speed = 10
+        
+        // Check for collisions at the center of the player
+        // before moving to the spawn point at the end of the gun.
+        // (to kill any enemies that are directly on top of you first)
+        scrPlayerBulletCheckCollisions()
+        x = xx
+        y = yy
+        scrPlayerBulletCheckCollisions()
     }
     
     t++
@@ -111,10 +120,36 @@ if mouse_check_button(mb_left) {
         audio_play_sound(sndGunshot, 0, false)
     }
 }
+
 // Move the camera
 
 view_xview += (x-view_wview/2 - view_xview) * 0.2
 view_yview += (y-view_hview/2 - view_yview) * 0.2
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="4" ename="objEnemyBullet">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>with other {
+    instance_destroy()
+}
 </string>
           </argument>
         </arguments>
@@ -141,13 +176,14 @@ view_yview += (y-view_hview/2 - view_yview) * 0.2
 draw_sprite_ext(sprPlayerShadow, 0, x, y+8, drawXScale, 1, 0, c_white, 1)
 
 // Gun
-var gunInBack = abs(angle_difference(aimDir, 90)) &lt; 60
 var gunYScale = 1
 if drawXScale &lt; 0 {
     gunYScale = -1
 }
 var gunDrawX = x//-3*drawXScale
 var gunDrawY = y+1
+
+var gunInBack = false//abs(angle_difference(aimDir, 90)) &lt; 60
 
 // Gun (if in back)
 if gunInBack {

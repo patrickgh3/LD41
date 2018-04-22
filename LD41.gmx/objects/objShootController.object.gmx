@@ -58,6 +58,38 @@ surviveT = 60*20
 
 t++
 
+// Spawn enemies from the fog
+
+if t mod 200 == 0 {
+    // Spawn a group of cheese people
+    var numCheese = choose(5, 6, 7)
+    var dir = random(360)
+    var len = 300 // todo: determine close point inside fog
+    
+    repeat numCheese {
+        var xx = 0+lengthdir_x(len+random(30), dir+random_range(-30, 30))
+        var yy = 0+lengthdir_y(len+random(30), dir+random_range(-30, 30))
+        
+        with instance_create(xx, yy, objCheeseEnemy) {
+            
+        }
+    }
+}
+
+// Spawn debuilder
+if t == 1 {
+    var dir = random(360)
+    var len = 150 // todo: determine close point inside fog
+    
+    var xx = 0+lengthdir_x(len+random(30), dir+random_range(-30, 30))
+    var yy = 0+lengthdir_y(len+random(30), dir+random_range(-30, 30))
+    
+    with instance_create(xx, yy, objDebuilderEnemy) {
+        
+    }
+}
+
+// Round end
 if t &gt;= surviveT {
     enabled = false
     objGameController.state = GAME_STATE.BUILD
@@ -83,6 +115,8 @@ if t &gt;= surviveT {
         marioExists = false
         luigiExists = false
     }
+    
+    audio_play_sound(sndBuildPhase, 0, false)
 }
 </string>
           </argument>
@@ -110,7 +144,7 @@ if t &gt;= surviveT {
     exit
 }
 
-draw_set_font(global.font10)
+draw_set_font(scrGetFont(10))
 draw_set_halign(fa_center)
 draw_set_valign(fa_top)
 var secondsStr = string(floor(surviveT/60)-floor(t/60))

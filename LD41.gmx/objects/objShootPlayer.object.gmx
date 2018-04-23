@@ -35,6 +35,9 @@ hp = min(objShootController.lastPlayerHealth, maxhp)
 
 iframes = 0
 maxIframes = 60
+
+rageT = 0
+rageDuration = 60*3
 </string>
           </argument>
         </arguments>
@@ -57,7 +60,19 @@ maxIframes = 60
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>// Walk around
+            <string>// Count down iframes
+if iframes &gt; 0 {
+    iframes --
+}
+
+// Count down rage mode
+if rageT &gt; 0 {
+    rageT --
+}
+
+
+
+// Walk around
 
 var walkSpeed = 2
 
@@ -107,6 +122,12 @@ if mouse_check_button(mb_left) {
         image_angle = direction
         speed = 10
         
+        shotPower = 1
+        if other.rageT &gt; 0 {
+            shotPower = 2
+            sprite_index = sprPlayerRageBullet
+        }
+        
         // Check for collisions at the center of the player
         // before moving to the spawn point at the end of the gun.
         // (to kill any enemies that are directly on top of you first)
@@ -129,10 +150,7 @@ if mouse_check_button(mb_left) {
 view_xview += (x-view_wview/2 - view_xview) * 0.2
 view_yview += (y-view_hview/2 - view_yview) * 0.2
 
-// Count down iframes
-if iframes &gt; 0 {
-    iframes --
-}
+
 
 // Die
 if hp &lt;= 0 {
@@ -143,8 +161,45 @@ if hp &lt;= 0 {
     objShootController.enabled = false
     objGameController.state = GAME_STATE.GAMEOVER
     instance_create(0, 0, objGameOverController)
-    objGameOverController.numFactories = objCityBuilder.numFactories
+    objGameOverController.numBuildings = objCityBuilder.numBuildings
+    
+    audio_play_sound(sndBuildFactory, 0, false)
 }
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="4" ename="objRageGun">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>with other {
+    instance_destroy()
+    
+    with instance_create(x, y-8, objText) {
+        text = 'x2 DAMAGE'
+        color = c_white
+        vspeed = -0.25
+        destroyT = 50
+        halign = fa_center
+    }
+}
+
+rageT = rageDuration
 </string>
           </argument>
         </arguments>
@@ -168,6 +223,10 @@ if hp &lt;= 0 {
           <argument>
             <kind>1</kind>
             <string>// Collect bread
+
+if hp &gt;= maxhp {
+    exit
+}
 
 with other {
     instance_destroy()

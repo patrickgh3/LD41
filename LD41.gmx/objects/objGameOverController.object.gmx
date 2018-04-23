@@ -114,7 +114,7 @@ view_yview = y - view_hview/2
 // Spawn button
 if t &gt;= 120 {
     //with instance_create(view_xview+view_wview/2, view_yview+view_hview-80, objButton) {
-    with instance_create(view_wport/2, floor(view_hport*0.7), objButton) {
+    with instance_create(view_wport/2, floor(view_hport*0.73), objButton) {
         image_xscale = other.uiScale
         image_yscale = image_xscale
     }
@@ -145,10 +145,13 @@ if t &gt;= 120 {
 draw_set_halign(fa_center)
 draw_set_valign(fa_center)
 scrDrawTextOutlineScale(
-    //view_xview+view_wview/2, view_yview+view_hview/2-40,
     view_wport/2, floor(view_hport*0.4),
-    'GAME OVER###Score:#'+string(numFactories)+'#surviving factories',
+    'GAME OVER###Score:#'+'#'+'#surviving buildings#last round',
     c_white, c_black, uiScale)
+scrDrawTextOutlineScale(
+    view_wport/2, floor(view_hport*0.44),
+    string(numBuildings),
+    c_white, c_black, uiScale*2)
 </string>
           </argument>
         </arguments>

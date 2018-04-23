@@ -57,7 +57,7 @@ structureCost = 0
 ghost = instance_create(0, 0, objGhostCityCell)
 ghost.image_alpha = 0.5
 
-moneyPerRound = 100
+moneyPerRound = 150
 money = moneyPerRound
 factoryRevenue = 30
 roadCost = 20
@@ -65,7 +65,7 @@ houseCost = 20
 factoryCost = 50
 storeCost = 50
 
-numFactories = 0
+numBuildings = 0
 population = 0
 numIndustryAndCommercial = 0
 
@@ -642,7 +642,7 @@ if objGameController.state == GAME_STATE.BUILD {
     draw_set_font(scrGetFont(10))
     draw_set_halign(fa_right)
     draw_set_valign(fa_top)
-    scrDrawTextOutline(view_xview+view_wview-5, view_yview+5, string(numFactories)+' surviving factories', c_white, c_black)
+    scrDrawTextOutline(view_xview+view_wview-5, view_yview+5, 'score: '+string(numBuildings)+' surviving buildings', c_white, c_black)
 }
 
 if not enabled or not readyToDraw {

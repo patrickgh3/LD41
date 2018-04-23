@@ -100,7 +100,7 @@ if instance_exists(objShootPlayer) {
         drawXScale = -1
     }
     if objShootPlayer.x &gt; x {
-        drawYScale = 1
+        drawXScale = 1
     }
 }
 </string>

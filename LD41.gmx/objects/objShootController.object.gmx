@@ -75,8 +75,9 @@ t++
 
 
 // Scale cheese spawn rate
-var intensity = clamp(instance_number(objCityCellBuilding)/20, 0, 1);
-cheeseSpawnT = lerp(200, 100, intensity)
+//var intensity = clamp(instance_number(objCityCellBuilding)/20, 0, 1);
+//cheeseSpawnT = lerp(200, 100, intensity)
+cheeseSpawnT = 170
 
 // Spawn groups of cheese people from the fog
 cheeseT ++

@@ -88,6 +88,7 @@
       <sprite>sprites\sprPlayerWalk</sprite>
       <sprite>sprites\sprPlayerGun</sprite>
       <sprite>sprites\sprPlayerBullet</sprite>
+      <sprite>sprites\sprPlayerRageBullet</sprite>
     </sprites>
     <sprites name="Structures">
       <sprite>sprites\sprRoad</sprite>
@@ -149,6 +150,7 @@
     </sprites>
     <sprite>sprites\sprFog</sprite>
     <sprite>sprites\sprBread</sprite>
+    <sprite>sprites\sprRageGun</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -164,6 +166,7 @@
       <script>scripts\scrPlayerBulletCheckCollisions.gml</script>
       <script>scripts\scrCreatePoof.gml</script>
       <script>scripts\scrHurtPlayer.gml</script>
+      <script>scripts\scrSpawnPowerup.gml</script>
     </scripts>
     <script>scripts\scrMouseInWindow.gml</script>
     <script>scripts\scrDrawTextOutline.gml</script>
@@ -217,6 +220,7 @@
     <object>objects\objShadow</object>
     <object>objects\objParticle</object>
     <object>objects\objBread</object>
+    <object>objects\objRageGun</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\roomInit</room>

@@ -58,37 +58,10 @@ breadT = 0
             <kind>1</kind>
             <string>event_inherited()
 
-if not instance_exists(objShootPlayer) {
-    exit
-}
-
 // Spawn a bread on a random road
 breadT --
 if breadT == 0 {
-    var n = instance_number(objCityCellRoad)
-    
-    // Try a bunch of times to find a valid random bread spawn location
-    for (var i=0; i&lt;30; i++) {
-        var road = instance_find(objCityCellRoad, irandom(n-1))
-        
-        with road {
-            var xc = x+16
-            var yc = y+16
-            var hasBread = place_meeting(x, y, objBread)
-        }
-        var farFromPlayer = point_distance(xc, yc, objShootPlayer.x, objShootPlayer.y) &gt; 16
-        //var nearBread = instance_nearest(xc, yc, objBread)
-        //var farFromBread = nearBread == noone or point_distance(xc, yc, nearBread.x, nearBread.y) &gt; 16
-        
-        if not hasBread and farFromPlayer {
-            instance_create(xc, yc, objBread)
-            with scrCreatePoof(xc, yc) {
-                depth = objBread.depth-1
-                sprite_index = choose(sprPoof4, sprPoof5)
-            }
-            break
-        }
-    }
+    scrSpawnPowerup(objBread)
 }
 </string>
           </argument>

@@ -23,11 +23,11 @@ with objCityBuilder {
     money += moneyPerRound
     marioExists = false
     luigiExists = false
-    alarm[0] = 50 // Ka-ching for factories earning money
+    //alarm[0] = 50 // Ka-ching for factories earning money
     t = 0
     
-    // Calculate num factories (score)
-    numFactories = instance_number(objCityCellFactory)
+    // Calculate score
+    numBuildings = instance_number(objCityCellBuilding)
 }
 
 // Destroy objects
@@ -44,6 +44,9 @@ with objEnemyBullet {
     instance_destroy()
 }
 with objBread {
+    instance_destroy()
+}
+with objRageGun {
     instance_destroy()
 }
 // Start citizen spawn timers

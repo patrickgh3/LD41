@@ -55,7 +55,12 @@ with objCityCell {
 
 // Prepare bakeries to spawn bread
 with objCityCellStore {
-    breadT = irandom_range(180, objShootController.surviveT - 180)
+    breadT = irandom_range(60*2, objShootController.surviveT - 60*4)
+}
+
+// Prepare factories to spawn powerups
+with objCityCellFactory {
+    spawnT = irandom_range(60*2, objShootController.surviveT - 60*4)
 }
 
 // Buttons invisible

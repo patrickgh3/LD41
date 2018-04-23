@@ -20,7 +20,7 @@ id, false, false) {
     var len = 100
     var len2 = 80
     
-    draw_sprite_ext(spr, 0,
+    draw_sprite_ext(sprDebuilderIndicator, 0,
         xc + lengthdir_x(len, dir),
         yc + lengthdir_y(len, dir),
         1, 1, dir, c_white, 1)

@@ -4,8 +4,6 @@ if enemy == noone {
     return 0
 }
 
-instance_destroy()
-
 /*with instance_create(x+random_range(-2, 2), y+random_range(-2, 2), objParticle) {
     image_speed = 1/3
 }*/
@@ -16,7 +14,7 @@ with enemy {
         return 0
     }
     
-    hp -= 1
+    hp -= other.shotPower
     // Hurt the enemy
     if hp > 0 {
         // Knockback
@@ -65,3 +63,5 @@ with enemy {
         }
     }
 }
+
+instance_destroy()

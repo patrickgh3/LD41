@@ -71,6 +71,7 @@
       <sprite>sprites\sprEndButton</sprite>
       <sprite>sprites\sprCountersBox</sprite>
       <sprite>sprites\sprButtonBacking</sprite>
+      <sprite>sprites\sprDebuilderArrow</sprite>
     </sprites>
     <sprites name="Player">
       <sprite>sprites\sprPlayerMask</sprite>
@@ -88,6 +89,7 @@
       <sprite>sprites\sprFactory</sprite>
       <sprite>sprites\sprFactory2</sprite>
       <sprite>sprites\sprCellOutline</sprite>
+      <sprite>sprites\sprRubble</sprite>
     </sprites>
     <sprites name="Citizens">
       <sprite>sprites\sprBakerIdle</sprite>
@@ -117,6 +119,8 @@
       <sprite>sprites\sprEvilPoliceIdle</sprite>
       <sprite>sprites\sprEvilPoliceWalk</sprite>
       <sprite>sprites\sprEvilCitizenGun</sprite>
+      <sprite>sprites\sprEvilCitizenBullet</sprite>
+      <sprite>sprites\sprDebuilder</sprite>
     </sprites>
     <sprites name="Particles">
       <sprite>sprites\sprDustParticle</sprite>
@@ -135,6 +139,7 @@
       <sprite>sprites\sprPoof5</sprite>
     </sprites>
     <sprite>sprites\sprFog</sprite>
+    <sprite>sprites\sprBread</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -164,6 +169,7 @@
       <object>objects\objCityBuilder</object>
       <object>objects\objShootController</object>
       <object>objects\objGameOverController</object>
+      <object>objects\objTitleController</object>
       <object>objects\objInit</object>
       <object>objects\objPersistent</object>
     </objects>
@@ -175,6 +181,7 @@
       <object>objects\objCityCellFactory</object>
       <object>objects\objCityCellStore</object>
       <object>objects\objGhostCityCell</object>
+      <object>objects\objRubble</object>
     </objects>
     <objects name="Enemies">
       <object>objects\objEnemy</object>
@@ -196,9 +203,11 @@
     <object>objects\objCitizen</object>
     <object>objects\objShadow</object>
     <object>objects\objParticle</object>
+    <object>objects\objBread</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\roomInit</room>
+    <room>rooms\roomTitle</room>
     <room>rooms\roomGame</room>
   </rooms>
   <help>

@@ -58,7 +58,7 @@ ghost.image_alpha = 0.5
 
 money = 200
 moneyPerRound = 100
-numBuildings = 0
+numFactories = 0
 population = 0
 numIndustryAndCommercial = 0
 
@@ -241,7 +241,7 @@ with ghost {
 }
 
 // Compute number of buildings and population
-numBuildings = instance_number(objCityCellBuilding)
+numFactories = instance_number(objCityCellFactory)
 population = instance_number(objCityCellHouse)
 numIndustryAndCommercial =
     instance_number(objCityCellFactory)
@@ -341,12 +341,19 @@ if not backingHover {
         }*/
         
         // Dust particles
-        scrCreatePoof(0, 0)
         var d = 8
-        scrCreatePoof(-d, -d)
-        scrCreatePoof(-d, d)
-        scrCreatePoof(d, -d)
-        scrCreatePoof(d, d)
+        var xc = hoverX+cellWidth/2
+        var yc = hoverY+cellHeight/2
+        scrCreatePoof(xc, yc)
+        scrCreatePoof(xc-d, yc-d)
+        scrCreatePoof(xc-d, yc+d)
+        scrCreatePoof(xc+d, yc-d)
+        scrCreatePoof(xc+d, yc+d)
+        
+        // Destroy existing rubble if there is any
+        with instance_position(hoverX, hoverY, objRubble) {
+            instance_destroy()
+        }
         
     // Create "not enough money" floating text
     } else if mouse_check_button_pressed(mb_left) and okToPlacePhysical and not enoughMoney {
@@ -470,7 +477,7 @@ var w = view_wview/2
 var h = view_hview/2
 var leeway = 128
 
-view_xview = clamp(view_xview+w, xMin-leeway, yMax+leeway)-w
+view_xview = clamp(view_xview+w, xMin-leeway, xMax+leeway)-w
 view_yview = clamp(view_yview+h, yMin-leeway, yMax+leeway)-h
 </string>
           </argument>

@@ -10,7 +10,7 @@ with objShootController {
 }
 
 with objCityBuilder {
-    alarm[1] = 80 // Enable self after delay
+    alarm[1] = 120 // Enable self after delay
     
     structure = STRUCTURE.ROAD
     with objBuildButton {
@@ -36,6 +36,9 @@ with objEnemy {
     instance_destroy()
 }
 with objEnemyBullet {
+    instance_destroy()
+}
+with objBread {
     instance_destroy()
 }
 // Start citizen spawn timers

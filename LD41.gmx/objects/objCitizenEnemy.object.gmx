@@ -27,13 +27,15 @@
             <kind>1</kind>
             <string>event_inherited()
 
-image_speed = 1/5
 walkSpeed = 0.5
 maxhp = 20
 hp = maxhp
 
 t = 0
 aimDir = 0
+state = 0
+waitTime = 45
+image_speed = 0
 
 /*sprite_index = choose(
     sprEvilBakerWalk,
@@ -63,20 +65,32 @@ image_index = irandom(image_number-1)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>event_inherited()
+            <string>// Initial spawn wait for a bit
+if state == 0 {
+    t++
+    if t &gt;= waitTime {
+        t = 0
+        state = 1
+        image_speed = 1/5
+        image_index ++
+    }
 
 // Shoot bullets at the player
-if instance_exists(objShootPlayer) {
-    aimDir = point_direction(x, y, objShootPlayer.x, objShootPlayer.y)
+} else if state == 1 {
+    event_inherited() // Walk toward player
     
-    t++
-    if t &gt;= 60 {
-        t -= 60
-        with instance_create(x, y, objEnemyBullet) {
-            direction = other.aimDir
-            image_angle = direction
-            speed = 1.5
-            image_speed = 0
+    if instance_exists(objShootPlayer) {
+        aimDir = point_direction(x, y, objShootPlayer.x, objShootPlayer.y)
+        
+        t++
+        if t &gt;= 60 {
+            t -= 60
+            with instance_create(x, y, objEnemyBullet) {
+                direction = other.aimDir
+                image_angle = direction
+                speed = 1.5
+                image_speed = 0
+            }
         }
     }
 }

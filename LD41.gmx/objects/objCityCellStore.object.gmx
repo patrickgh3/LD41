@@ -26,11 +26,66 @@
           <argument>
             <kind>1</kind>
             <string>event_inherited()
+
 // Since the store is bigger than 32x32, set our sprite to be
 // the 32x32 house to ensure collisions work as normal.
 // This probably isn't necessary since I set the hitbox in sprStore,
 // but better safe than sorry.
 sprite_index = sprHouse
+
+breadT = 0
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>event_inherited()
+
+if not instance_exists(objShootPlayer) {
+    exit
+}
+
+// Spawn a bread on a random road
+breadT --
+if breadT == 0 {
+    var n = instance_number(objCityCellRoad)
+    
+    // Try 10 times to find a valid random bread spawn location
+    for (var i=0; i&lt;10; i++) {
+        var road = instance_find(objCityCellRoad, irandom(n-1))
+        
+        with road {
+            var xc = x+16
+            var yc = y+16
+            var hasBread = place_meeting(x, y, objBread)
+        }
+        var farFromPlayer = point_distance(xc, yc, objShootPlayer.x, objShootPlayer.y) &gt; 16
+        //var nearBread = instance_nearest(xc, yc, objBread)
+        //var farFromBread = nearBread == noone or point_distance(xc, yc, nearBread.x, nearBread.y) &gt; 16
+        
+        if not hasBread and farFromPlayer {
+            instance_create(xc, yc, objBread)
+            break
+        }
+    }
+}
 </string>
           </argument>
         </arguments>

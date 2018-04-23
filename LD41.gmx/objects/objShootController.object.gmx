@@ -104,7 +104,7 @@ if cheeseT &gt;= cheeseSpawnT {
 
 
 // Spawn debuilder from the fog
-if t == 1 and instance_number(objCityCellBuilding) &gt;= 8 {
+if t == 1 {// and instance_number(objCityCellBuilding) &gt;= 8 {
     var dir = random(360)
     
     // Determine the closest point in that direction that's inside the fog.

@@ -34,11 +34,17 @@ for (var xx = view_xview; xx &lt; view_xview + view_wview + cellWidth; xx += cel
         var cellX = floor(xx/cellWidth)*cellWidth + cellWidth/2
         var cellY = floor(yy/cellHeight)*cellHeight + cellHeight/2
         
+        // Seed the random angle based on the fog cloud position
+        random_set_seed(cellX+cellY*123)
+        var angle = choose(0, 90, 180, 270)
+        
         if not instance_position(cellX, cellY, objFogBlocker) {
-            draw_sprite(sprFog, 0, cellX, cellY)
+            draw_sprite_ext(sprFog, 0, cellX, cellY, 1, 1, angle, c_white, 1)
         }
     }
 }
+
+randomize()
 </string>
           </argument>
         </arguments>

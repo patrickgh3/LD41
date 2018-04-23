@@ -47,6 +47,11 @@ with objCityCell {
     builtThisPhase = false
 }
 
+// Prepare bakeries to spawn bread
+with objCityCellStore {
+    breadT = irandom_range(180, objShootController.surviveT - 180)
+}
+
 // Buttons invisible
 with objBuildButton {
     visible = false

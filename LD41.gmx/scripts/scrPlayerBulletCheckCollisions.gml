@@ -11,33 +11,43 @@ instance_destroy()
 }*/
 
 with enemy {
+    // Invulnerable if inside fog
+    if !place_meeting(x, y, objFogBlocker) {
+        return 0
+    }
+    
     hp -= 1
     // Hurt the enemy
     if hp > 0 {
         // Knockback
-        var h = lengthdir_x(knockback, other.direction)
-        var v = lengthdir_y(knockback, other.direction)
-        scrMoveContactWalls(h, v)
+        if not place_meeting(x, y, objWall) {
+            var h = lengthdir_x(knockback, other.direction)
+            var v = lengthdir_y(knockback, other.direction)
+            scrMoveContactWalls(h, v)
+        }
         
         // Hurt particles
-        if random(1) < 0.5 {
-        
+        if random(1) < 0.75 {
             var partX = x+random_range(-2, 2)
             var partY = y+random_range(-2, 2)
+            
             if object_index == objCheeseEnemy {
                 with instance_create(partX, partY, objParticle) {
                     sprite_index = sprCheeseDisposeParticle
                     image_speed = 1/5
-                    //direction = random(360)
-                    //speed = random_range(0, 0.25)
                 }
             
             } else if object_index == objCitizenEnemy {
                 with instance_create(partX, partY, objParticle) {
                     sprite_index = sprCitizenDisposeParticle
                     image_speed = 1/5
-                    //direction = random(360)
-                    //speed = random_range(0, 0.25)
+                }
+            } else if object_index == objDebuilderEnemy {
+                partX = x+random_range(-15, 15)
+                partY = y+random_range(-15, 15)
+                with instance_create(partX, partY, objParticle) {
+                    sprite_index = sprCitizenDisposeParticle
+                    image_speed = 1/5
                 }
             }
         }
@@ -50,11 +60,14 @@ with enemy {
         
         // Death particles
         if object_index == objCheeseEnemy {
+            scrCreatePoof(x, y)
             with instance_create(x, y-3, objParticle) {
                 sprite_index = sprCheeseDropParticle
                 image_speed = 1/10
             }
+        
         } else if object_index == objCitizenEnemy {
+            scrCreatePoof(x, y)
             with instance_create(x, y-3, objParticle) {
                 sprite_index = sprDroppedGun
                 image_angle = random(360)
@@ -66,6 +79,22 @@ with enemy {
                 destroyT = 60
                 destroyOnAnimEnd = false
                 destroyFallBelowStartPos = true
+            }
+        
+        } else if object_index == objDebuilderEnemy {
+            var d = 8
+            scrCreatePoof(x, y)
+            scrCreatePoof(x-d, y-d)
+            scrCreatePoof(x-d, y+d)
+            scrCreatePoof(x+d, y-d)
+            scrCreatePoof(x+d, y+d)
+            repeat 10 {
+                var partX = x+random_range(-10, 10)
+                var partY = y+random_range(-10, 10)
+                with instance_create(x, y-3, objParticle) {
+                    sprite_index = sprCitizenDisposeParticle
+                    image_speed = 1/10
+                }
             }
         }
     }

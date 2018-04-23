@@ -6,6 +6,9 @@ audio_play_sound(sndDefendPhaseStart, 0, false)
 audio_sound_gain(global.buildMusic, 0, 500)
 objGameController.alarm[0] = 60
 
+// Unpause and fade in shoot phase music
+objGameController.alarm[3] = 110
+
 instance_create(0, 0, objShootPlayer)
 
 var unspentMoney
@@ -77,7 +80,7 @@ if unspentMoney != 0 {
         text = '-$'+string(unspentMoney)
         color = c_red
         vspeed = -0.25
-        destroyT = 60
+        destroyT = 90
         halign = fa_right
         followView = true
     }

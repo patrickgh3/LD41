@@ -203,6 +203,8 @@ if hp &lt;= 0 {
 }
 
 rageT = rageDuration
+
+audio_play_sound(sndPickupGun, 0, false)
 </string>
           </argument>
         </arguments>
@@ -246,7 +248,7 @@ with other {
 hp += 1
 hp = min(hp, maxhp)
 
-//audio_play_sound(sndEatBread, 0, false)
+audio_play_sound(sndEatBread, 0, false)
 </string>
           </argument>
         </arguments>

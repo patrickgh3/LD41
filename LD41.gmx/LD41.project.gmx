@@ -40,11 +40,14 @@
       <sound>sound\sndCitizenDeath</sound>
       <sound>sound\sndCheeseDeath</sound>
       <sound>sound\sndPlayerHurt</sound>
+      <sound>sound\sndEatBread</sound>
+      <sound>sound\sndPickupGun</sound>
     </sounds>
     <sounds name="Music">
       <sound>sound\sndDefendPhaseStart</sound>
       <sound>sound\sndBuildPhaseStart</sound>
       <sound>sound\sndBuildMusic</sound>
+      <sound>sound\sndShootMusic</sound>
     </sounds>
   </sounds>
   <sprites name="sprites">

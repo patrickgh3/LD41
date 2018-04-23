@@ -1,9 +1,14 @@
 objGameController.state = GAME_STATE.BUILD
 
-audio_play_sound(sndBuildPhaseStart, 0, false)
+// Delay playing jingle
+objGameController.alarm[4] = 30
+
+// Fade out and pause shoot phase music
+audio_sound_gain(global.shootMusic, 0, 500)
+objGameController.alarm[2] = 60
 
 // Unpause and fade in build phase music
-objGameController.alarm[1] = 60
+objGameController.alarm[1] = 100
 
 with objShootController {
     enabled = false

@@ -61,10 +61,16 @@ if hover {
     image_index = 1
 }
 
-// Click the button 
+// Click the button  - go to title
 if hover and mouse_check_button_pressed(mb_left) {
     audio_play_sound(sndMenuClick, 0, false)
-    scrStartNewGame()
+    
+    audio_stop_sound(global.buildMusic)
+    global.buildMusic = -1
+    audio_stop_sound(global.shootMusic)
+    global.shootMusic = -1
+    
+    room_goto(roomTitle)
 }
 </string>
           </argument>

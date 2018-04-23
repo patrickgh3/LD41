@@ -34,7 +34,7 @@ randomize()
 global.soundMuted = false
 instance_create(0, 0, objPersistent)
 
-room_goto(roomGame)
+room_goto(roomTitle)
 </string>
           </argument>
         </arguments>

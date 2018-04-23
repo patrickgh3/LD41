@@ -81,9 +81,14 @@
       <sprite>sprites\sprCountersBox</sprite>
       <sprite>sprites\sprButtonBacking</sprite>
       <sprite>sprites\sprDebuilderIndicator</sprite>
+      <sprite>sprites\sprDebuilderIndicatorFlash</sprite>
       <sprite>sprites\sprCheeseIndicator</sprite>
       <sprite>sprites\sprHeart</sprite>
       <sprite>sprites\sprReturnButton</sprite>
+      <sprite>sprites\sprCreditsButton</sprite>
+      <sprite>sprites\sprPlayButton</sprite>
+      <sprite>sprites\sprTitle</sprite>
+      <sprite>sprites\sprControls</sprite>
     </sprites>
     <sprites name="Player">
       <sprite>sprites\sprPlayerMask</sprite>
@@ -161,7 +166,6 @@
     <scripts name="Change game state">
       <script>scripts\scrEnterShootPhase.gml</script>
       <script>scripts\scrEnterBuildPhase.gml</script>
-      <script>scripts\scrStartNewGame.gml</script>
     </scripts>
     <scripts name="Object-specific">
       <script>scripts\scrRoadUpdateSprite.gml</script>
@@ -213,6 +217,7 @@
       <object>objects\objButtonBacking</object>
       <object>objects\objText</object>
       <object>objects\objButton</object>
+      <object>objects\objButtonNotGUI</object>
     </objects>
     <object>objects\objShootPlayer</object>
     <object>objects\objPlayerBullet</object>
@@ -227,6 +232,7 @@
   </objects>
   <rooms name="rooms">
     <room>rooms\roomInit</room>
+    <room>rooms\roomTitle</room>
     <room>rooms\roomGame</room>
   </rooms>
   <help>

@@ -16,7 +16,7 @@ with objShootController {
 }
 
 with objCityBuilder {
-    alarm[1] = 180 // Enable self after delay
+    alarm[1] = 120 // Enable self after delay
     
     structure = STRUCTURE.ROAD
     with objBuildButton {

@@ -57,10 +57,10 @@ structureCost = 0
 ghost = instance_create(0, 0, objGhostCityCell)
 ghost.image_alpha = 0.5
 
-moneyPerRound = 150
+moneyPerRound = 200
 money = moneyPerRound
 factoryRevenue = 30
-roadCost = 20
+roadCost = 10
 houseCost = 20
 factoryCost = 50
 storeCost = 50

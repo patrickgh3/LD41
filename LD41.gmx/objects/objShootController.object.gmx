@@ -126,7 +126,7 @@ if cheeseT &gt;= cheeseSpawnT {
 
 // Spawn debuilders from the fog
 debuilderT ++
-if debuilderT &gt;= debuilderSpawnT and instance_number(objCityCellBuilding) &gt;= 8 {
+if debuilderT &gt;= debuilderSpawnT {// and instance_number(objCityCellBuilding) &gt;= 4 {
     debuilderT = 0
     var dir = random(360)
     

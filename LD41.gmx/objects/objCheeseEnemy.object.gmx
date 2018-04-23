@@ -88,7 +88,7 @@ with instance_create(x, y-3, objParticle) {
           <argument>
             <kind>1</kind>
             <string>if leader {
-    scrDrawObjectIndicator(32, sprCheeseIndicator)
+    //scrDrawObjectIndicator(32, sprCheeseIndicator)
 }
 </string>
           </argument>

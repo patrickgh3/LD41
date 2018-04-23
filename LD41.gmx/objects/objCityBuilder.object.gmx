@@ -40,6 +40,7 @@ hoverX = 0
 hoverY = 0
 okToPlace = false
 animT = 0
+t = 0
 readyToDraw = false
 
 enabled = false
@@ -169,6 +170,7 @@ with objCityCellFactory {
             <string>if not enabled {
     readyToDraw = false
     suppressIndicatorLastPlaced = false
+    t ++
     exit
 }
 
@@ -252,7 +254,6 @@ with ghost {
 }
 
 // Compute number of buildings and population
-numFactories = instance_number(objCityCellFactory)
 population = instance_number(objCityCellHouse)
 numIndustryAndCommercial =
     instance_number(objCityCellFactory)
@@ -286,7 +287,7 @@ if not backingHover {
             audio_play_sound(sndBuildFactory, 0, false)
         } else if structure == STRUCTURE.STORE {
             cellObj = objCityCellStore
-            audio_play_sound(sndBuildFactory, 0, false)
+            audio_play_sound(sndBuildBakery, 0, false)
         }
         
         // Create the structure, and do special logic depending on what
@@ -409,11 +410,22 @@ if not backingHover {
                     instance_destroy()
                     instance_create(x, y, objRubble)
                 }
+                
                 audio_play_sound(sndBuildFactory, 0, false)
                 success = true
                 buttonSelected.visible = false
                 buttonSelected = noone
                 structure = STRUCTURE.ROAD
+                
+                // Dust particles
+                var d = 8
+                var xc = hoverX+cellWidth/2
+                var yc = hoverY+cellHeight/2
+                scrCreatePoof(xc, yc)
+                scrCreatePoof(xc-d, yc-d)
+                scrCreatePoof(xc-d, yc+d)
+                scrCreatePoof(xc+d, yc-d)
+                scrCreatePoof(xc+d, yc+d)
             }
         }
     } else if mouse_check_button_pressed(mb_left) and not okToPlacePhysical {
@@ -626,7 +638,15 @@ for (var xx = view_xview; xx &lt; view_xview + view_wview + cellWidth; xx += cel
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if not enabled or not readyToDraw {
+            <string>// Draw score
+if objGameController.state == GAME_STATE.BUILD {
+    draw_set_font(scrGetFont(10))
+    draw_set_halign(fa_right)
+    draw_set_valign(fa_top)
+    scrDrawTextOutline(view_xview+view_wview-5, view_yview+5, string(numFactories)+' surviving factories', c_white, c_black)
+}
+
+if not enabled or not readyToDraw {
     exit
 }
 

@@ -34,6 +34,7 @@ cheeseT = 0
 cheeseSpawnT = 300
 debuilderT = 0
 debuilderSpawnT = 600
+lastPlayerHealth = 5 // What health the player finished the last round with
 </string>
           </argument>
         </arguments>
@@ -74,8 +75,8 @@ t++
 
 
 // Scale cheese spawn rate
-var intensity = clamp(instance_number(objCityCellBuilding)/30, 0, 1);
-cheeseSpawnT = lerp(250, 100, intensity)
+var intensity = clamp(instance_number(objCityCellBuilding)/20, 0, 1);
+cheeseSpawnT = lerp(200, 100, intensity)
 
 // Spawn groups of cheese people from the fog
 cheeseT ++
@@ -91,7 +92,7 @@ if cheeseT &gt;= cheeseSpawnT {
         len += 16
     }
     
-    len += 70
+    len += 80
     
     // Spawn cheese people
     var numCheese = choose(4, 5, 6, 7)

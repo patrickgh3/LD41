@@ -132,9 +132,11 @@ if objGameController.state == GAME_STATE.SHOOT {
         t = 0
         spawnT = irandom_range(minSpawnT, maxSpawnT)
         
-        // Only spawn if not close to player
+        // Only spawn if not close to player, and we're not at the
+        // cap for evil citizens.
         if instance_exists(objShootPlayer)
-        and point_distance(x+16, y+16, objShootPlayer.x, objShootPlayer.y) &gt; 96 {
+        and point_distance(x+16, y+16, objShootPlayer.x, objShootPlayer.y) &gt; 96
+        and instance_number(objCitizenEnemy) &lt; instance_number(objCityCellBuilding) / 2 {
             var c = instance_create(
                 x+objCityBuilder.cellWidth/2,
                 y+objCityBuilder.cellHeight/2,

@@ -29,6 +29,7 @@
       <sound>sound\sndBuildHouse</sound>
       <sound>sound\sndBuildFactory</sound>
       <sound>sound\sndBuildFarm</sound>
+      <sound>sound\sndBuildBakery</sound>
       <sound>sound\sndError</sound>
       <sound>sound\sndSwapStructures</sound>
       <sound>sound\sndMenuClick</sound>
@@ -37,10 +38,12 @@
     <sounds name="Shoot phase">
       <sound>sound\sndGunshot</sound>
       <sound>sound\sndCitizenDeath</sound>
+      <sound>sound\sndCheeseDeath</sound>
+      <sound>sound\sndPlayerHurt</sound>
     </sounds>
     <sounds name="Music">
-      <sound>sound\sndDefendPhase</sound>
-      <sound>sound\sndBuildPhase</sound>
+      <sound>sound\sndDefendPhaseStart</sound>
+      <sound>sound\sndBuildPhaseStart</sound>
       <sound>sound\sndBuildMusic</sound>
     </sounds>
   </sounds>
@@ -75,6 +78,7 @@
       <sprite>sprites\sprButtonBacking</sprite>
       <sprite>sprites\sprDebuilderIndicator</sprite>
       <sprite>sprites\sprCheeseIndicator</sprite>
+      <sprite>sprites\sprHeart</sprite>
     </sprites>
     <sprites name="Player">
       <sprite>sprites\sprPlayerMask</sprite>
@@ -158,6 +162,7 @@
       <script>scripts\scrCitizenChangeDirections.gml</script>
       <script>scripts\scrPlayerBulletCheckCollisions.gml</script>
       <script>scripts\scrCreatePoof.gml</script>
+      <script>scripts\scrHurtPlayer.gml</script>
     </scripts>
     <script>scripts\scrMouseInWindow.gml</script>
     <script>scripts\scrDrawTextOutline.gml</script>

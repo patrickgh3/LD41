@@ -4,4 +4,5 @@ with instance_create(argument0, argument1, objParticle) {
     image_speed = 1/5
     image_xscale = choose(1, -1)
     image_yscale = choose(1, -1)
+    return id
 }

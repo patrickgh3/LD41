@@ -30,8 +30,8 @@ drawXScale = 1
 aimDir = 0
 shootT = 0
 
-maxhp = 100
-hp = maxhp
+maxhp = 5
+hp = min(objShootController.lastPlayerHealth, maxhp)
 
 iframes = 0
 maxIframes = 60
@@ -168,10 +168,20 @@ if hp &lt;= 0 {
 
 with other {
     instance_destroy()
+    
+    with instance_create(x, y-8, objText) {
+        text = '+1 HP'
+        color = c_white
+        vspeed = -0.25
+        destroyT = 50
+        halign = fa_center
+    }
 }
 
 hp += 20
 hp = min(hp, maxhp)
+
+//audio_play_sound(sndEatBread, 0, false)
 </string>
           </argument>
         </arguments>
@@ -194,10 +204,7 @@ hp = min(hp, maxhp)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if iframes == 0 {
-    hp -= 20
-    iframes = maxIframes
-}
+            <string>scrHurtPlayer()
 </string>
           </argument>
         </arguments>
@@ -224,10 +231,7 @@ hp = min(hp, maxhp)
     instance_destroy()
 }
 
-if iframes == 0 {
-    hp -= 20
-    iframes = maxIframes
-}
+scrHurtPlayer()
 </string>
           </argument>
         </arguments>
@@ -250,10 +254,7 @@ if iframes == 0 {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if iframes == 0 {
-    hp -= 20
-    iframes = maxIframes
-}
+            <string>scrHurtPlayer()
 </string>
           </argument>
         </arguments>
@@ -280,10 +281,7 @@ if iframes == 0 {
     instance_destroy()
 }
 
-if iframes == 0 {
-    hp -= 20
-    iframes = maxIframes
-}
+scrHurtPlayer()
 </string>
           </argument>
         </arguments>
@@ -306,16 +304,26 @@ if iframes == 0 {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>// Crosshairs
+            <string>// Draw crosshairs
 draw_sprite(sprCrosshairs, 0, mouse_x, mouse_y)
 
+// Draw hearts
+for (var i=0; i&lt;maxhp; i++) {
+    var ii = 0
+    if i &lt;= (hp-1) {
+        ii = 1
+    }
+    
+    draw_sprite(sprHeart, ii, view_xview + 4 + 9 + i*19, view_yview + view_hview - 4 - 9)
+}
+
 // Health bar
-draw_set_color(c_red)
+/*draw_set_color(c_red)
 var xx = view_xview+10
 var yy = view_yview+view_hview-20
 var w = view_wview-20
 var h = 10
-draw_rectangle(xx, yy, xx+w*(hp/maxhp), yy+h, false)
+draw_rectangle(xx, yy, xx+w*(hp/maxhp), yy+h, false)*/
 </string>
           </argument>
         </arguments>
@@ -341,6 +349,16 @@ draw_rectangle(xx, yy, xx+w*(hp/maxhp), yy+h, false)
             <string>// Shadow
 draw_sprite_ext(sprPlayerShadow, 0, x, y+8, drawXScale, 1, 0, c_white, 1)
 
+// Player sprite
+if iframes != 0 {
+    image_blend = c_red
+    image_alpha = 0.5
+} else {
+    image_blend = c_white
+    image_alpha = 1
+}
+draw_sprite_ext(sprite_index, image_index, x, y, drawXScale*image_xscale, image_yscale, image_angle, image_blend, image_alpha)
+
 // Gun
 var gunYScale = 1
 if drawXScale &lt; 0 {
@@ -348,26 +366,7 @@ if drawXScale &lt; 0 {
 }
 var gunDrawX = x//-3*drawXScale
 var gunDrawY = y+1
-
-var gunInBack = false//abs(angle_difference(aimDir, 90)) &lt; 60
-
-// Gun (if in back)
-if gunInBack {
-    draw_sprite_ext(sprPlayerGun, 0, gunDrawX, gunDrawY, 1, gunYScale, aimDir, c_white, image_alpha)
-}
-
-// Player sprite
-if iframes != 0 {
-    image_alpha = 0.5
-} else {
-    image_alpha = 1
-}
-draw_sprite_ext(sprite_index, image_index, x, y, drawXScale*image_xscale, image_yscale, image_angle, image_blend, image_alpha)
-
-// Gun (if in front)
-if not gunInBack {
-    draw_sprite_ext(sprPlayerGun, 0, gunDrawX, gunDrawY, 1, gunYScale, aimDir, c_white, image_alpha)
-}
+draw_sprite_ext(sprPlayerGun, 0, gunDrawX, gunDrawY, 1, gunYScale, aimDir, c_white, image_alpha)
 </string>
           </argument>
         </arguments>

@@ -30,7 +30,7 @@ destroyT = 60
 color = c_white
 outlineColor = c_black
 halign = fa_left
-valign = fa_top
+valign = fa_center
 font = scrGetFont(10)
 followView = false
 

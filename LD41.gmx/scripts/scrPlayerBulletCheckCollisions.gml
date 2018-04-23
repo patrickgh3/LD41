@@ -55,7 +55,13 @@ with enemy {
     // Kill the enemy
     } else {
         instance_destroy() // Particles on death are in enemy Destroy events
-        audio_stop_sound(sndCitizenDeath)
-        audio_play_sound(sndCitizenDeath, 0, false)
+        
+        if object_index == objCheeseEnemy {
+            audio_stop_sound(sndCheeseDeath)
+            audio_play_sound(sndCheeseDeath, 0, false)
+        } else {
+            audio_stop_sound(sndCitizenDeath)
+            audio_play_sound(sndCitizenDeath, 0, false)
+        }
     }
 }

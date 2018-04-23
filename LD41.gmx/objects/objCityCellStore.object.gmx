@@ -67,8 +67,8 @@ breadT --
 if breadT == 0 {
     var n = instance_number(objCityCellRoad)
     
-    // Try 10 times to find a valid random bread spawn location
-    for (var i=0; i&lt;10; i++) {
+    // Try a bunch of times to find a valid random bread spawn location
+    for (var i=0; i&lt;30; i++) {
         var road = instance_find(objCityCellRoad, irandom(n-1))
         
         with road {
@@ -82,6 +82,10 @@ if breadT == 0 {
         
         if not hasBread and farFromPlayer {
             instance_create(xc, yc, objBread)
+            with scrCreatePoof(xc, yc) {
+                depth = objBread.depth-1
+                sprite_index = choose(sprPoof4, sprPoof5)
+            }
             break
         }
     }

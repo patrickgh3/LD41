@@ -76,7 +76,7 @@ with objCityCellRoad {
     visible = true
 }
 // Destroy skip intro button
-with objButton {
+with objButtonNotGUI {
     if type == 2 {
         instance_destroy()
     }

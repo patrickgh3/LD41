@@ -160,7 +160,9 @@
     </sprites>
     <sprite>sprites\sprFog</sprite>
     <sprite>sprites\sprBread</sprite>
+    <sprite>sprites\sprBreadOld</sprite>
     <sprite>sprites\sprRageGun</sprite>
+    <sprite>sprites\sprRageGunOld</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>

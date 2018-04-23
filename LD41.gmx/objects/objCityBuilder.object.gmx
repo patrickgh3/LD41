@@ -731,11 +731,14 @@ draw_set_color(c_white)
 draw_text(xx+74, yy+15, string(money))
 draw_text(xx+74, yy+32, string(numIndustryAndCommercial)+'/'+string(population))
 
-// WASD to move text
+// WASD to move camera text
+var yy = view_yview+view_hview-18
+draw_sprite(sprControls, 1, view_xview+24, yy)
+
 draw_set_font(scrGetFont(10))
 draw_set_halign(fa_left)
 draw_set_valign(fa_top)
-scrDrawTextOutline(view_xview+8, view_yview+view_hview-20, 'WASD - camera', c_white, c_black)
+scrDrawTextOutline(view_xview+38, yy-5, 'camera', c_white, c_black)
 </string>
           </argument>
         </arguments>

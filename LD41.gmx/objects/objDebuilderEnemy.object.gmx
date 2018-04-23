@@ -33,6 +33,10 @@ maxhp = 150
 hp = maxhp
 knockback = 0.1
 image_index = irandom(image_number-1)
+shadowYOffset = 21
+with shadow {
+    sprite_index = sprDebuilderShadow
+}
 </string>
           </argument>
         </arguments>
@@ -111,6 +115,10 @@ repeat 10 {
         image_xscale = 1
     }
 }
+
+shadow.x = x
+shadow.y = y+shadowYOffset
+shadow.image_xscale = image_xscale
 </string>
           </argument>
         </arguments>

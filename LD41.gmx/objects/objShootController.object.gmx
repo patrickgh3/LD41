@@ -33,7 +33,7 @@ surviveT = 60*20
 cheeseT = 0
 cheeseSpawnT = 300
 debuilderT = 0
-debuilderSpawnT = 500
+debuilderSpawnT = 600
 </string>
           </argument>
         </arguments>
@@ -88,7 +88,7 @@ if cheeseT &gt;= cheeseSpawnT {
     var len = 32
     while instance_position(
     centerX+lengthdir_x(len, dir), centerY+lengthdir_y(len, dir), objFogBlocker) != noone {
-        len += 32
+        len += 16
     }
     
     len += 70
@@ -124,7 +124,7 @@ if cheeseT &gt;= cheeseSpawnT {
 
 // Spawn debuilders from the fog
 debuilderT ++
-if debuilderT &gt;= debuilderSpawnT {
+if debuilderT &gt;= debuilderSpawnT and instance_number(objCityCellBuilding) &gt;= 8 {
     debuilderT = 0
     var dir = random(360)
     
@@ -132,8 +132,10 @@ if debuilderT &gt;= debuilderSpawnT {
     var len = 32
     while instance_position(
     centerX+lengthdir_x(len, dir), centerY+lengthdir_y(len, dir), objFogBlocker) != noone {
-        len += 32
+        len += 16
     }
+    
+    len += 32
     
     var len2 = len+random(30)
     var dir2 = dir+random_range(-30, 30)

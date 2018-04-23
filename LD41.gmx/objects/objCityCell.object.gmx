@@ -132,17 +132,21 @@ if objGameController.state == GAME_STATE.SHOOT {
         t = 0
         spawnT = irandom_range(minSpawnT, maxSpawnT)
         
-        var c = instance_create(
-            x+objCityBuilder.cellWidth/2,
-            y+objCityBuilder.cellHeight/2,
-            objCitizenEnemy)
-            
-        if structureType == STRUCTURE.HOUSE {
-            c.sprite_index = sprEvilPoliceWalk
-        } else if structureType == STRUCTURE.FACTORY {
-            c.sprite_index = choose(sprEvilHatGuyWalk, sprEvilHatGuy2Walk)
-        } else if structureType == STRUCTURE.STORE {
-            c.sprite_index = sprEvilBakerWalk
+        // Only spawn if not close to player
+        if instance_exists(objShootPlayer)
+        and point_distance(x+16, y+16, objShootPlayer.x, objShootPlayer.y) &gt; 96 {
+            var c = instance_create(
+                x+objCityBuilder.cellWidth/2,
+                y+objCityBuilder.cellHeight/2,
+                objCitizenEnemy)
+                
+            if structureType == STRUCTURE.HOUSE {
+                c.sprite_index = sprEvilPoliceWalk
+            } else if structureType == STRUCTURE.FACTORY {
+                c.sprite_index = choose(sprEvilHatGuyWalk, sprEvilHatGuy2Walk)
+            } else if structureType == STRUCTURE.STORE {
+                c.sprite_index = sprEvilBakerWalk
+            }
         }
     }
 }

@@ -21,6 +21,7 @@ with objShootController {
     // Scale survive time
     surviveT = 60 * (10 + instance_number(objCityCellBuilding)*2)
     
+    // Debuilder spawn time
     debuilderT = irandom_range(1, debuilderSpawnT)
 }
 
@@ -65,11 +66,13 @@ with objButtonBacking {
 }
 
 // Spawn text to show that you lose all your money
-with instance_create(view_xview+view_wview-6, view_yview+view_hview-33, objText) {
-    text = '-$'+string(unspentMoney)
-    color = c_red
-    vspeed = -0.5
-    destroyT = 60
-    halign = fa_right
-    followView = true
+if unspentMoney != 0 {
+    with instance_create(view_xview+view_wview-6, view_yview+view_hview-33, objText) {
+        text = '-$'+string(unspentMoney)
+        color = c_red
+        vspeed = -0.25
+        destroyT = 60
+        halign = fa_right
+        followView = true
+    }
 }

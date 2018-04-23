@@ -27,6 +27,9 @@
             <kind>1</kind>
             <string>hover = false
 image_speed = 0
+
+xvp = view_xview
+yvp = view_yview
 </string>
           </argument>
         </arguments>
@@ -69,8 +72,43 @@ if hover and mouse_check_button_pressed(mb_left) {
         room_goto(roomGame)
     } else if type == 1 {
         // credits
+    } else if type == 2 {
+        // skip intro
+        instance_destroy()
+        scrEnterBuildPhase()
     }
 }
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>// follow camera
+if type == 2 {
+    x += view_xview-xvp
+    y += view_yview-yvp
+    xvp = view_xview
+    yvp = view_yview
+}
+
+draw_self()
 </string>
           </argument>
         </arguments>

@@ -53,7 +53,7 @@
   <instances>
     <instance objName="objCityBuilder" x="128" y="0" name="inst_97011759" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objGameController" x="192" y="0" name="inst_27E5D89C" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objCityCellRoad" x="0" y="0" name="inst_53627C37" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objCityCellRoad" x="0" y="0" name="inst_53627C37" locked="0" code="visible = false&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objShootController" x="128" y="64" name="inst_B13514E6" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objBuildButton" x="16" y="288" name="inst_5D5B6CDF" locked="0" code="structure = STRUCTURE.ROAD&#xA;sprite_index = sprRoadButton&#xA;tooltip = 'Road - All buildings#must touch a road.'&#xA;cost = objCityBuilder.roadCost&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objBuildButton" x="16" y="320" name="inst_3DB73A83" locked="0" code="structure = STRUCTURE.HOUSE&#xA;sprite_index = sprHouseButton&#xA;tooltip = 'House - Adds 1 person#to the town.#'&#xA;cost = objCityBuilder.houseCost&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>

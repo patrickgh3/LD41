@@ -70,3 +70,14 @@ with objCityCell {
     halign = fa_right
     followView = true
 }*/
+
+// Make initial road visible
+with objCityCellRoad {
+    visible = true
+}
+// Destroy skip intro button
+with objButton {
+    if type == 2 {
+        instance_destroy()
+    }
+}

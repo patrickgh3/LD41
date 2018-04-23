@@ -25,14 +25,16 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>sprite_index = -1
+            <string>objPersistent.firstPlay = false
+
+sprite_index = -1
 t = 0
 
 uiScale = view_wport / view_wview
 
-// calculate score
+// Calculate score
 numBuildings = instance_number(objCityCellBuilding)
-finalScore = objGameController.roundNumber + ceil(numBuildings/2)
+finalScore = objGameController.roundNumber + ceil(numBuildings/4)
 
 
 // Calculate min and max of city
@@ -151,7 +153,7 @@ draw_set_halign(fa_center)
 draw_set_valign(fa_center)
 scrDrawTextOutlineScale(
     view_wport/2, floor(view_hport*0.4),
-    'GAME OVER###Score:#'+'#'+'#'+string(objGameController.roundNumber)+' rounds#'+string(numBuildings)+' buildings (1/2 point each)', //'#surviving buildings#last round',
+    'GAME OVER###Score:#'+'#'+'#'+string(objGameController.roundNumber)+' rounds#'+string(numBuildings)+' buildings, 1/4 point each', //'#surviving buildings#last round',
     c_white, c_black, uiScale)
 scrDrawTextOutlineScale(
     view_wport/2, floor(view_hport*0.44),

@@ -88,6 +88,7 @@
       <sprite>sprites\sprReturnButton</sprite>
       <sprite>sprites\sprCreditsButton</sprite>
       <sprite>sprites\sprPlayButton</sprite>
+      <sprite>sprites\sprSkipButton</sprite>
       <sprite>sprites\sprTitle</sprite>
       <sprite>sprites\sprControls</sprite>
     </sprites>

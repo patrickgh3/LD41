@@ -38,6 +38,8 @@ maxIframes = 60
 
 rageT = 0
 rageDuration = 60*3
+
+introT = 0
 </string>
           </argument>
         </arguments>
@@ -60,7 +62,9 @@ rageDuration = 60*3
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>// Count down iframes
+            <string>introT ++
+
+// Count down iframes
 if iframes &gt; 0 {
     iframes --
 }
@@ -390,6 +394,21 @@ var yy = view_yview+view_hview-20
 var w = view_wview-20
 var h = 10
 draw_rectangle(xx, yy, xx+w*(hp/maxhp), yy+h, false)*/
+
+if objGameController.roundNumber == 0 {
+    // Controls
+    if introT &lt; 60*5 {
+        draw_sprite(sprControls, 0, x, y-40)
+    }
+    
+    // Intro text
+    if introT &gt; 60*6 {
+        draw_set_font(scrGetFont(10))
+        draw_set_halign(fa_center)
+        draw_set_valign(fa_bottom)
+        scrDrawTextOutline(x, y-30, 'This seems like a#nice place to#build a town!', c_white, c_black)
+    }
+}
 </string>
           </argument>
         </arguments>

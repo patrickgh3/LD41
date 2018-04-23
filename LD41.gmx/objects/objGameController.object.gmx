@@ -180,28 +180,34 @@ audio_pause_sound(global.buildMusic)
     GAMEOVER,
 }
 
-state = GAME_STATE.BUILD
+state = GAME_STATE.SHOOT
 
-debugMode = true
+debugMode = false
 debugWallsVisible = false
 
 sprite_index = -1
 
 // Start music sounds playing
-global.musicVolume = 0.65
+global.musicVolume = 0.8
+
 global.buildMusic = audio_play_sound(sndBuildMusic, 0, true)
-audio_sound_gain(global.buildMusic, global.musicVolume, 0)
+audio_sound_gain(global.buildMusic, 0, 0)
+audio_pause_sound(global.buildMusic)
+//audio_sound_gain(global.buildMusic, global.musicVolume, 0)
 
 global.shootMusic = audio_play_sound(sndShootMusic, 0, true)
-audio_sound_gain(global.shootMusic, 0, 0)
-audio_pause_sound(global.shootMusic)
+audio_sound_gain(global.shootMusic, global.musicVolume, 0)
+//audio_sound_gain(global.shootMusic, 0, 0)
+//audio_pause_sound(global.shootMusic)
 
-objCityBuilder.enabled = true
+objShootController.enabled = true
 
 view_xview = 0+objCityBuilder.cellWidth/2-view_wview/2
 view_yview = 0+objCityBuilder.cellHeight/2-view_hview/2
 
-roundNumber = 1
+roundNumber = 0
+
+scrEnterShootPhase()
 </string>
           </argument>
         </arguments>

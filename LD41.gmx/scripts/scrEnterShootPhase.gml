@@ -1,6 +1,8 @@
 objGameController.state = GAME_STATE.SHOOT
 
-audio_play_sound(sndDefendPhaseStart, 0, false)
+if objGameController.roundNumber > 0 {
+    audio_play_sound(sndDefendPhaseStart, 0, false)
+}
 
 // Fade out and pause build phase music
 audio_sound_gain(global.buildMusic, 0, 500)
@@ -9,7 +11,7 @@ objGameController.alarm[0] = 60
 // Unpause and fade in shoot phase music
 objGameController.alarm[3] = 110
 
-instance_create(0, 0, objShootPlayer)
+instance_create(objCityBuilder.cellWidth/2, objCityBuilder.cellHeight/2, objShootPlayer)
 
 var unspentMoney
 with objCityBuilder {
@@ -25,6 +27,17 @@ with objShootController {
     // Scale survive time
     //surviveT = 60 * (10 + instance_number(objCityCellBuilding)*2)
     surviveT = 60 * (15 + (objGameController.roundNumber-1)*5)
+    
+    if objGameController.roundNumber == 0 {
+        surviveT = 60 * 10
+        // Skip intro button
+        if not objPersistent.firstPlay {
+            with instance_create(view_xview+view_wview/2, view_yview+view_hview-30, objButtonNotGUI) {
+                type = 2
+                sprite_index = sprSkipButton
+            }
+        }
+    }
     
     // Debuilder spawn time
     debuilderT = irandom_range(1, debuilderSpawnT)

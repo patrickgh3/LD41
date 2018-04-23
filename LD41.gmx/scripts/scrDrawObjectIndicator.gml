@@ -1,6 +1,10 @@
 ///scrDrawObjectIndicator(viewRectOffset, indicatorSprite)
 // Draws an indicator arrow if the object is not within view.
 
+if objGameController.state != GAME_STATE.SHOOT {
+    return 0
+}
+
 var offset = argument0
 var spr = argument1
 

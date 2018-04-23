@@ -26,6 +26,54 @@
           <argument>
             <kind>1</kind>
             <string>sprite_index = -1
+t = 0
+
+uiScale = view_wport / view_wview
+
+// Calculate min and max of city
+var xMin = 10000
+var yMin = 10000
+var xMax = -10000
+var yMax = -10000
+with objFogBlocker {
+    xMin = min(xMin, x)
+    yMin = min(yMin, y)
+    xMax = max(xMax, x)
+    yMax = max(yMax, y)
+}
+
+var edge = 128;
+xMin -= edge
+yMin -= edge
+xMax += edge
+yMax += edge
+
+// Calculate camera movement parameters
+x = view_xview+view_wview/2
+y = view_yview+view_hview/2
+
+xstart = x
+ystart = y
+
+xTarget = floor(xMax+xMin)/2//objCityBuilder.cellWidth/2
+yTarget = floor(yMax+yMin)/2//objCityBuilder.cellHeight/2
+
+// Calculate camera scale parameters
+wStart = view_wview
+hStart = view_hview
+
+wTarget = max(xMax-xMin, view_wview)//view_wview*3
+hTarget = max(yMax-yMin, view_hview)//view_hview*3
+
+// If width scales wider than height (the level is really long horizontally),
+// then scale height based on how much we scale width (multiply by aspect ratio).
+// Same with the other way around.
+// Comment this out for a funny squish effect :)
+if wTarget/view_wview &gt; hTarget/view_hview {
+    hTarget = wTarget*(view_hview/view_wview)
+} else {
+    wTarget = hTarget*(view_wview/view_hview)
+}
 </string>
           </argument>
         </arguments>
@@ -48,15 +96,35 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if keyboard_check_pressed(vk_space) {
-    scrStartNewGame()
+            <string>t++
+
+var m = min(t/120, 1)
+
+// Zoom the camera out
+view_wview = lerp(wStart, wTarget, m)
+view_hview = lerp(hStart, hTarget, m)
+
+// Move the camera
+x = lerp(xstart, xTarget, m)
+y = lerp(ystart, yTarget, m)
+
+view_xview = x - view_wview/2
+view_yview = y - view_hview/2
+
+// Spawn button
+if t &gt;= 120 {
+    //with instance_create(view_xview+view_wview/2, view_yview+view_hview-80, objButton) {
+    with instance_create(view_wport/2, floor(view_hport*0.7), objButton) {
+        image_xscale = other.uiScale
+        image_yscale = image_xscale
+    }
 }
 </string>
           </argument>
         </arguments>
       </action>
     </event>
-    <event eventtype="8" enumb="73">
+    <event eventtype="8" enumb="64">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -76,9 +144,11 @@
             <string>draw_set_font(scrGetFont(10))
 draw_set_halign(fa_center)
 draw_set_valign(fa_center)
-scrDrawTextOutline(view_xview+view_wview/2, view_yview+view_hview/2,
-    'GAME OVER###Score:#'+string(numFactories)+'#surviving factories###Space to play again',
-    c_white, c_black)
+scrDrawTextOutlineScale(
+    //view_xview+view_wview/2, view_yview+view_hview/2-40,
+    view_wport/2, floor(view_hport*0.4),
+    'GAME OVER###Score:#'+string(numFactories)+'#surviving factories',
+    c_white, c_black, uiScale)
 </string>
           </argument>
         </arguments>

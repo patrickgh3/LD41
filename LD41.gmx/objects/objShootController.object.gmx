@@ -160,7 +160,7 @@ if t &gt;= surviveT {
         </arguments>
       </action>
     </event>
-    <event eventtype="8" enumb="0">
+    <event eventtype="8" enumb="73">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -181,6 +181,7 @@ if t &gt;= surviveT {
     exit
 }
 
+// Survive text
 draw_set_font(scrGetFont(10))
 draw_set_halign(fa_center)
 draw_set_valign(fa_top)

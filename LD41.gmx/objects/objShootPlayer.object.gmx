@@ -117,7 +117,7 @@ if mouse_check_button(mb_left) {
     }
     
     // Play gunshot sound
-    if (shootT mod 4 == 0) {
+    if shootT mod 4 == 0 {
         audio_play_sound(sndGunshot, 0, false)
     }
     shootT ++
@@ -137,6 +137,9 @@ if iframes &gt; 0 {
 // Die
 if hp &lt;= 0 {
     instance_destroy()
+    with scrCreatePoof(x, y) {
+        sprite_index = choose(sprPoof4, sprPoof5)
+    }
     objShootController.enabled = false
     objGameController.state = GAME_STATE.GAMEOVER
     instance_create(0, 0, objGameOverController)
@@ -178,7 +181,7 @@ with other {
     }
 }
 
-hp += 20
+hp += 1
 hp = min(hp, maxhp)
 
 //audio_play_sound(sndEatBread, 0, false)

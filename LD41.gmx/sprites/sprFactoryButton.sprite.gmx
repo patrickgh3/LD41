@@ -21,5 +21,6 @@
   <height>32</height>
   <frames>
     <frame index="0">images\sprFactoryButton_0.png</frame>
+    <frame index="1">images\sprFactoryButton_1.png</frame>
   </frames>
 </sprite>

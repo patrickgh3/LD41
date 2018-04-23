@@ -31,6 +31,7 @@ ystart = y
 endButton = false
 tooltip = ''
 structure = STRUCTURE.DESTROY
+image_speed = 0
 </string>
           </argument>
         </arguments>

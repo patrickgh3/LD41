@@ -536,16 +536,15 @@ view_yview = clamp(view_yview+h, yMin-leeway, yMax+leeway)-h
     exit
 }
 
-if (buttonHover != noone) {
+if buttonHover != noone {
     // Button hover highlight
-    draw_set_alpha(0.25)
+    /*draw_set_alpha(0.25)
     draw_set_color(c_white)
-    var y2 = 30
-    if (buttonHover.endButton) {
-        y2 = 14
+    draw_rectangle(buttonHover.x+1, buttonHover.y+1, buttonHover.x+30, buttonHover.y+30, false)
+    draw_set_alpha(1)*/
+    with buttonHover {
+        draw_sprite(sprite_index, 1, x, y)
     }
-    draw_rectangle(buttonHover.x+1, buttonHover.y+1, buttonHover.x+30, buttonHover.y+y2, false)
-    draw_set_alpha(1)
     
     // Button tooltip
     if buttonHover.tooltip != '' {
@@ -555,7 +554,7 @@ if (buttonHover != noone) {
         // Backing
         draw_set_color(c_black)
         draw_set_alpha(0.5)
-        draw_rectangle(xx-8, yy-5, xx+188, yy+30, false)
+        draw_rectangle(xx-8, yy-5, xx+178, yy+30, false)
         draw_set_alpha(1)
         draw_set_color(c_white)
         //draw_rectangle(xx-8, yy-5, xx+188, yy+30, true)
@@ -660,14 +659,18 @@ if not suppressIndicatorLastPlaced and not backingHover {
         draw_self()
     }
     
-    // Red or green squares
-    for (var i=0; i&lt;2; i++) {
-        var xx = hoverX+i*cellWidth
-        for (var j=0; j&lt;2; j++) {
-            var yy = hoverY+j*cellHeight
-            
-            if instance_position(xx, yy, objGhostCityCell) {
-                draw_sprite_ext(sprCityCellNoPlace, okToPlace, xx, yy, 1, 1, 0, c_white, 1)
+    // Red or green squares that cover the entire multi-cell buidling
+    // (we didn't end up using any multi-cell buildings, but may as
+    // well keep this code here)
+    if not okToPlace {
+        for (var i=0; i&lt;2; i++) {
+            var xx = hoverX+i*cellWidth
+            for (var j=0; j&lt;2; j++) {
+                var yy = hoverY+j*cellHeight
+                
+                if instance_position(xx, yy, objGhostCityCell) {
+                    draw_sprite_ext(sprCityCellNoPlace, okToPlace, xx, yy, 1, 1, 0, c_white, 1)
+                }
             }
         }
     }

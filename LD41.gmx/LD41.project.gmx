@@ -54,7 +54,6 @@
       <sprite>sprites\sprBulletTemp</sprite>
       <sprite>sprites\sprCityCell</sprite>
       <sprite>sprites\sprTestWeirdShape</sprite>
-      <sprite>sprites\sprCityCellNoPlace</sprite>
       <sprite>sprites\sprPlayerCheeze</sprite>
       <sprite>sprites\sprHousePlaceholder</sprite>
       <sprite>sprites\sprDebuilderPlaceholder</sprite>
@@ -66,11 +65,13 @@
     <sprites name="UI">
       <sprite>sprites\sprScrollArrow</sprite>
       <sprite>sprites\sprCrosshairs</sprite>
+      <sprite>sprites\sprCityCellNoPlace</sprite>
+      <sprite>sprites\sprCellOutline</sprite>
       <sprite>sprites\sprBlankButton</sprite>
-      <sprite>sprites\sprCommercialButton</sprite>
+      <sprite>sprites\sprRoadButton</sprite>
       <sprite>sprites\sprFactoryButton</sprite>
       <sprite>sprites\sprHouseButton</sprite>
-      <sprite>sprites\sprRoadButton</sprite>
+      <sprite>sprites\sprCommercialButton</sprite>
       <sprite>sprites\sprDeleteButton</sprite>
       <sprite>sprites\sprSelectedButton</sprite>
       <sprite>sprites\sprEndButton</sprite>
@@ -79,6 +80,7 @@
       <sprite>sprites\sprDebuilderIndicator</sprite>
       <sprite>sprites\sprCheeseIndicator</sprite>
       <sprite>sprites\sprHeart</sprite>
+      <sprite>sprites\sprReturnButton</sprite>
     </sprites>
     <sprites name="Player">
       <sprite>sprites\sprPlayerMask</sprite>
@@ -94,7 +96,6 @@
       <sprite>sprites\sprLongHouse</sprite>
       <sprite>sprites\sprFactory</sprite>
       <sprite>sprites\sprFactory2</sprite>
-      <sprite>sprites\sprCellOutline</sprite>
       <sprite>sprites\sprRubble</sprite>
     </sprites>
     <sprites name="Citizens">
@@ -127,6 +128,8 @@
       <sprite>sprites\sprEvilCitizenGun</sprite>
       <sprite>sprites\sprEvilCitizenBullet</sprite>
       <sprite>sprites\sprDebuilder</sprite>
+      <sprite>sprites\sprPlayerShadow</sprite>
+      <sprite>sprites\sprDebuilderShadow</sprite>
     </sprites>
     <sprites name="Particles">
       <sprite>sprites\sprDustParticle</sprite>
@@ -146,8 +149,6 @@
     </sprites>
     <sprite>sprites\sprFog</sprite>
     <sprite>sprites\sprBread</sprite>
-    <sprite>sprites\sprPlayerShadow</sprite>
-    <sprite>sprites\sprDebuilderShadow</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -166,6 +167,7 @@
     </scripts>
     <script>scripts\scrMouseInWindow.gml</script>
     <script>scripts\scrDrawTextOutline.gml</script>
+    <script>scripts\scrDrawTextOutlineScale.gml</script>
     <script>scripts\scrGetFont.gml</script>
     <script>scripts\scrMoveContactWalls.gml</script>
     <script>scripts\scrDrawObjectIndicator.gml</script>
@@ -204,6 +206,7 @@
       <object>objects\objBuildButton</object>
       <object>objects\objButtonBacking</object>
       <object>objects\objText</object>
+      <object>objects\objButton</object>
     </objects>
     <object>objects\objShootPlayer</object>
     <object>objects\objPlayerBullet</object>
@@ -217,7 +220,6 @@
   </objects>
   <rooms name="rooms">
     <room>rooms\roomInit</room>
-    <room>rooms\roomTitle</room>
     <room>rooms\roomGame</room>
   </rooms>
   <help>

@@ -39,6 +39,7 @@
       <sound>sound\sndGunshot</sound>
       <sound>sound\sndCitizenDeath</sound>
       <sound>sound\sndCheeseDeath</sound>
+      <sound>sound\sndDebuilderDeath</sound>
       <sound>sound\sndPlayerHurt</sound>
       <sound>sound\sndEatBread</sound>
       <sound>sound\sndPickupGun</sound>

@@ -51,7 +51,7 @@ audio_play_sound(sndBuildPhaseStart, 0, false)
             <kind>1</kind>
             <string>/// Unpause and fade in shoot music
 audio_resume_sound(global.shootMusic)
-audio_sound_gain(global.shootMusic, 1, 1000)
+audio_sound_gain(global.shootMusic, global.musicVolume, 1000)
 </string>
           </argument>
         </arguments>
@@ -100,7 +100,7 @@ audio_pause_sound(global.shootMusic)
             <kind>1</kind>
             <string>/// Unpause and fade in build music
 audio_resume_sound(global.buildMusic)
-audio_sound_gain(global.buildMusic, 1, 1000)
+audio_sound_gain(global.buildMusic, global.musicVolume, 1000)
 </string>
           </argument>
         </arguments>
@@ -188,7 +188,10 @@ debugWallsVisible = false
 sprite_index = -1
 
 // Start music sounds playing
+global.musicVolume = 0.65
 global.buildMusic = audio_play_sound(sndBuildMusic, 0, true)
+audio_sound_gain(global.buildMusic, global.musicVolume, 0)
+
 global.shootMusic = audio_play_sound(sndShootMusic, 0, true)
 audio_sound_gain(global.shootMusic, 0, 0)
 audio_pause_sound(global.shootMusic)

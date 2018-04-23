@@ -1,4 +1,5 @@
 objGameController.state = GAME_STATE.BUILD
+objGameController.roundNumber ++
 
 // Delay playing jingle
 objGameController.alarm[4] = 30

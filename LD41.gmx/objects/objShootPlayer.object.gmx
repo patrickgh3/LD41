@@ -164,7 +164,6 @@ if hp &lt;= 0 {
     objShootController.enabled = false
     objGameController.state = GAME_STATE.GAMEOVER
     instance_create(0, 0, objGameOverController)
-    objGameOverController.numBuildings = objCityBuilder.numBuildings
     
     audio_play_sound(sndBuildFactory, 0, false)
 }

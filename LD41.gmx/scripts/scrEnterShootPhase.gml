@@ -23,7 +23,8 @@ with objShootController {
     t = 0
     cheeseT = irandom_range(1, cheeseSpawnT)
     // Scale survive time
-    surviveT = 60 * (10 + instance_number(objCityCellBuilding)*2)
+    //surviveT = 60 * (10 + instance_number(objCityCellBuilding)*2)
+    surviveT = 60 * (15 + (objGameController.roundNumber-1)*5)
     
     // Debuilder spawn time
     debuilderT = irandom_range(1, debuilderSpawnT)

@@ -30,6 +30,11 @@ t = 0
 
 uiScale = view_wport / view_wview
 
+// calculate score
+numBuildings = instance_number(objCityCellBuilding)
+finalScore = objGameController.roundNumber + ceil(numBuildings/2)
+
+
 // Calculate min and max of city
 var xMin = 10000
 var yMin = 10000
@@ -146,11 +151,11 @@ draw_set_halign(fa_center)
 draw_set_valign(fa_center)
 scrDrawTextOutlineScale(
     view_wport/2, floor(view_hport*0.4),
-    'GAME OVER###Score:#'+'#'+'#surviving buildings#last round',
+    'GAME OVER###Score:#'+'#'+'#'+string(objGameController.roundNumber)+' rounds#'+string(numBuildings)+' buildings (1/2 point each)', //'#surviving buildings#last round',
     c_white, c_black, uiScale)
 scrDrawTextOutlineScale(
     view_wport/2, floor(view_hport*0.44),
-    string(numBuildings),
+    string(finalScore),
     c_white, c_black, uiScale*2)
 </string>
           </argument>

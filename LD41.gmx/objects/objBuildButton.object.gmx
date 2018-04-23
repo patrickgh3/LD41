@@ -32,6 +32,7 @@ endButton = false
 tooltip = ''
 structure = STRUCTURE.DESTROY
 image_speed = 0
+cost = 0
 </string>
           </argument>
         </arguments>
@@ -80,6 +81,36 @@ y = view_yview + ystart
             <kind>1</kind>
             <string>if structure == objCityBuilder.structure {
     objCityBuilder.buttonSelected = id
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="73">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>// Cost text
+if cost != 0 {
+    draw_set_font(scrGetFont(10))
+    draw_set_halign(fa_center)
+    draw_set_valign(fa_bottom)
+    scrDrawTextOutline(x+sprite_width/2, y+sprite_height,
+        '$'+string(cost), c_white, c_black)
 }
 </string>
           </argument>

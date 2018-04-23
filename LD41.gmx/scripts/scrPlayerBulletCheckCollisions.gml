@@ -57,9 +57,12 @@ with enemy {
         if object_index == objCheeseEnemy {
             audio_stop_sound(sndCheeseDeath)
             audio_play_sound(sndCheeseDeath, 0, false)
-        } else {
+        } else if object_index == objCitizenEnemy {
             audio_stop_sound(sndCitizenDeath)
             audio_play_sound(sndCitizenDeath, 0, false)
+        } else if object_index == objDebuilderEnemy {
+            audio_stop_sound(sndDebuilderDeath)
+            audio_play_sound(sndDebuilderDeath, 0, false)
         }
     }
 }

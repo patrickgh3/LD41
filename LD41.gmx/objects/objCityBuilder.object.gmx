@@ -57,11 +57,11 @@ structureCost = 0
 ghost = instance_create(0, 0, objGhostCityCell)
 ghost.image_alpha = 0.5
 
-moneyPerRound = 200
+moneyPerRound = 250
 money = moneyPerRound
 factoryRevenue = 30
 roadCost = 10
-houseCost = 20
+houseCost = 50
 factoryCost = 50
 storeCost = 50
 
@@ -422,6 +422,7 @@ if not backingHover {
                 //buttonSelected.visible = false
                 //buttonSelected = noone
                 //structure = STRUCTURE.ROAD
+                //structureCost = roadCost
                 
                 // Dust particles
                 var d = 8
@@ -542,6 +543,10 @@ view_yview = clamp(view_yview+h, yMin-leeway, yMax+leeway)-h
     exit
 }
 
+with objBuildButton {
+    image_index = 0
+}
+
 if buttonHover != noone {
     // Button hover highlight
     /*draw_set_alpha(0.25)
@@ -549,7 +554,7 @@ if buttonHover != noone {
     draw_rectangle(buttonHover.x+1, buttonHover.y+1, buttonHover.x+30, buttonHover.y+30, false)
     draw_set_alpha(1)*/
     with buttonHover {
-        draw_sprite(sprite_index, 1, x, y)
+        image_index = 1
     }
     
     // Button tooltip
@@ -644,11 +649,20 @@ for (var xx = view_xview; xx &lt; view_xview + view_wview + cellWidth; xx += cel
           <argument>
             <kind>1</kind>
             <string>// Draw score
-if objGameController.state == GAME_STATE.BUILD {
+if objGameController.state == GAME_STATE.BUILD and not enabled {
     draw_set_font(scrGetFont(10))
-    draw_set_halign(fa_right)
-    draw_set_valign(fa_top)
-    scrDrawTextOutline(view_xview+view_wview-5, view_yview+5, 'score: '+string(numBuildings)+' surviving buildings', c_white, c_black)
+    
+    //draw_set_halign(fa_right)
+    //draw_set_valign(fa_top)
+    //scrDrawTextOutline(
+        //view_xview+view_wview-5, view_yview+5,
+        //'score: '+string(numBuildings)+' surviving buildings', c_white, c_black)
+        
+    draw_set_halign(fa_center)
+    draw_set_valign(fa_center)
+    scrDrawTextOutline(
+        view_xview+view_wview/2, view_yview+view_hview/2,
+        'Round '+string(objGameController.roundNumber), c_white, c_black)
 }
 
 if not enabled or not readyToDraw {
@@ -668,21 +682,21 @@ if not suppressIndicatorLastPlaced and not backingHover {
     // Red or green squares that cover the entire multi-cell buidling
     // (we didn't end up using any multi-cell buildings, but may as
     // well keep this code here)
-    if not okToPlace {
-        for (var i=0; i&lt;2; i++) {
-            var xx = hoverX+i*cellWidth
-            for (var j=0; j&lt;2; j++) {
-                var yy = hoverY+j*cellHeight
-                
-                if instance_position(xx, yy, objGhostCityCell) {
-                    draw_sprite_ext(sprCityCellNoPlace, okToPlace, xx, yy, 1, 1, 0, c_white, 1)
-                }
+    //if not okToPlace {
+    for (var i=0; i&lt;2; i++) {
+        var xx = hoverX+i*cellWidth
+        for (var j=0; j&lt;2; j++) {
+            var yy = hoverY+j*cellHeight
+            
+            if instance_position(xx, yy, objGhostCityCell) {
+                draw_sprite_ext(sprCityCellNoPlace, okToPlace, xx, yy, 1, 1, 0, c_white, 1)
             }
         }
     }
+    //}
     
     // Cost text
-    if structure != STRUCTURE.DESTROY {
+    /*if structure != STRUCTURE.DESTROY {
         draw_set_font(scrGetFont(10))
         draw_set_halign(fa_center)
         draw_set_valign(fa_top)
@@ -691,7 +705,7 @@ if not suppressIndicatorLastPlaced and not backingHover {
             textColor = c_red
         }
         scrDrawTextOutline(hoverX+cellWidth/2, hoverY+cellHeight/2, '$'+string(structureCost), textColor, c_black)
-    }
+    }*/
 }
 
 // Scroll screen arrows

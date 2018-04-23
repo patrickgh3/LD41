@@ -197,6 +197,8 @@ objCityBuilder.enabled = true
 
 view_xview = 0+objCityBuilder.cellWidth/2-view_wview/2
 view_yview = 0+objCityBuilder.cellHeight/2-view_hview/2
+
+roundNumber = 1
 </string>
           </argument>
         </arguments>

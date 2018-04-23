@@ -337,6 +337,11 @@ if not backingHover {
                 depth -= y/other.cellHeight
                 show_debug_message(depth)
             }
+            
+            if other.structure == STRUCTURE.HOUSE {
+                image_speed = 0
+                image_index = choose(0, 1)
+            }
         }
         
         // Hide the X/check indicator until we move our cursor to a different cell
@@ -413,9 +418,10 @@ if not backingHover {
                 
                 audio_play_sound(sndBuildFactory, 0, false)
                 success = true
-                buttonSelected.visible = false
-                buttonSelected = noone
-                structure = STRUCTURE.ROAD
+                
+                //buttonSelected.visible = false
+                //buttonSelected = noone
+                //structure = STRUCTURE.ROAD
                 
                 // Dust particles
                 var d = 8

@@ -22,5 +22,6 @@
   <frames>
     <frame index="0">images\sprHeart_0.png</frame>
     <frame index="1">images\sprHeart_1.png</frame>
+    <frame index="2">images\sprHeart_2.png</frame>
   </frames>
 </sprite>

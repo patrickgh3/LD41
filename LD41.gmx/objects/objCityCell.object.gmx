@@ -28,8 +28,8 @@
             <string>image_speed = 0
 structureType = STRUCTURE.ROAD
 t = 0
-minSpawnT = 800
-maxSpawnT = 1200
+minSpawnT = 1000
+maxSpawnT = 1400
 spawnT = irandom_range(minSpawnT, maxSpawnT)
 
 citizenOut = false

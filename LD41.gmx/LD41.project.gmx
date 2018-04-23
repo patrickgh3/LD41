@@ -71,7 +71,8 @@
       <sprite>sprites\sprEndButton</sprite>
       <sprite>sprites\sprCountersBox</sprite>
       <sprite>sprites\sprButtonBacking</sprite>
-      <sprite>sprites\sprDebuilderArrow</sprite>
+      <sprite>sprites\sprDebuilderIndicator</sprite>
+      <sprite>sprites\sprCheeseIndicator</sprite>
     </sprites>
     <sprites name="Player">
       <sprite>sprites\sprPlayerMask</sprite>
@@ -159,6 +160,7 @@
     <script>scripts\scrDrawTextOutline.gml</script>
     <script>scripts\scrGetFont.gml</script>
     <script>scripts\scrMoveContactWalls.gml</script>
+    <script>scripts\scrDrawObjectIndicator.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\font1</font>

@@ -56,8 +56,14 @@ structureCost = 0
 ghost = instance_create(0, 0, objGhostCityCell)
 ghost.image_alpha = 0.5
 
-money = 200
 moneyPerRound = 100
+money = moneyPerRound
+factoryRevenue = 30
+roadCost = 20
+houseCost = 20
+factoryCost = 50
+storeCost = 50
+
 numFactories = 0
 population = 0
 numIndustryAndCommercial = 0
@@ -122,16 +128,15 @@ with objButtonBacking {
             <kind>1</kind>
             <string>/// Factories earn money
 
-var revenue = 100
 with objCityCellFactory {
     if not builtThisPhase {
-        objCityBuilder.money += revenue
+        objCityBuilder.money += objCityBuilder.factoryRevenue
     
         with instance_create(
         x+objCityBuilder.cellWidth/2,
         y+objCityBuilder.cellHeight/2,
         objText) {
-            text = '+$'+string(revenue)
+            text = '+$'+string(objCityBuilder.factoryRevenue)
             color = c_lime
             vspeed = -0.25
             destroyT = 60
@@ -175,38 +180,44 @@ backingHover = instance_position(mouse_x, mouse_y, objButtonBacking)
 
 var buttonHoverLast = buttonHover
 
-// Click buttons to select structures
+// Which button are we hovering over (if any)?
 buttonHover = instance_position(mouse_x, mouse_y, objBuildButton)
-if (buttonHover != noone) {
-    if mouse_check_button_pressed(mb_left) {
-        if buttonHover.endButton {
-            scrEnterShootPhase()
-            exit
-        } else {
-            structure = buttonHover.structure
-            buttonSelected = buttonHover
-            audio_play_sound(sndMenuClick, 0, false)
-        }
+// Don't select invisible destroy button
+if buttonHover != noone and not buttonHover.visible {
+    buttonHover = noone
+}
+
+// Click buttons to select structures
+if buttonHover != noone and mouse_check_button_pressed(mb_left) {
+    if buttonHover.endButton {
+        scrEnterShootPhase()
+        exit
+    } else {
+        structure = buttonHover.structure
+        buttonSelected = buttonHover
+        audio_play_sound(sndMenuClick, 0, false)
     }
 }
 
 // Play sound when hovering over a new button
-if buttonHover != buttonHoverLast and buttonHover != noone {
-    //audio_play_sound(sndMenuClickHover, 0, false)
-}
+/*if buttonHover != buttonHoverLast and buttonHover != noone {
+    audio_play_sound(sndMenuClickHover, 0, false)
+}*/
 
+
+// Update current cost and sprite index based on selected structure
 if structure == STRUCTURE.ROAD {
     ghost.sprite_index = sprRoad
-    structureCost = 20
+    structureCost = roadCost
 } else if structure == STRUCTURE.HOUSE {
     ghost.sprite_index = sprHouse
-    structureCost = 50
+    structureCost = houseCost
 } else if structure == STRUCTURE.FACTORY {
     ghost.sprite_index = sprFactory
-    structureCost = 50
+    structureCost = factoryCost
 } else if structure == STRUCTURE.STORE {
     ghost.sprite_index = sprStore
-    structureCost = 50
+    structureCost = storeCost
 } else if structure == STRUCTURE.DESTROY {
     ghost.sprite_index = sprCityCellNoPlace
     structureCost = 0
@@ -320,6 +331,10 @@ if not backingHover {
                     x+other.cellWidth/2,
                     y+other.cellHeight/2,
                     objFogBlocker)
+                
+                // Set building depth
+                depth -= y/other.cellHeight
+                show_debug_message(depth)
             }
         }
         
@@ -392,9 +407,13 @@ if not backingHover {
             } else {
                 with toDestroy {
                     instance_destroy()
+                    instance_create(x, y, objRubble)
                 }
                 audio_play_sound(sndBuildFactory, 0, false)
                 success = true
+                buttonSelected.visible = false
+                buttonSelected = noone
+                structure = STRUCTURE.ROAD
             }
         }
     } else if mouse_check_button_pressed(mb_left) and not okToPlacePhysical {

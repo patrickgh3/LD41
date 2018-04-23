@@ -32,6 +32,8 @@ t = 0
 surviveT = 60*20
 cheeseT = 0
 cheeseSpawnT = 300
+debuilderT = 0
+debuilderSpawnT = 500
 </string>
           </argument>
         </arguments>
@@ -65,13 +67,17 @@ if not instance_exists(objShootPlayer) {
 
 // Spawn based around the player
 var centerX = objShootPlayer.x
-var centerY = objShootPlayer.y
+var centerY = objShootPlayer.y;
 
 t++
 
 
 
-// Spawn a group of cheese people from the fog
+// Scale cheese spawn rate
+var intensity = clamp(instance_number(objCityCellBuilding)/30, 0, 1);
+cheeseSpawnT = lerp(250, 100, intensity)
+
+// Spawn groups of cheese people from the fog
 cheeseT ++
 if cheeseT &gt;= cheeseSpawnT {
     cheeseT = 0
@@ -85,6 +91,8 @@ if cheeseT &gt;= cheeseSpawnT {
         len += 32
     }
     
+    len += 70
+    
     // Spawn cheese people
     var numCheese = choose(4, 5, 6, 7)
     for (var i=0; i&lt;numCheese; i++) {
@@ -94,8 +102,15 @@ if cheeseT &gt;= cheeseSpawnT {
         var yy = centerY+lengthdir_y(len2, dir2)
         
         with instance_create(xx, yy, objCheeseEnemy) {
+            // One leader
             if i == 0 {
                 sprite_index = sprCheeseLeader
+                leader = true
+            }
+            
+            // Don't spawn too close with friends
+            while place_meeting(x, y, objCheeseEnemy) {
+                x += 8
             }
         }
     }
@@ -103,8 +118,14 @@ if cheeseT &gt;= cheeseSpawnT {
 
 
 
-// Spawn debuilder from the fog
-if t == 1 {// and instance_number(objCityCellBuilding) &gt;= 8 {
+// Scale debuilder spawn rate
+//var intensity = clamp(instance_number(objCityCellBuilding)/30, 0, 1);
+//debuilderSpawnT = 60*9//lerp(250, 100, intensity)
+
+// Spawn debuilders from the fog
+debuilderT ++
+if debuilderT &gt;= debuilderSpawnT {
+    debuilderT = 0
     var dir = random(360)
     
     // Determine the closest point in that direction that's inside the fog.

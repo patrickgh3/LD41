@@ -38,6 +38,44 @@ image_index = irandom(image_number-1)
         </arguments>
       </action>
     </event>
+    <event eventtype="1" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>event_inherited()
+
+var d = 8
+scrCreatePoof(x, y)
+scrCreatePoof(x-d, y-d)
+scrCreatePoof(x-d, y+d)
+scrCreatePoof(x+d, y-d)
+scrCreatePoof(x+d, y+d)
+repeat 10 {
+    var partX = x+random_range(-10, 10)
+    var partY = y+random_range(-10, 10)
+    with instance_create(x, y-3, objParticle) {
+        sprite_index = sprCitizenDisposeParticle
+        image_speed = 1/10
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="3" enumb="0">
       <action>
         <libid>1</libid>
@@ -139,31 +177,7 @@ audio_play_sound(sndBuildFactory, 0, false)
           <argument>
             <kind>1</kind>
             <string>/// Draw indicator arrow if not enough on-screen.
-
-var offset = 32
-if not collision_rectangle(
-view_xview+offset,
-view_yview+offset,
-view_xview+view_wview-offset,
-view_yview+view_hview-offset,
-id, false, false) {
-    var xc = view_xview+view_wview/2
-    var yc = view_yview+view_hview/2
-    var dir = point_direction(xc, yc, x, y)
-    var len = 100
-    var len2 = 70
-    
-    draw_sprite_ext(sprDebuilderArrow, 0,
-        xc + lengthdir_x(len, dir),
-        yc + lengthdir_y(len, dir),
-        1, 1, dir, c_white, 1)
-    
-    draw_set_font(scrGetFont(10))
-    draw_set_halign(fa_center)
-    draw_set_valign(fa_center)
-    draw_set_color(c_red)
-    draw_text_transformed(xc+lengthdir_x(len2, dir), yc+lengthdir_y(len2, dir), '!', 2, 2, 0)
-}
+scrDrawObjectIndicator(32, sprDebuilderIndicator)
 </string>
           </argument>
         </arguments>

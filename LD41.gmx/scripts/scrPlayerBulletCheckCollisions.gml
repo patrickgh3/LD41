@@ -54,48 +54,8 @@ with enemy {
     
     // Kill the enemy
     } else {
-        instance_destroy()
+        instance_destroy() // Particles on death are in enemy Destroy events
         audio_stop_sound(sndCitizenDeath)
         audio_play_sound(sndCitizenDeath, 0, false)
-        
-        // Death particles
-        if object_index == objCheeseEnemy {
-            scrCreatePoof(x, y)
-            with instance_create(x, y-3, objParticle) {
-                sprite_index = sprCheeseDropParticle
-                image_speed = 1/10
-            }
-        
-        } else if object_index == objCitizenEnemy {
-            scrCreatePoof(x, y)
-            with instance_create(x, y-3, objParticle) {
-                sprite_index = sprDroppedGun
-                image_angle = random(360)
-                dAngle = choose(-1.5, 1.5)
-                
-                direction = 90+random_range(-12, 12)
-                gravity = 0.10
-                speed = 2.5
-                destroyT = 60
-                destroyOnAnimEnd = false
-                destroyFallBelowStartPos = true
-            }
-        
-        } else if object_index == objDebuilderEnemy {
-            var d = 8
-            scrCreatePoof(x, y)
-            scrCreatePoof(x-d, y-d)
-            scrCreatePoof(x-d, y+d)
-            scrCreatePoof(x+d, y-d)
-            scrCreatePoof(x+d, y+d)
-            repeat 10 {
-                var partX = x+random_range(-10, 10)
-                var partY = y+random_range(-10, 10)
-                with instance_create(x, y-3, objParticle) {
-                    sprite_index = sprCitizenDisposeParticle
-                    image_speed = 1/10
-                }
-            }
-        }
     }
 }

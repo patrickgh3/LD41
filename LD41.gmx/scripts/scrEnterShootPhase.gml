@@ -18,6 +18,10 @@ with objShootController {
     enabled = true
     t = 0
     cheeseT = irandom_range(1, cheeseSpawnT)
+    // Scale survive time
+    surviveT = 60 * (10 + instance_number(objCityCellBuilding)*2)
+    
+    debuilderT = irandom_range(1, debuilderSpawnT)
 }
 
 // Citizens run to the nearest house

@@ -192,10 +192,12 @@ audio_play_sound(sndBuildFactory, 0, false)
           <argument>
             <kind>1</kind>
             <string>// Draw speech ext
-draw_set_font(scrGetFont(10))
-draw_set_halign(fa_center)
-draw_set_valign(fa_bottom)
-scrDrawTextOutline(x, y-24, 'I must smash#your town!', c_white, c_black)
+if objGameController.state == GAME_STATE.SHOOT {
+    draw_set_font(scrGetFont(10))
+    draw_set_halign(fa_center)
+    draw_set_valign(fa_bottom)
+    scrDrawTextOutline(x, y-24, 'I must smash#your town!', c_white, c_black)
+}
 
 // Draw indicator arrow if not enough on-screen.
 var iSpr = sprDebuilderIndicator

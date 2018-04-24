@@ -31,12 +31,7 @@ with objShootController {
     if objGameController.roundNumber == 0 {
         surviveT = 60 * 10
         // Skip intro button
-        if not objPersistent.firstPlay {
-            with instance_create(view_xview+view_wview/2, view_yview+view_hview-30, objButtonNotGUI) {
-                type = 2
-                sprite_index = sprSkipButton
-            }
-        }
+        objGameController.alarm[5] = 120
     }
     
     // Debuilder spawn time

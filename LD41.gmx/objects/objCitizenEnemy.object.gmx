@@ -120,8 +120,8 @@ if state == 0 {
         aimDir = point_direction(x, y, objShootPlayer.x, objShootPlayer.y)
         
         t++
-        if t &gt;= 60 {
-            t -= 60
+        if t &gt;= 120 { // 60
+            t -= 120
             with instance_create(x, y, objEnemyBullet) {
                 direction = other.aimDir
                 image_angle = direction

@@ -117,7 +117,7 @@ repeat 10 {
         drawXScale = -1
     }
     if h &gt; 0 {
-        drawYScale = 1
+        drawXScale = 1
     }
 }
 

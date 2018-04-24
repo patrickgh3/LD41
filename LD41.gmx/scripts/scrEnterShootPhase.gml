@@ -89,7 +89,7 @@ with objButtonBacking {
 }
 
 // Spawn text to show that you lose all your money
-if unspentMoney != 0 {
+if unspentMoney != 0 and objGameController.roundNumber > 0 {
     with instance_create(view_xview+view_wview-6, view_yview+view_hview-33, objText) {
         text = '-$'+string(unspentMoney)
         color = c_red

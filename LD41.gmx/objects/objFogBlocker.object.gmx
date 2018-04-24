@@ -51,7 +51,9 @@ visible = false
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>visible = objGameController.debugWallsVisible
+            <string>if instance_exists(objGameController) {
+    visible = objGameController.debugWallsVisible
+}
 </string>
           </argument>
         </arguments>

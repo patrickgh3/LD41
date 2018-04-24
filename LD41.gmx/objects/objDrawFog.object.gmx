@@ -48,16 +48,16 @@
           <argument>
             <kind>1</kind>
             <string>// Draw fog
-var cellWidth = objCityBuilder.cellWidth
-var cellHeight = objCityBuilder.cellHeight
+var cellWidth = 32
+var cellHeight = 32
 
 // Draw dark clouds and then light clouds
 //for (var drawDark = 1; drawDark &gt;= 0; drawDark--) {
 for (var drawDark = 0; drawDark &lt;= 1; drawDark++) {
     
 
-    for (var xx = view_xview; xx &lt; view_xview + view_wview + cellWidth; xx += cellWidth/2) {
-        for (var yy = view_yview; yy &lt; view_yview + view_hview + cellHeight; yy += cellHeight/2) {
+    for (var xx = view_xview-cellWidth; xx &lt; view_xview + view_wview + cellWidth; xx += cellWidth/2) {
+        for (var yy = view_yview-cellHeight; yy &lt; view_yview + view_hview + cellHeight; yy += cellHeight/2) {
             var cellX = floor(xx/cellWidth)*cellWidth + cellWidth/2
             var cellY = floor(yy/cellHeight)*cellHeight + cellHeight/2
             
@@ -67,11 +67,12 @@ for (var drawDark = 0; drawDark &lt;= 1; drawDark++) {
             var xScale = choose(1, -1)
             var yScale = choose(1, -1)
             
+            var cs = 32
             var dark = collision_rectangle(
-                cellX-objCityBuilder.cellWidth, // ?? i thought it would be -1 and +1 ...
-                cellY-objCityBuilder.cellHeight,
-                cellX+objCityBuilder.cellWidth+1,
-                cellY+objCityBuilder.cellHeight+1,
+                cellX-cs, // ?? i thought it would be -1 and +1 ...
+                cellY-cs,
+                cellX+cs+1,
+                cellY+cs+1,
                 objFogBlocker, false, false) == noone
             
             if dark == drawDark {

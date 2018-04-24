@@ -564,8 +564,8 @@ if buttonHover != noone {
     
         // Backing
         draw_set_color(c_black)
-        draw_set_alpha(0.5)
-        draw_rectangle(xx-8, yy-5, xx+178, yy+30, false)
+        draw_set_alpha(0.7)
+        draw_rectangle(xx-8, yy-5, xx+202, yy+30, false)//178
         draw_set_alpha(1)
         draw_set_color(c_white)
         //draw_rectangle(xx-8, yy-5, xx+188, yy+30, true)
@@ -583,6 +583,14 @@ if buttonHover != noone {
 with buttonSelected {
     draw_sprite(sprSelectedButton, 0, x, y)
 }
+
+// First round text
+/*if objPersistent.firstPlay and objGameController.roundNumber == 1 {
+    draw_set_font(scrGetFont(10))
+    draw_set_halign(fa_left)
+    draw_set_valign(fa_top)
+    draw_set_color(c_white)
+}*/
 </string>
           </argument>
         </arguments>
@@ -660,9 +668,9 @@ if objGameController.state == GAME_STATE.BUILD and not enabled {
         
     draw_set_halign(fa_center)
     draw_set_valign(fa_center)
-    scrDrawTextOutline(
+    scrDrawTextOutlineScale(
         view_xview+view_wview/2, view_yview+view_hview/2,
-        'Round '+string(objGameController.roundNumber), c_white, c_black)
+        'Round '+string(objGameController.roundNumber), c_white, c_black, 2)
 }
 
 if not enabled or not readyToDraw {
@@ -733,12 +741,12 @@ draw_text(xx+74, yy+32, string(numIndustryAndCommercial)+'/'+string(population))
 
 // WASD to move camera text
 var yy = view_yview+view_hview-18
-draw_sprite(sprControls, 1, view_xview+24, yy)
+draw_sprite(sprControls, 1, view_xview+29, yy)
 
 draw_set_font(scrGetFont(10))
 draw_set_halign(fa_left)
 draw_set_valign(fa_top)
-scrDrawTextOutline(view_xview+38, yy-5, 'camera', c_white, c_black)
+scrDrawTextOutline(view_xview+43, yy-5, 'camera', c_white, c_black)
 </string>
           </argument>
         </arguments>

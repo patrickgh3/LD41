@@ -182,6 +182,10 @@ if t &gt;= surviveT {
     exit
 }
 
+if objGameController.roundNumber == 0 {
+    exit
+}
+
 // Survive text
 draw_set_font(scrGetFont(10))
 draw_set_halign(fa_center)

@@ -52,8 +52,9 @@
   </views>
   <instances>
     <instance objName="objTitleController" x="192" y="80" name="inst_CE3499CD" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objButtonNotGUI" x="192" y="208" name="inst_EBAFF52C" locked="0" code="x = view_wview/2&#xA;type = 0" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objButtonNotGUI" x="192" y="256" name="inst_DD09D694" locked="0" code="x = view_wview/2&#xA;type = 1&#xA;sprite_index = sprCreditsButton&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objButtonNotGUI" x="192" y="224" name="inst_EBAFF52C" locked="0" code="x = view_wview/2&#xA;type = 0" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objButtonNotGUI" x="192" y="400" name="inst_DD09D694" locked="0" code="x = view_wview/2&#xA;type = 1&#xA;sprite_index = sprCreditsButton&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objFogBlocker" x="208" y="160" name="inst_0E252370" locked="0" code="x = view_xview+view_wview/2&#xA;y = view_yview+view_hview/2&#xA;&#xA;image_xscale = 7&#xA;image_yscale = image_xscale&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>

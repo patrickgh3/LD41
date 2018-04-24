@@ -1,3 +1,3 @@
-Fonts
+[Ludum Dare page](https://ldjam.com/events/ludum-dare/41/twin-stick-town/edit)
 
-[Pixel Emulator (CC0)](https://www.dafont.com/pixel-emulator.font)
+All of Dribix's artwork is CC-0.
